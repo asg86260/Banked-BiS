@@ -1,0 +1,1614 @@
+[
+    {
+        "name":  "Abyssal whip",
+        "id":  4151,
+        "weight":  0.453,
+        "version":  "",
+        "slot":  "weapon",
+        "image":  "Abyssal whip.png",
+        "speed":  4,
+        "category":  "Whip",
+        "bonuses":  {
+                        "str":  82,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  82,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Adamant dart",
+        "id":  810,
+        "weight":  0,
+        "version":  "Unpoisoned",
+        "slot":  "weapon",
+        "image":  "Adamant dart.png",
+        "speed":  3,
+        "category":  "Thrown",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  17,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Amulet of fury",
+        "id":  6585,
+        "weight":  0.01,
+        "version":  "",
+        "slot":  "neck",
+        "image":  "Amulet of fury.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  8,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  5
+                    },
+        "offensive":  {
+                          "stab":  10,
+                          "slash":  10,
+                          "crush":  10,
+                          "magic":  10,
+                          "ranged":  10
+                      },
+        "defensive":  {
+                          "stab":  15,
+                          "slash":  15,
+                          "crush":  15,
+                          "magic":  15,
+                          "ranged":  15
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Amulet of torture",
+        "id":  19553,
+        "weight":  0.01,
+        "version":  "",
+        "slot":  "neck",
+        "image":  "Amulet of torture.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  10,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  2
+                    },
+        "offensive":  {
+                          "stab":  15,
+                          "slash":  15,
+                          "crush":  15,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Ancestral hat",
+        "id":  21018,
+        "weight":  0.453,
+        "version":  "",
+        "slot":  "head",
+        "image":  "Ancestral hat.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  30,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  8,
+                          "ranged":  -2
+                      },
+        "defensive":  {
+                          "stab":  12,
+                          "slash":  11,
+                          "crush":  13,
+                          "magic":  5,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Ancestral robe bottom",
+        "id":  21024,
+        "weight":  1.814,
+        "version":  "",
+        "slot":  "legs",
+        "image":  "Ancestral robe bottom.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  30,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  26,
+                          "ranged":  -7
+                      },
+        "defensive":  {
+                          "stab":  27,
+                          "slash":  24,
+                          "crush":  30,
+                          "magic":  20,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Ancestral robe top",
+        "id":  21021,
+        "weight":  2.721,
+        "version":  "",
+        "slot":  "body",
+        "image":  "Ancestral robe top.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  30,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  35,
+                          "ranged":  -8
+                      },
+        "defensive":  {
+                          "stab":  42,
+                          "slash":  31,
+                          "crush":  51,
+                          "magic":  28,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Archers ring (i)",
+        "id":  11771,
+        "weight":  0.004,
+        "version":  "",
+        "slot":  "ring",
+        "image":  "Archers ring (i).png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  8
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  8
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Armadyl chainskirt",
+        "id":  11830,
+        "weight":  1,
+        "version":  "",
+        "slot":  "legs",
+        "image":  "Armadyl chainskirt.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  1
+                    },
+        "offensive":  {
+                          "stab":  -6,
+                          "slash":  -6,
+                          "crush":  -6,
+                          "magic":  -10,
+                          "ranged":  20
+                      },
+        "defensive":  {
+                          "stab":  32,
+                          "slash":  26,
+                          "crush":  34,
+                          "magic":  40,
+                          "ranged":  33
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Armadyl chestplate",
+        "id":  11828,
+        "weight":  4,
+        "version":  "",
+        "slot":  "body",
+        "image":  "Armadyl chestplate.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  1
+                    },
+        "offensive":  {
+                          "stab":  -7,
+                          "slash":  -7,
+                          "crush":  -7,
+                          "magic":  -15,
+                          "ranged":  33
+                      },
+        "defensive":  {
+                          "stab":  56,
+                          "slash":  48,
+                          "crush":  61,
+                          "magic":  70,
+                          "ranged":  57
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Armadyl helmet",
+        "id":  11826,
+        "weight":  0.5,
+        "version":  "",
+        "slot":  "head",
+        "image":  "Armadyl helmet.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  1
+                    },
+        "offensive":  {
+                          "stab":  -5,
+                          "slash":  -5,
+                          "crush":  -5,
+                          "magic":  -5,
+                          "ranged":  10
+                      },
+        "defensive":  {
+                          "stab":  6,
+                          "slash":  8,
+                          "crush":  10,
+                          "magic":  10,
+                          "ranged":  8
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Ava\u0027s assembler",
+        "id":  22109,
+        "weight":  5.896,
+        "version":  "Normal",
+        "slot":  "cape",
+        "image":  "Ava\u0027s assembler.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  2,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  8
+                      },
+        "defensive":  {
+                          "stab":  1,
+                          "slash":  1,
+                          "crush":  1,
+                          "magic":  8,
+                          "ranged":  2
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Avernic defender",
+        "id":  22322,
+        "weight":  0.453,
+        "version":  "Normal",
+        "slot":  "shield",
+        "image":  "Avernic defender.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  8,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  30,
+                          "slash":  29,
+                          "crush":  28,
+                          "magic":  -5,
+                          "ranged":  -4
+                      },
+        "defensive":  {
+                          "stab":  30,
+                          "slash":  29,
+                          "crush":  28,
+                          "magic":  -5,
+                          "ranged":  -4
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Bandos chestplate",
+        "id":  11832,
+        "weight":  12,
+        "version":  "",
+        "slot":  "body",
+        "image":  "Bandos chestplate.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  4,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  1
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  -15,
+                          "ranged":  -10
+                      },
+        "defensive":  {
+                          "stab":  98,
+                          "slash":  93,
+                          "crush":  105,
+                          "magic":  -6,
+                          "ranged":  133
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Bandos tassets",
+        "id":  11834,
+        "weight":  8,
+        "version":  "",
+        "slot":  "legs",
+        "image":  "Bandos tassets.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  2,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  1
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  -21,
+                          "ranged":  -7
+                      },
+        "defensive":  {
+                          "stab":  71,
+                          "slash":  63,
+                          "crush":  66,
+                          "magic":  -4,
+                          "ranged":  93
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Barrows gloves",
+        "id":  7462,
+        "weight":  0.226,
+        "version":  "",
+        "slot":  "hands",
+        "image":  "Barrows gloves.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  12,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  12,
+                          "slash":  12,
+                          "crush":  12,
+                          "magic":  6,
+                          "ranged":  12
+                      },
+        "defensive":  {
+                          "stab":  12,
+                          "slash":  12,
+                          "crush":  12,
+                          "magic":  6,
+                          "ranged":  12
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Berserker ring (i)",
+        "id":  11773,
+        "weight":  0.004,
+        "version":  "",
+        "slot":  "ring",
+        "image":  "Berserker ring (i).png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  8,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  8,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Brimstone ring",
+        "id":  22975,
+        "weight":  0.004,
+        "version":  "",
+        "slot":  "ring",
+        "image":  "Brimstone ring.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  4,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  4,
+                          "slash":  4,
+                          "crush":  4,
+                          "magic":  6,
+                          "ranged":  4
+                      },
+        "defensive":  {
+                          "stab":  4,
+                          "slash":  4,
+                          "crush":  4,
+                          "magic":  6,
+                          "ranged":  4
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Broad bolts",
+        "id":  11875,
+        "weight":  0,
+        "version":  "",
+        "slot":  "ammo",
+        "image":  "Broad bolts 5.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  100,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Dragon arrow",
+        "id":  11212,
+        "weight":  0,
+        "version":  "Unpoisoned",
+        "slot":  "ammo",
+        "image":  "Dragon arrow 5.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  60,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Dragon dart",
+        "id":  11230,
+        "weight":  0,
+        "version":  "Unpoisoned",
+        "slot":  "weapon",
+        "image":  "Dragon dart.png",
+        "speed":  3,
+        "category":  "Thrown",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  35,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Dragon defender",
+        "id":  12954,
+        "weight":  0.453,
+        "version":  "Normal",
+        "slot":  "shield",
+        "image":  "Dragon defender.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  6,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  25,
+                          "slash":  24,
+                          "crush":  23,
+                          "magic":  -3,
+                          "ranged":  -2
+                      },
+        "defensive":  {
+                          "stab":  25,
+                          "slash":  24,
+                          "crush":  23,
+                          "magic":  -3,
+                          "ranged":  -2
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Dragon scimitar",
+        "id":  4587,
+        "weight":  1.814,
+        "version":  "",
+        "slot":  "weapon",
+        "image":  "Dragon scimitar.png",
+        "speed":  4,
+        "category":  "Slash Sword",
+        "bonuses":  {
+                        "str":  66,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  8,
+                          "slash":  67,
+                          "crush":  -2,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  1,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Elidinis\u0027 ward (f)",
+        "id":  27251,
+        "weight":  3.708,
+        "version":  "",
+        "slot":  "shield",
+        "image":  "Elidinis\u0027 ward (f).png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  50,
+                        "prayer":  4
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  25,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  53,
+                          "slash":  55,
+                          "crush":  73,
+                          "magic":  2,
+                          "ranged":  52
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Eternal boots",
+        "id":  13235,
+        "weight":  1.814,
+        "version":  "",
+        "slot":  "feet",
+        "image":  "Eternal boots.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  10,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  8,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  5,
+                          "slash":  5,
+                          "crush":  5,
+                          "magic":  8,
+                          "ranged":  5
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Ferocious gloves",
+        "id":  22981,
+        "weight":  0.226,
+        "version":  "",
+        "slot":  "hands",
+        "image":  "Ferocious gloves.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  14,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  16,
+                          "slash":  16,
+                          "crush":  16,
+                          "magic":  -16,
+                          "ranged":  -16
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Fire cape",
+        "id":  6570,
+        "weight":  1.814,
+        "version":  "Normal",
+        "slot":  "cape",
+        "image":  "Fire cape.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  4,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  2
+                    },
+        "offensive":  {
+                          "stab":  1,
+                          "slash":  1,
+                          "crush":  1,
+                          "magic":  1,
+                          "ranged":  1
+                      },
+        "defensive":  {
+                          "stab":  11,
+                          "slash":  11,
+                          "crush":  11,
+                          "magic":  11,
+                          "ranged":  11
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Imbued zamorak cape",
+        "id":  21795,
+        "weight":  0.453,
+        "version":  "Normal",
+        "slot":  "cape",
+        "image":  "Imbued zamorak cape.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  20,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  15,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  3,
+                          "slash":  3,
+                          "crush":  3,
+                          "magic":  15,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Infernal cape",
+        "id":  21295,
+        "weight":  1.814,
+        "version":  "Normal",
+        "slot":  "cape",
+        "image":  "Infernal cape.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  8,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  2
+                    },
+        "offensive":  {
+                          "stab":  4,
+                          "slash":  4,
+                          "crush":  4,
+                          "magic":  1,
+                          "ranged":  1
+                      },
+        "defensive":  {
+                          "stab":  12,
+                          "slash":  12,
+                          "crush":  12,
+                          "magic":  12,
+                          "ranged":  12
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Magic shortbow",
+        "id":  861,
+        "weight":  1.36,
+        "version":  "",
+        "slot":  "weapon",
+        "image":  "Magic shortbow.png",
+        "speed":  4,
+        "category":  "Bow",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  69
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  true
+    },
+    {
+        "name":  "Magus ring",
+        "id":  28313,
+        "weight":  0.012,
+        "version":  "",
+        "slot":  "ring",
+        "image":  "Magus ring.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  20,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  15,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Masori body (f)",
+        "id":  27238,
+        "weight":  10,
+        "version":  "",
+        "slot":  "body",
+        "image":  "Masori body (f).png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  4,
+                        "magic_str":  0,
+                        "prayer":  1
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  -4,
+                          "ranged":  43
+                      },
+        "defensive":  {
+                          "stab":  59,
+                          "slash":  52,
+                          "crush":  64,
+                          "magic":  74,
+                          "ranged":  60
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Masori chaps (f)",
+        "id":  27241,
+        "weight":  8.5,
+        "version":  "",
+        "slot":  "legs",
+        "image":  "Masori chaps (f).png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  2,
+                        "magic_str":  0,
+                        "prayer":  1
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  -2,
+                          "ranged":  27
+                      },
+        "defensive":  {
+                          "stab":  35,
+                          "slash":  30,
+                          "crush":  39,
+                          "magic":  46,
+                          "ranged":  37
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Masori mask (f)",
+        "id":  27235,
+        "weight":  1.5,
+        "version":  "",
+        "slot":  "head",
+        "image":  "Masori mask (f).png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  2,
+                        "magic_str":  0,
+                        "prayer":  1
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  -1,
+                          "ranged":  12
+                      },
+        "defensive":  {
+                          "stab":  8,
+                          "slash":  10,
+                          "crush":  12,
+                          "magic":  12,
+                          "ranged":  9
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Necklace of anguish",
+        "id":  19547,
+        "weight":  0.01,
+        "version":  "",
+        "slot":  "neck",
+        "image":  "Necklace of anguish.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  5,
+                        "magic_str":  0,
+                        "prayer":  2
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  15
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Neitiznot faceguard",
+        "id":  24271,
+        "weight":  2.721,
+        "version":  "",
+        "slot":  "head",
+        "image":  "Neitiznot faceguard.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  6,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  3
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  36,
+                          "slash":  34,
+                          "crush":  38,
+                          "magic":  3,
+                          "ranged":  34
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Occult necklace",
+        "id":  12002,
+        "weight":  0.005,
+        "version":  "",
+        "slot":  "neck",
+        "image":  "Occult necklace.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  50,
+                        "prayer":  2
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  12,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Osmumten\u0027s fang",
+        "id":  26219,
+        "weight":  1.814,
+        "version":  "",
+        "slot":  "weapon",
+        "image":  "Osmumten\u0027s fang.png",
+        "speed":  5,
+        "category":  "Stab Sword",
+        "bonuses":  {
+                        "str":  103,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  105,
+                          "slash":  75,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Pegasian boots",
+        "id":  13237,
+        "weight":  1.814,
+        "version":  "",
+        "slot":  "feet",
+        "image":  "Pegasian boots.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  -12,
+                          "ranged":  12
+                      },
+        "defensive":  {
+                          "stab":  5,
+                          "slash":  5,
+                          "crush":  5,
+                          "magic":  5,
+                          "ranged":  5
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Primordial boots",
+        "id":  13239,
+        "weight":  1.814,
+        "version":  "",
+        "slot":  "feet",
+        "image":  "Primordial boots.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  5,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  2,
+                          "slash":  2,
+                          "crush":  2,
+                          "magic":  -4,
+                          "ranged":  -1
+                      },
+        "defensive":  {
+                          "stab":  22,
+                          "slash":  22,
+                          "crush":  22,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Rune arrow",
+        "id":  892,
+        "weight":  0,
+        "version":  "Unpoisoned",
+        "slot":  "ammo",
+        "image":  "Rune arrow 5.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  49,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Sanguinesti staff",
+        "id":  22323,
+        "weight":  1.5,
+        "version":  "Charged",
+        "slot":  "weapon",
+        "image":  "Sanguinesti staff.png",
+        "speed":  4,
+        "category":  "Powered Staff",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  25,
+                          "ranged":  -4
+                      },
+        "defensive":  {
+                          "stab":  2,
+                          "slash":  3,
+                          "crush":  1,
+                          "magic":  15,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Scythe of vitur",
+        "id":  22325,
+        "weight":  3.175,
+        "version":  "Charged",
+        "slot":  "weapon",
+        "image":  "Scythe of vitur.png",
+        "speed":  5,
+        "category":  "Scythe",
+        "bonuses":  {
+                        "str":  75,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  70,
+                          "slash":  125,
+                          "crush":  30,
+                          "magic":  -6,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  -2,
+                          "slash":  8,
+                          "crush":  10,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  true
+    },
+    {
+        "name":  "Tormented bracelet",
+        "id":  19544,
+        "weight":  0.25,
+        "version":  "",
+        "slot":  "hands",
+        "image":  "Tormented bracelet.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  50,
+                        "prayer":  2
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  10,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Torva full helm",
+        "id":  26382,
+        "weight":  2.721,
+        "version":  "Restored",
+        "slot":  "head",
+        "image":  "Torva full helm.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  8,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  1
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  -5,
+                          "ranged":  -5
+                      },
+        "defensive":  {
+                          "stab":  59,
+                          "slash":  60,
+                          "crush":  62,
+                          "magic":  -2,
+                          "ranged":  57
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Torva platebody",
+        "id":  26384,
+        "weight":  9.979,
+        "version":  "Restored",
+        "slot":  "body",
+        "image":  "Torva platebody.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  6,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  1
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  -18,
+                          "ranged":  -14
+                      },
+        "defensive":  {
+                          "stab":  117,
+                          "slash":  111,
+                          "crush":  117,
+                          "magic":  -11,
+                          "ranged":  142
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Torva platelegs",
+        "id":  26386,
+        "weight":  9.071,
+        "version":  "Restored",
+        "slot":  "legs",
+        "image":  "Torva platelegs.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  4,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  1
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  -24,
+                          "ranged":  -11
+                      },
+        "defensive":  {
+                          "stab":  87,
+                          "slash":  78,
+                          "crush":  79,
+                          "magic":  -9,
+                          "ranged":  102
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Toxic blowpipe",
+        "id":  12926,
+        "weight":  0.5,
+        "version":  "Charged",
+        "slot":  "weapon",
+        "image":  "Toxic blowpipe.png",
+        "speed":  3,
+        "category":  "Thrown",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  20,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  30
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  true
+    },
+    {
+        "name":  "Trident of the swamp",
+        "id":  12899,
+        "weight":  1.814,
+        "version":  "Charged",
+        "slot":  "weapon",
+        "image":  "Trident of the swamp.png",
+        "speed":  4,
+        "category":  "Powered Staff",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  25,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  2,
+                          "slash":  3,
+                          "crush":  1,
+                          "magic":  15,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Tumeken\u0027s shadow",
+        "id":  27275,
+        "weight":  5,
+        "version":  "Charged",
+        "slot":  "weapon",
+        "image":  "Tumeken\u0027s shadow.png",
+        "speed":  5,
+        "category":  "Powered Staff",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  1
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  35,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  20,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  true
+    },
+    {
+        "name":  "Twisted bow",
+        "id":  20997,
+        "weight":  1.814,
+        "version":  "",
+        "slot":  "weapon",
+        "image":  "Twisted bow.png",
+        "speed":  6,
+        "category":  "Bow",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  20,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  70
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  true
+    },
+    {
+        "name":  "Zaryte vambraces",
+        "id":  26235,
+        "weight":  1,
+        "version":  "",
+        "slot":  "hands",
+        "image":  "Zaryte vambraces.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  2,
+                        "magic_str":  0,
+                        "prayer":  1
+                    },
+        "offensive":  {
+                          "stab":  -8,
+                          "slash":  -8,
+                          "crush":  -8,
+                          "magic":  0,
+                          "ranged":  18
+                      },
+        "defensive":  {
+                          "stab":  8,
+                          "slash":  8,
+                          "crush":  8,
+                          "magic":  5,
+                          "ranged":  8
+                      },
+        "isTwoHanded":  false
+    }
+]

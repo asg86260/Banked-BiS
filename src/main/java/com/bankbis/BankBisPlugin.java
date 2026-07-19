@@ -2,6 +2,8 @@ package com.bankbis;
 
 import com.bankbis.bank.OwnedItemsService;
 import com.bankbis.data.WikiDataService;
+import com.duckblade.osrs.dpscalc.calc.DpsComputeModule;
+import com.google.inject.Binder;
 import com.google.inject.Provides;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,12 @@ public class BankBisPlugin extends Plugin
 
 	@Inject
 	private WikiDataService wikiDataService;
+
+	@Override
+	public void configure(Binder binder)
+	{
+		binder.install(new DpsComputeModule());
+	}
 
 	@Override
 	protected void startUp() throws Exception

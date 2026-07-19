@@ -60,7 +60,8 @@ public class WikiDataMapper
 			.accuracyRanged(e.getOffensive().getRanged())
 			.strengthMelee(e.getBonuses().getStr())
 			.strengthRanged(e.getBonuses().getRangedStr())
-			.strengthMagic(e.getBonuses().getMagicStr())
+			// wiki data stores magic damage in tenths of a percent; the engine expects whole percents
+			.strengthMagic((int) Math.round(e.getBonuses().getMagicStr() / 10.0))
 			.prayer(e.getBonuses().getPrayer())
 			.speed(e.getSpeed() > 0 ? e.getSpeed() : 4)
 			.slot(slot != null ? slot.getSlotIdx() : -1)

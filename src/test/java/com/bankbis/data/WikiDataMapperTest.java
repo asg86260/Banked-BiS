@@ -79,6 +79,17 @@ class WikiDataMapperTest
 	}
 
 	@Test
+	void convertsMagicStrengthFromTenthsToWholePercent()
+	{
+		// fang has 0 magic str; use any fixture item with known magic damage if added later.
+		// The unit contract: wiki "magic_str": 50 means 5%.
+		EquipmentJson synthetic = equipment.get(26219);
+		synthetic.getBonuses().setMagicStr(50);
+		assertEquals(5, WikiDataMapper.toItemStats(synthetic).getStrengthMagic());
+		synthetic.getBonuses().setMagicStr(0);
+	}
+
+	@Test
 	void mapsNonWeaponWithoutCategory()
 	{
 		ItemStats helm = WikiDataMapper.toItemStats(equipment.get(26382));
