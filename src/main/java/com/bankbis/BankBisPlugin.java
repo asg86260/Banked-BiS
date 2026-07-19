@@ -1,10 +1,12 @@
 package com.bankbis;
 
+import com.bankbis.bank.OwnedItemsService;
+import com.bankbis.data.WikiDataService;
 import com.google.inject.Provides;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.Client;
 import net.runelite.client.config.ConfigManager;
+import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 
@@ -17,20 +19,34 @@ import net.runelite.client.plugins.PluginDescriptor;
 public class BankBisPlugin extends Plugin
 {
 	@Inject
-	private Client client;
+	private BankBisConfig config;
 
 	@Inject
-	private BankBisConfig config;
+	private EventBus eventBus;
+
+	@Inject
+	private OwnedItemsService ownedItemsService;
+
+	@Inject
+	private WikiDataService wikiDataService;
 
 	@Override
 	protected void startUp() throws Exception
 	{
+		eventBus.register(ownedItemsService);
+		wikiDataService.load()
+			.exceptionally(e ->
+			{
+				log.warn("Failed to load wiki data", e);
+				return null;
+			});
 		log.debug("Bank BiS started");
 	}
 
 	@Override
 	protected void shutDown() throws Exception
 	{
+		eventBus.unregister(ownedItemsService);
 		log.debug("Bank BiS stopped");
 	}
 
