@@ -1,0 +1,160 @@
+[
+    {
+        "id":  2215,
+        "name":  "General Graardor",
+        "version":  "",
+        "image":  "General Graardor.png",
+        "level":  624,
+        "speed":  6,
+        "style":  [
+                      "Crush",
+                      "Ranged"
+                  ],
+        "size":  4,
+        "max_hit":  "60 (melee)",
+        "skills":  {
+                       "atk":  280,
+                       "def":  250,
+                       "hp":  255,
+                       "magic":  80,
+                       "ranged":  350,
+                       "str":  350
+                   },
+        "offensive":  {
+                          "atk":  120,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  100,
+                          "ranged_str":  40,
+                          "str":  43
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  90,
+                          "magic":  298,
+                          "heavy":  90,
+                          "standard":  90,
+                          "light":  90,
+                          "slash":  90,
+                          "stab":  90
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  40
+                     }
+    },
+    {
+        "id":  965,
+        "name":  "Kalphite Queen",
+        "version":  "Airborne",
+        "image":  "Kalphite Queen 2nd form.png",
+        "level":  333,
+        "speed":  4,
+        "style":  [
+                      "Stab",
+                      "Ranged",
+                      "Magic"
+                  ],
+        "size":  5,
+        "max_hit":  "31",
+        "skills":  {
+                       "atk":  300,
+                       "def":  300,
+                       "hp":  255,
+                       "magic":  150,
+                       "ranged":  1,
+                       "str":  300
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  100,
+                          "magic":  10,
+                          "heavy":  10,
+                          "standard":  10,
+                          "light":  10,
+                          "slash":  100,
+                          "stab":  100
+                      },
+        "attributes":  [
+                           "kalphite"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "fire",
+                         "severity":  40
+                     }
+    },
+    {
+        "id":  8059,
+        "name":  "Vorkath",
+        "version":  "Post-quest",
+        "image":  "Vorkath.png",
+        "level":  732,
+        "speed":  5,
+        "style":  [
+                      "Slash",
+                      "Magic",
+                      "Ranged",
+                      "Dragonfire"
+                  ],
+        "size":  7,
+        "max_hit":  "30 (Magic)",
+        "skills":  {
+                       "atk":  560,
+                       "def":  214,
+                       "hp":  750,
+                       "magic":  150,
+                       "ranged":  308,
+                       "str":  308
+                   },
+        "offensive":  {
+                          "atk":  16,
+                          "magic":  150,
+                          "magic_str":  56,
+                          "ranged":  78,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  108,
+                          "magic":  240,
+                          "heavy":  26,
+                          "standard":  26,
+                          "light":  26,
+                          "slash":  108,
+                          "stab":  26
+                      },
+        "attributes":  [
+                           "dragon",
+                           "undead",
+                           "fiery"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "fire",
+                         "severity":  40
+                     }
+    }
+]
