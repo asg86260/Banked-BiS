@@ -1,0 +1,2923 @@
+[
+    {
+        "id":  415,
+        "name":  "Abyssal demon",
+        "version":  "Standard",
+        "image":  "Abyssal demon.png",
+        "level":  124,
+        "speed":  4,
+        "style":  [
+                      "Stab"
+                  ],
+        "size":  1,
+        "max_hit":  "8",
+        "skills":  {
+                       "atk":  97,
+                       "def":  135,
+                       "hp":  150,
+                       "magic":  1,
+                       "ranged":  1,
+                       "str":  67
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  20,
+                          "magic":  0,
+                          "heavy":  20,
+                          "standard":  20,
+                          "light":  20,
+                          "slash":  20,
+                          "stab":  20
+                      },
+        "attributes":  [
+                           "demon"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  null
+    },
+    {
+        "id":  11789,
+        "name":  "Akkha",
+        "version":  "",
+        "image":  "Akkha.png",
+        "level":  337,
+        "speed":  6,
+        "style":  [
+                      "Slash",
+                      "Magic",
+                      "Ranged"
+                  ],
+        "size":  3,
+        "max_hit":  "55",
+        "skills":  {
+                       "atk":  100,
+                       "def":  80,
+                       "hp":  400,
+                       "magic":  100,
+                       "ranged":  100,
+                       "str":  140
+                   },
+        "offensive":  {
+                          "atk":  115,
+                          "magic":  115,
+                          "magic_str":  40,
+                          "ranged":  115,
+                          "ranged_str":  40,
+                          "str":  30
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  120,
+                          "magic":  10,
+                          "heavy":  60,
+                          "standard":  60,
+                          "light":  60,
+                          "slash":  120,
+                          "stab":  60
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  null
+    },
+    {
+        "id":  8619,
+        "name":  "Alchemical Hydra",
+        "version":  "Electric",
+        "image":  "Alchemical Hydra (electric).png",
+        "level":  426,
+        "speed":  6,
+        "style":  [
+                      "Ranged",
+                      "Magic"
+                  ],
+        "size":  6,
+        "max_hit":  "35 (default)",
+        "skills":  {
+                       "atk":  100,
+                       "def":  100,
+                       "hp":  1100,
+                       "magic":  260,
+                       "ranged":  260,
+                       "str":  100
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  45,
+                          "magic_str":  20,
+                          "ranged":  45,
+                          "ranged_str":  20,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  150,
+                          "magic":  150,
+                          "heavy":  45,
+                          "standard":  45,
+                          "light":  45,
+                          "slash":  150,
+                          "stab":  75
+                      },
+        "attributes":  [
+                           "dragon"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  50
+                     }
+    },
+    {
+        "id":  8621,
+        "name":  "Alchemical Hydra",
+        "version":  "Extinguished",
+        "image":  "Alchemical Hydra (extinguished).png",
+        "level":  426,
+        "speed":  4,
+        "style":  [
+                      "Ranged",
+                      "Magic"
+                  ],
+        "size":  6,
+        "max_hit":  "55",
+        "skills":  {
+                       "atk":  100,
+                       "def":  100,
+                       "hp":  1100,
+                       "magic":  260,
+                       "ranged":  260,
+                       "str":  100
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  45,
+                          "magic_str":  20,
+                          "ranged":  45,
+                          "ranged_str":  20,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  150,
+                          "magic":  150,
+                          "heavy":  45,
+                          "standard":  45,
+                          "light":  45,
+                          "slash":  150,
+                          "stab":  75
+                      },
+        "attributes":  [
+                           "dragon"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  50
+                     }
+    },
+    {
+        "id":  8620,
+        "name":  "Alchemical Hydra",
+        "version":  "Fire",
+        "image":  "Alchemical Hydra (fire).png",
+        "level":  426,
+        "speed":  6,
+        "style":  [
+                      "Ranged",
+                      "Magic"
+                  ],
+        "size":  6,
+        "max_hit":  "35 (default)",
+        "skills":  {
+                       "atk":  100,
+                       "def":  100,
+                       "hp":  1100,
+                       "magic":  260,
+                       "ranged":  260,
+                       "str":  100
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  45,
+                          "magic_str":  20,
+                          "ranged":  45,
+                          "ranged_str":  20,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  150,
+                          "magic":  150,
+                          "heavy":  45,
+                          "standard":  45,
+                          "light":  45,
+                          "slash":  150,
+                          "stab":  75
+                      },
+        "attributes":  [
+                           "dragon"
+                       ],
+        "immunities":  {
+                           "burn":  "Normal"
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  50
+                     }
+    },
+    {
+        "id":  8615,
+        "name":  "Alchemical Hydra",
+        "version":  "Serpentine",
+        "image":  "Alchemical Hydra (serpentine).png",
+        "level":  426,
+        "speed":  6,
+        "style":  [
+                      "Ranged",
+                      "Magic"
+                  ],
+        "size":  6,
+        "max_hit":  "17x2 (default)",
+        "skills":  {
+                       "atk":  100,
+                       "def":  100,
+                       "hp":  1100,
+                       "magic":  260,
+                       "ranged":  260,
+                       "str":  100
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  45,
+                          "magic_str":  20,
+                          "ranged":  45,
+                          "ranged_str":  20,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  150,
+                          "magic":  150,
+                          "heavy":  45,
+                          "standard":  45,
+                          "light":  45,
+                          "slash":  150,
+                          "stab":  75
+                      },
+        "attributes":  [
+                           "dragon"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  50
+                     }
+    },
+    {
+        "id":  13668,
+        "name":  "Araxxor",
+        "version":  "",
+        "image":  "Araxxor.png",
+        "level":  890,
+        "speed":  6,
+        "style":  [
+                      "Crush",
+                      " Magic",
+                      "Ranged"
+                  ],
+        "size":  7,
+        "max_hit":  "38 (melee) \u003cbr/\u003e 21 (magic) \u003cbr/\u003e 34 (ranged)",
+        "skills":  {
+                       "atk":  320,
+                       "def":  135,
+                       "hp":  1020,
+                       "magic":  190,
+                       "ranged":  210,
+                       "str":  320
+                   },
+        "offensive":  {
+                          "atk":  218,
+                          "magic":  260,
+                          "magic_str":  5,
+                          "ranged":  283,
+                          "ranged_str":  35,
+                          "str":  10
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  15,
+                          "magic":  237,
+                          "heavy":  218,
+                          "standard":  218,
+                          "light":  218,
+                          "slash":  75,
+                          "stab":  160
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "fire",
+                         "severity":  50
+                     }
+    },
+    {
+        "id":  11778,
+        "name":  "Ba-Ba",
+        "version":  "",
+        "image":  "Ba-Ba.png",
+        "level":  359,
+        "speed":  6,
+        "style":  [
+                      "Crush",
+                      "Ranged"
+                  ],
+        "size":  5,
+        "max_hit":  "24",
+        "skills":  {
+                       "atk":  150,
+                       "def":  80,
+                       "hp":  380,
+                       "magic":  100,
+                       "ranged":  0,
+                       "str":  160
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  26
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  240,
+                          "magic":  280,
+                          "heavy":  120,
+                          "standard":  200,
+                          "light":  200,
+                          "slash":  160,
+                          "stab":  80
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  null
+    },
+    {
+        "id":  6609,
+        "name":  "Callisto",
+        "version":  "",
+        "image":  "Callisto.png",
+        "level":  470,
+        "speed":  4,
+        "style":  [
+                      "Crush",
+                      "Magic",
+                      "Ranged"
+                  ],
+        "size":  5,
+        "max_hit":  "55 (Crush)",
+        "skills":  {
+                       "atk":  350,
+                       "def":  225,
+                       "hp":  1000,
+                       "magic":  140,
+                       "ranged":  200,
+                       "str":  300
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  100,
+                          "ranged_str":  30,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  125,
+                          "magic":  0,
+                          "heavy":  50,
+                          "standard":  50,
+                          "light":  50,
+                          "slash":  130,
+                          "stab":  150
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "fire",
+                         "severity":  30
+                     }
+    },
+    {
+        "id":  5862,
+        "name":  "Cerberus",
+        "version":  "",
+        "image":  "Cerberus.png",
+        "level":  318,
+        "speed":  6,
+        "style":  [
+                      "Stab",
+                      "Ranged",
+                      "Magic"
+                  ],
+        "size":  5,
+        "max_hit":  "23",
+        "skills":  {
+                       "atk":  220,
+                       "def":  100,
+                       "hp":  600,
+                       "magic":  220,
+                       "ranged":  220,
+                       "str":  220
+                   },
+        "offensive":  {
+                          "atk":  50,
+                          "magic":  50,
+                          "magic_str":  0,
+                          "ranged":  50,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  25,
+                          "magic":  65,
+                          "heavy":  100,
+                          "standard":  100,
+                          "light":  100,
+                          "slash":  100,
+                          "stab":  50
+                      },
+        "attributes":  [
+                           "demon"
+                       ],
+        "immunities":  {
+                           "burn":  "Normal"
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "water",
+                         "severity":  40
+                     }
+    },
+    {
+        "id":  2205,
+        "name":  "Commander Zilyana",
+        "version":  "",
+        "image":  "Commander Zilyana.png",
+        "level":  596,
+        "speed":  2,
+        "style":  [
+                      "Crush",
+                      "Magic"
+                  ],
+        "size":  2,
+        "max_hit":  "27 (melee)",
+        "skills":  {
+                       "atk":  280,
+                       "def":  300,
+                       "hp":  255,
+                       "magic":  300,
+                       "ranged":  250,
+                       "str":  196
+                   },
+        "offensive":  {
+                          "atk":  195,
+                          "magic":  200,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  20
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  100,
+                          "magic":  100,
+                          "heavy":  75,
+                          "standard":  100,
+                          "light":  100,
+                          "slash":  100,
+                          "stab":  100
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  null
+    },
+    {
+        "id":  319,
+        "name":  "Corporeal Beast",
+        "version":  "",
+        "image":  "Corporeal Beast.png",
+        "level":  785,
+        "speed":  4,
+        "style":  [
+                      "Crush",
+                      "Magic"
+                  ],
+        "size":  5,
+        "max_hit":  "33 (Melee)",
+        "skills":  {
+                       "atk":  320,
+                       "def":  310,
+                       "hp":  2000,
+                       "magic":  350,
+                       "ranged":  150,
+                       "str":  320
+                   },
+        "offensive":  {
+                          "atk":  50,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  100,
+                          "magic":  150,
+                          "heavy":  100,
+                          "standard":  230,
+                          "light":  230,
+                          "slash":  200,
+                          "stab":  25
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  10
+                     }
+    },
+    {
+        "id":  2266,
+        "name":  "Dagannoth Prime",
+        "version":  "",
+        "image":  "Dagannoth Prime.png",
+        "level":  303,
+        "speed":  4,
+        "style":  [
+                      "Magic"
+                  ],
+        "size":  3,
+        "max_hit":  "50",
+        "skills":  {
+                       "atk":  255,
+                       "def":  255,
+                       "hp":  255,
+                       "magic":  255,
+                       "ranged":  0,
+                       "str":  255
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  255,
+                          "magic":  255,
+                          "heavy":  10,
+                          "standard":  10,
+                          "light":  10,
+                          "slash":  255,
+                          "stab":  255
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  35
+                     }
+    },
+    {
+        "id":  2267,
+        "name":  "Dagannoth Rex",
+        "version":  "",
+        "image":  "Dagannoth Rex.png",
+        "level":  303,
+        "speed":  4,
+        "style":  [
+                      "Slash"
+                  ],
+        "size":  3,
+        "max_hit":  "26",
+        "skills":  {
+                       "atk":  255,
+                       "def":  255,
+                       "hp":  255,
+                       "magic":  0,
+                       "ranged":  255,
+                       "str":  255
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  255,
+                          "magic":  10,
+                          "heavy":  255,
+                          "standard":  255,
+                          "light":  255,
+                          "slash":  255,
+                          "stab":  255
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  35
+                     }
+    },
+    {
+        "id":  2265,
+        "name":  "Dagannoth Supreme",
+        "version":  "",
+        "image":  "Dagannoth Supreme.png",
+        "level":  303,
+        "speed":  4,
+        "style":  [
+                      "Ranged"
+                  ],
+        "size":  3,
+        "max_hit":  "30",
+        "skills":  {
+                       "atk":  255,
+                       "def":  128,
+                       "hp":  255,
+                       "magic":  255,
+                       "ranged":  255,
+                       "str":  255
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  10,
+                          "magic":  255,
+                          "heavy":  550,
+                          "standard":  550,
+                          "light":  550,
+                          "slash":  10,
+                          "stab":  10
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  35
+                     }
+    },
+    {
+        "id":  12191,
+        "name":  "Duke Sucellus",
+        "version":  "Awakened, Awake",
+        "image":  "Duke Sucellus.png",
+        "level":  1099,
+        "speed":  5,
+        "style":  [
+                      "Magic",
+                      "Crush"
+                  ],
+        "size":  7,
+        "max_hit":  "81 (Melee)",
+        "skills":  {
+                       "atk":  435,
+                       "def":  316,
+                       "hp":  1697,
+                       "magic":  465,
+                       "ranged":  0,
+                       "str":  500
+                   },
+        "offensive":  {
+                          "atk":  200,
+                          "magic":  150,
+                          "magic_str":  32,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  38
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  190,
+                          "magic":  440,
+                          "heavy":  320,
+                          "standard":  320,
+                          "light":  320,
+                          "slash":  65,
+                          "stab":  255
+                      },
+        "attributes":  [
+                           "demon"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  null
+    },
+    {
+        "id":  12191,
+        "name":  "Duke Sucellus",
+        "version":  "Post-quest, Awake",
+        "image":  "Duke Sucellus.png",
+        "level":  758,
+        "speed":  5,
+        "style":  [
+                      "Magic",
+                      "Crush"
+                  ],
+        "size":  7,
+        "max_hit":  "56 (Melee)",
+        "skills":  {
+                       "atk":  300,
+                       "def":  275,
+                       "hp":  485,
+                       "magic":  310,
+                       "ranged":  0,
+                       "str":  345
+                   },
+        "offensive":  {
+                          "atk":  200,
+                          "magic":  150,
+                          "magic_str":  32,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  38
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  190,
+                          "magic":  440,
+                          "heavy":  320,
+                          "standard":  320,
+                          "light":  320,
+                          "slash":  45,
+                          "stab":  255
+                      },
+        "attributes":  [
+                           "demon"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  null
+    },
+    {
+        "id":  7851,
+        "name":  "Dusk",
+        "version":  "First form",
+        "image":  "Dusk.png",
+        "level":  248,
+        "speed":  6,
+        "style":  [
+                      "Slash "
+                  ],
+        "size":  4,
+        "max_hit":  "15 (melee) 33 (special attack)",
+        "skills":  {
+                       "atk":  200,
+                       "def":  100,
+                       "hp":  450,
+                       "magic":  140,
+                       "ranged":  140,
+                       "str":  140
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  -1,
+                          "crush":  0,
+                          "magic":  0,
+                          "heavy":  0,
+                          "standard":  0,
+                          "light":  0,
+                          "slash":  0,
+                          "stab":  0
+                      },
+        "attributes":  [
+                           "golem"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  40
+                     }
+    },
+    {
+        "id":  7887,
+        "name":  "Dusk",
+        "version":  "Second form",
+        "image":  "Dusk (2nd form).png",
+        "level":  328,
+        "speed":  6,
+        "style":  [
+                      "Slash",
+                      "Ranged"
+                  ],
+        "size":  6,
+        "max_hit":  "26 (melee)\u003cbr/\u003e 15x2 (ranged)\u003cbr/\u003e 65 (special attack)",
+        "skills":  {
+                       "atk":  300,
+                       "def":  150,
+                       "hp":  450,
+                       "magic":  250,
+                       "ranged":  250,
+                       "str":  250
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "heavy":  0,
+                          "standard":  0,
+                          "light":  0,
+                          "slash":  0,
+                          "stab":  0
+                      },
+        "attributes":  [
+                           "golem"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  40
+                     }
+    },
+    {
+        "id":  412,
+        "name":  "Gargoyle",
+        "version":  "Upstairs",
+        "image":  "Gargoyle.png",
+        "level":  111,
+        "speed":  4,
+        "style":  [
+                      "Slash"
+                  ],
+        "size":  3,
+        "max_hit":  "11",
+        "skills":  {
+                       "atk":  75,
+                       "def":  107,
+                       "hp":  105,
+                       "magic":  1,
+                       "ranged":  1,
+                       "str":  105
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  -2,
+                          "crush":  -20,
+                          "magic":  20,
+                          "heavy":  -20,
+                          "standard":  20,
+                          "light":  20,
+                          "slash":  60,
+                          "stab":  50
+                      },
+        "attributes":  [
+                           "golem"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  40
+                     }
+    },
+    {
+        "id":  2215,
+        "name":  "General Graardor",
+        "version":  "",
+        "image":  "General Graardor.png",
+        "level":  624,
+        "speed":  6,
+        "style":  [
+                      "Crush",
+                      "Ranged"
+                  ],
+        "size":  4,
+        "max_hit":  "60 (melee)",
+        "skills":  {
+                       "atk":  280,
+                       "def":  250,
+                       "hp":  255,
+                       "magic":  80,
+                       "ranged":  350,
+                       "str":  350
+                   },
+        "offensive":  {
+                          "atk":  120,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  100,
+                          "ranged_str":  40,
+                          "str":  43
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  90,
+                          "magic":  298,
+                          "heavy":  90,
+                          "standard":  90,
+                          "light":  90,
+                          "slash":  90,
+                          "stab":  90
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  40
+                     }
+    },
+    {
+        "id":  5779,
+        "name":  "Giant Mole",
+        "version":  "",
+        "image":  "Giant Mole.png",
+        "level":  230,
+        "speed":  4,
+        "style":  [
+                      "Crush"
+                  ],
+        "size":  3,
+        "max_hit":  "21",
+        "skills":  {
+                       "atk":  200,
+                       "def":  200,
+                       "hp":  200,
+                       "magic":  200,
+                       "ranged":  1,
+                       "str":  200
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  100,
+                          "magic":  80,
+                          "heavy":  60,
+                          "standard":  60,
+                          "light":  60,
+                          "slash":  80,
+                          "stab":  60
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  50
+                     }
+    },
+    {
+        "id":  7551,
+        "name":  "Great Olm",
+        "version":  "Head (Normal)",
+        "image":  "Great Olm.png",
+        "level":  1043,
+        "speed":  4,
+        "style":  [
+                      "Magic",
+                      "Ranged"
+                  ],
+        "size":  5,
+        "max_hit":  "27 \u003cbr/\u003e 28 \u003cbr/\u003e 29 (phase 4)",
+        "skills":  {
+                       "atk":  250,
+                       "def":  150,
+                       "hp":  800,
+                       "magic":  250,
+                       "ranged":  250,
+                       "str":  250
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  60,
+                          "magic_str":  0,
+                          "ranged":  60,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  200,
+                          "magic":  200,
+                          "heavy":  50,
+                          "standard":  50,
+                          "light":  50,
+                          "slash":  200,
+                          "stab":  200
+                      },
+        "attributes":  [
+                           "dragon",
+                           "xerician"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  50
+                     }
+    },
+    {
+        "id":  7552,
+        "name":  "Great Olm",
+        "version":  "Left claw (Normal)",
+        "image":  "Great Olm.png",
+        "level":  750,
+        "speed":  -1,
+        "style":  [
+                      "None"
+                  ],
+        "size":  5,
+        "max_hit":  "0",
+        "skills":  {
+                       "atk":  250,
+                       "def":  175,
+                       "hp":  600,
+                       "magic":  175,
+                       "ranged":  250,
+                       "str":  250
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  60,
+                          "magic_str":  0,
+                          "ranged":  60,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  50,
+                          "magic":  200,
+                          "heavy":  200,
+                          "standard":  200,
+                          "light":  200,
+                          "slash":  50,
+                          "stab":  50
+                      },
+        "attributes":  [
+                           "dragon",
+                           "xerician"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  50
+                     }
+    },
+    {
+        "id":  7550,
+        "name":  "Great Olm",
+        "version":  "Right claw (Normal)",
+        "image":  "Great Olm.png",
+        "level":  549,
+        "speed":  -1,
+        "style":  [
+                      "None"
+                  ],
+        "size":  5,
+        "max_hit":  "0",
+        "skills":  {
+                       "atk":  250,
+                       "def":  175,
+                       "hp":  600,
+                       "magic":  87,
+                       "ranged":  250,
+                       "str":  250
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  60,
+                          "magic_str":  0,
+                          "ranged":  60,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  200,
+                          "magic":  50,
+                          "heavy":  200,
+                          "standard":  200,
+                          "light":  200,
+                          "slash":  200,
+                          "stab":  200
+                      },
+        "attributes":  [
+                           "dragon",
+                           "xerician"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  50
+                     }
+    },
+    {
+        "id":  3129,
+        "name":  "K\u0027ril Tsutsaroth",
+        "version":  "",
+        "image":  "K\u0027ril Tsutsaroth.png",
+        "level":  650,
+        "speed":  6,
+        "style":  [
+                      "Slash",
+                      "Magic"
+                  ],
+        "size":  5,
+        "max_hit":  "30 (magic)",
+        "skills":  {
+                       "atk":  340,
+                       "def":  270,
+                       "hp":  255,
+                       "magic":  200,
+                       "ranged":  1,
+                       "str":  300
+                   },
+        "offensive":  {
+                          "atk":  160,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  31
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  80,
+                          "magic":  80,
+                          "heavy":  80,
+                          "standard":  80,
+                          "light":  80,
+                          "slash":  80,
+                          "stab":  70
+                      },
+        "attributes":  [
+                           "demon"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "water",
+                         "severity":  30
+                     }
+    },
+    {
+        "id":  965,
+        "name":  "Kalphite Queen",
+        "version":  "Airborne",
+        "image":  "Kalphite Queen 2nd form.png",
+        "level":  333,
+        "speed":  4,
+        "style":  [
+                      "Stab",
+                      "Ranged",
+                      "Magic"
+                  ],
+        "size":  5,
+        "max_hit":  "31",
+        "skills":  {
+                       "atk":  300,
+                       "def":  300,
+                       "hp":  255,
+                       "magic":  150,
+                       "ranged":  1,
+                       "str":  300
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  100,
+                          "magic":  10,
+                          "heavy":  10,
+                          "standard":  10,
+                          "light":  10,
+                          "slash":  100,
+                          "stab":  100
+                      },
+        "attributes":  [
+                           "kalphite"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "fire",
+                         "severity":  40
+                     }
+    },
+    {
+        "id":  963,
+        "name":  "Kalphite Queen",
+        "version":  "Crawling",
+        "image":  "Kalphite Queen.png",
+        "level":  333,
+        "speed":  4,
+        "style":  [
+                      "Stab",
+                      "Ranged",
+                      "Magic"
+                  ],
+        "size":  5,
+        "max_hit":  "31",
+        "skills":  {
+                       "atk":  300,
+                       "def":  300,
+                       "hp":  255,
+                       "magic":  150,
+                       "ranged":  1,
+                       "str":  300
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  10,
+                          "magic":  100,
+                          "heavy":  100,
+                          "standard":  100,
+                          "light":  100,
+                          "slash":  50,
+                          "stab":  50
+                      },
+        "attributes":  [
+                           "kalphite"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "fire",
+                         "severity":  40
+                     }
+    },
+    {
+        "id":  11721,
+        "name":  "Kephri",
+        "version":  "Aggressive",
+        "image":  "Kephri.png",
+        "level":  341,
+        "speed":  6,
+        "style":  [
+                      "Magic"
+                  ],
+        "size":  5,
+        "max_hit":  "24",
+        "skills":  {
+                       "atk":  0,
+                       "def":  80,
+                       "hp":  80,
+                       "magic":  125,
+                       "ranged":  0,
+                       "str":  0
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  125,
+                          "magic_str":  50,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  100,
+                          "magic":  200,
+                          "heavy":  300,
+                          "standard":  300,
+                          "light":  300,
+                          "slash":  300,
+                          "stab":  60
+                      },
+        "attributes":  [
+                           "kalphite"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  {
+                         "element":  "fire",
+                         "severity":  35
+                     }
+    },
+    {
+        "id":  239,
+        "name":  "King Black Dragon",
+        "version":  "",
+        "image":  "King Black Dragon.png",
+        "level":  276,
+        "speed":  4,
+        "style":  [
+                      "Stab",
+                      "Dragonfire"
+                  ],
+        "size":  5,
+        "max_hit":  "25 (Melee)",
+        "skills":  {
+                       "atk":  240,
+                       "def":  240,
+                       "hp":  240,
+                       "magic":  240,
+                       "ranged":  1,
+                       "str":  240
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  90,
+                          "magic":  80,
+                          "heavy":  40,
+                          "standard":  70,
+                          "light":  70,
+                          "slash":  90,
+                          "stab":  40
+                      },
+        "attributes":  [
+                           "dragon",
+                           "fiery"
+                       ],
+        "immunities":  {
+                           "burn":  "Weak"
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "water",
+                         "severity":  50
+                     }
+    },
+    {
+        "id":  494,
+        "name":  "Kraken",
+        "version":  "Kraken",
+        "image":  "Kraken.png",
+        "level":  291,
+        "speed":  4,
+        "style":  [
+                      "Typeless Magic"
+                  ],
+        "size":  4,
+        "max_hit":  "28",
+        "skills":  {
+                       "atk":  1,
+                       "def":  1,
+                       "hp":  255,
+                       "magic":  1,
+                       "ranged":  1,
+                       "str":  1
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  50,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  0,
+                          "magic":  130,
+                          "heavy":  300,
+                          "standard":  300,
+                          "light":  300,
+                          "slash":  0,
+                          "stab":  0
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  50
+                     }
+    },
+    {
+        "id":  3162,
+        "name":  "Kree\u0027arra",
+        "version":  "",
+        "image":  "Kree\u0027arra.png",
+        "level":  580,
+        "speed":  3,
+        "style":  [
+                      "Ranged",
+                      "Ranged magic",
+                      "Magical melee"
+                  ],
+        "size":  5,
+        "max_hit":  "69 (Ranged)",
+        "skills":  {
+                       "atk":  300,
+                       "def":  260,
+                       "hp":  255,
+                       "magic":  200,
+                       "ranged":  380,
+                       "str":  200
+                   },
+        "offensive":  {
+                          "atk":  136,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  120,
+                          "ranged_str":  50,
+                          "str":  12
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  180,
+                          "magic":  200,
+                          "heavy":  200,
+                          "standard":  200,
+                          "light":  200,
+                          "slash":  180,
+                          "stab":  180
+                      },
+        "attributes":  [
+                           "flying"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "air",
+                         "severity":  30
+                     }
+    },
+    {
+        "id":  410,
+        "name":  "Kurask",
+        "version":  "Normal",
+        "image":  "Kurask.png",
+        "level":  106,
+        "speed":  4,
+        "style":  [
+                      "Crush"
+                  ],
+        "size":  3,
+        "max_hit":  "11",
+        "skills":  {
+                       "atk":  67,
+                       "def":  105,
+                       "hp":  97,
+                       "magic":  1,
+                       "ranged":  1,
+                       "str":  105
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  20,
+                          "magic":  0,
+                          "heavy":  0,
+                          "standard":  0,
+                          "light":  0,
+                          "slash":  20,
+                          "stab":  0
+                      },
+        "attributes":  [
+                           "leafy"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  null
+    },
+    {
+        "id":  11278,
+        "name":  "Nex",
+        "version":  "",
+        "image":  "Nex.png",
+        "level":  1001,
+        "speed":  4,
+        "style":  [
+                      "Magic",
+                      "Ranged",
+                      "Crush"
+                  ],
+        "size":  3,
+        "max_hit":  "33 (Magic)",
+        "skills":  {
+                       "atk":  315,
+                       "def":  260,
+                       "hp":  3400,
+                       "magic":  230,
+                       "ranged":  350,
+                       "str":  200
+                   },
+        "offensive":  {
+                          "atk":  200,
+                          "magic":  100,
+                          "magic_str":  22,
+                          "ranged":  150,
+                          "ranged_str":  5,
+                          "str":  20
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  60,
+                          "magic":  300,
+                          "heavy":  150,
+                          "standard":  190,
+                          "light":  190,
+                          "slash":  140,
+                          "stab":  40
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  null
+    },
+    {
+        "id":  12078,
+        "name":  "Phantom Muspah",
+        "version":  "Melee",
+        "image":  "Phantom Muspah (melee).png",
+        "level":  741,
+        "speed":  5,
+        "style":  [
+                      "Stab"
+                  ],
+        "size":  5,
+        "max_hit":  "34",
+        "skills":  {
+                       "atk":  280,
+                       "def":  200,
+                       "hp":  850,
+                       "magic":  150,
+                       "ranged":  280,
+                       "str":  280
+                   },
+        "offensive":  {
+                          "atk":  393,
+                          "magic":  280,
+                          "magic_str":  180,
+                          "ranged":  64,
+                          "ranged_str":  6,
+                          "str":  11
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  120,
+                          "magic":  34,
+                          "heavy":  261,
+                          "standard":  261,
+                          "light":  261,
+                          "slash":  134,
+                          "stab":  185
+                      },
+        "attributes":  [
+                           "spectral"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "air",
+                         "severity":  65
+                     }
+    },
+    {
+        "id":  12080,
+        "name":  "Phantom Muspah",
+        "version":  "Post-shield",
+        "image":  "Phantom Muspah (ranged).png",
+        "level":  741,
+        "speed":  5,
+        "style":  [
+                      "Ranged",
+                      "Magic"
+                  ],
+        "size":  5,
+        "max_hit":  "72 (Ranged)",
+        "skills":  {
+                       "atk":  280,
+                       "def":  200,
+                       "hp":  850,
+                       "magic":  179,
+                       "ranged":  335,
+                       "str":  280
+                   },
+        "offensive":  {
+                          "atk":  393,
+                          "magic":  280,
+                          "magic_str":  180,
+                          "ranged":  64,
+                          "ranged_str":  6,
+                          "str":  11
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  120,
+                          "magic":  437,
+                          "heavy":  56,
+                          "standard":  56,
+                          "light":  56,
+                          "slash":  134,
+                          "stab":  185
+                      },
+        "attributes":  [
+                           "spectral"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "air",
+                         "severity":  65
+                     }
+    },
+    {
+        "id":  12077,
+        "name":  "Phantom Muspah",
+        "version":  "Ranged",
+        "image":  "Phantom Muspah (ranged).png",
+        "level":  741,
+        "speed":  6,
+        "style":  [
+                      "Ranged",
+                      "Magic"
+                  ],
+        "size":  5,
+        "max_hit":  "61 (Ranged)",
+        "skills":  {
+                       "atk":  280,
+                       "def":  200,
+                       "hp":  850,
+                       "magic":  150,
+                       "ranged":  280,
+                       "str":  280
+                   },
+        "offensive":  {
+                          "atk":  393,
+                          "magic":  280,
+                          "magic_str":  180,
+                          "ranged":  64,
+                          "ranged_str":  6,
+                          "str":  11
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  120,
+                          "magic":  437,
+                          "heavy":  56,
+                          "standard":  56,
+                          "light":  56,
+                          "slash":  134,
+                          "stab":  185
+                      },
+        "attributes":  [
+                           "spectral"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "air",
+                         "severity":  65
+                     }
+    },
+    {
+        "id":  8713,
+        "name":  "Sarachnis",
+        "version":  "",
+        "image":  "Sarachnis.png",
+        "level":  318,
+        "speed":  4,
+        "style":  [
+                      "Melee",
+                      "Ranged"
+                  ],
+        "size":  5,
+        "max_hit":  "31",
+        "skills":  {
+                       "atk":  200,
+                       "def":  150,
+                       "hp":  400,
+                       "magic":  150,
+                       "ranged":  300,
+                       "str":  240
+                   },
+        "offensive":  {
+                          "atk":  30,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  15,
+                          "ranged_str":  15,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  10,
+                          "magic":  150,
+                          "heavy":  300,
+                          "standard":  300,
+                          "light":  300,
+                          "slash":  40,
+                          "stab":  60
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "fire",
+                         "severity":  40
+                     }
+    },
+    {
+        "id":  14009,
+        "name":  "The Hueycoatl",
+        "version":  "Normal",
+        "image":  "The Hueycoatl.png",
+        "level":  642,
+        "speed":  0,
+        "style":  [
+                      "Melee",
+                      "Magic",
+                      "Ranged"
+                  ],
+        "size":  7,
+        "max_hit":  "14",
+        "skills":  {
+                       "atk":  150,
+                       "def":  125,
+                       "hp":  2500,
+                       "magic":  50,
+                       "ranged":  50,
+                       "str":  50
+                   },
+        "offensive":  {
+                          "atk":  100,
+                          "magic":  200,
+                          "magic_str":  50,
+                          "ranged":  250,
+                          "ranged_str":  50,
+                          "str":  50
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  0,
+                          "magic":  200,
+                          "heavy":  350,
+                          "standard":  350,
+                          "light":  350,
+                          "slash":  100,
+                          "stab":  100
+                      },
+        "attributes":  [
+                           "dragon"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  60
+                     }
+    },
+    {
+        "id":  12214,
+        "name":  "The Leviathan",
+        "version":  "Awakened",
+        "image":  "The Leviathan.png",
+        "level":  1157,
+        "speed":  0,
+        "style":  [
+                      "Melee",
+                      "Ranged",
+                      "Magic"
+                  ],
+        "size":  7,
+        "max_hit":  "86 (Melee orb \u0026 Bite)",
+        "skills":  {
+                       "atk":  525,
+                       "def":  287,
+                       "hp":  2700,
+                       "magic":  280,
+                       "ranged":  280,
+                       "str":  630
+                   },
+        "offensive":  {
+                          "atk":  200,
+                          "magic":  160,
+                          "magic_str":  58,
+                          "ranged":  300,
+                          "ranged_str":  26,
+                          "str":  22
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  230,
+                          "magic":  280,
+                          "heavy":  25,
+                          "standard":  50,
+                          "light":  50,
+                          "slash":  190,
+                          "stab":  260
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  null
+    },
+    {
+        "id":  12214,
+        "name":  "The Leviathan",
+        "version":  "Post-quest",
+        "image":  "The Leviathan.png",
+        "level":  798,
+        "speed":  0,
+        "style":  [
+                      "Melee",
+                      "Ranged",
+                      "Magic"
+                  ],
+        "size":  7,
+        "max_hit":  "50 (Melee orb \u0026 Bite)",
+        "skills":  {
+                       "atk":  300,
+                       "def":  250,
+                       "hp":  900,
+                       "magic":  160,
+                       "ranged":  160,
+                       "str":  360
+                   },
+        "offensive":  {
+                          "atk":  200,
+                          "magic":  160,
+                          "magic_str":  58,
+                          "ranged":  300,
+                          "ranged_str":  26,
+                          "str":  22
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  230,
+                          "magic":  280,
+                          "heavy":  25,
+                          "standard":  50,
+                          "light":  50,
+                          "slash":  190,
+                          "stab":  260
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  null
+    },
+    {
+        "id":  12204,
+        "name":  "The Whisperer",
+        "version":  "Awakened",
+        "image":  "The Whisperer.png",
+        "level":  1146,
+        "speed":  10,
+        "style":  [
+                      "All"
+                  ],
+        "size":  3,
+        "max_hit":  "70+ (x2) (Melee)",
+        "skills":  {
+                       "atk":  378,
+                       "def":  300,
+                       "hp":  2700,
+                       "magic":  225,
+                       "ranged":  243,
+                       "str":  378
+                   },
+        "offensive":  {
+                          "atk":  140,
+                          "magic":  190,
+                          "magic_str":  58,
+                          "ranged":  160,
+                          "ranged_str":  70,
+                          "str":  30
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  220,
+                          "magic":  10,
+                          "heavy":  300,
+                          "standard":  300,
+                          "light":  300,
+                          "slash":  300,
+                          "stab":  180
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  60
+                     }
+    },
+    {
+        "id":  12204,
+        "name":  "The Whisperer",
+        "version":  "Post-quest",
+        "image":  "The Whisperer.png",
+        "level":  791,
+        "speed":  10,
+        "style":  [
+                      "All"
+                  ],
+        "size":  3,
+        "max_hit":  "42 (x2) (Melee)",
+        "skills":  {
+                       "atk":  280,
+                       "def":  250,
+                       "hp":  900,
+                       "magic":  180,
+                       "ranged":  180,
+                       "str":  280
+                   },
+        "offensive":  {
+                          "atk":  140,
+                          "magic":  190,
+                          "magic_str":  58,
+                          "ranged":  160,
+                          "ranged_str":  70,
+                          "str":  30
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  220,
+                          "magic":  10,
+                          "heavy":  300,
+                          "standard":  300,
+                          "light":  300,
+                          "slash":  300,
+                          "stab":  180
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  60
+                     }
+    },
+    {
+        "id":  499,
+        "name":  "Thermonuclear smoke devil",
+        "version":  "",
+        "image":  "Thermonuclear smoke devil.png",
+        "level":  301,
+        "speed":  2,
+        "style":  [
+                      "Typeless Magical ranged"
+                  ],
+        "size":  4,
+        "max_hit":  "8",
+        "skills":  {
+                       "atk":  230,
+                       "def":  360,
+                       "hp":  240,
+                       "magic":  1,
+                       "ranged":  310,
+                       "str":  220
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  9,
+                          "magic":  800,
+                          "heavy":  900,
+                          "standard":  900,
+                          "light":  900,
+                          "slash":  4,
+                          "stab":  11
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "air",
+                         "severity":  20
+                     }
+    },
+    {
+        "id":  11762,
+        "name":  "Tumeken\u0027s Warden",
+        "version":  "Damaged",
+        "image":  "Tumeken\u0027s Warden (level-544).png",
+        "level":  544,
+        "speed":  8,
+        "style":  [
+                      "Melee",
+                      "Ranged",
+                      "Magic"
+                  ],
+        "size":  5,
+        "max_hit":  "26",
+        "skills":  {
+                       "atk":  150,
+                       "def":  150,
+                       "hp":  880,
+                       "magic":  150,
+                       "ranged":  150,
+                       "str":  150
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  230,
+                          "magic_str":  40,
+                          "ranged":  300,
+                          "ranged_str":  40,
+                          "str":  40
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  20,
+                          "magic":  20,
+                          "heavy":  20,
+                          "standard":  20,
+                          "light":  20,
+                          "slash":  40,
+                          "stab":  40
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  50
+                     }
+    },
+    {
+        "id":  11762,
+        "name":  "Tumeken\u0027s Warden",
+        "version":  "Enraged",
+        "image":  "Tumeken\u0027s Warden (level-544, immune).png",
+        "level":  544,
+        "speed":  8,
+        "style":  [
+                      "Melee",
+                      "Ranged",
+                      "Magic"
+                  ],
+        "size":  5,
+        "max_hit":  "26",
+        "skills":  {
+                       "atk":  150,
+                       "def":  180,
+                       "hp":  880,
+                       "magic":  150,
+                       "ranged":  150,
+                       "str":  150
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  230,
+                          "magic_str":  40,
+                          "ranged":  300,
+                          "ranged_str":  40,
+                          "str":  40
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  20,
+                          "magic":  20,
+                          "heavy":  20,
+                          "standard":  20,
+                          "light":  20,
+                          "slash":  40,
+                          "stab":  40
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  50
+                     }
+    },
+    {
+        "id":  12223,
+        "name":  "Vardorvis",
+        "version":  "Awakened",
+        "image":  "Vardorvis.png",
+        "level":  1136,
+        "speed":  5,
+        "style":  [
+                      "Slash"
+                  ],
+        "size":  2,
+        "max_hit":  "46-61 (Melee)",
+        "skills":  {
+                       "atk":  420,
+                       "def":  0,
+                       "hp":  1400,
+                       "magic":  215,
+                       "ranged":  0,
+                       "str":  0
+                   },
+        "offensive":  {
+                          "atk":  190,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  10
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  85,
+                          "magic":  580,
+                          "heavy":  580,
+                          "standard":  580,
+                          "light":  580,
+                          "slash":  65,
+                          "stab":  215
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  {
+                         "element":  "fire",
+                         "severity":  35
+                     }
+    },
+    {
+        "id":  12223,
+        "name":  "Vardorvis",
+        "version":  "Post-quest",
+        "image":  "Vardorvis.png",
+        "level":  784,
+        "speed":  5,
+        "style":  [
+                      "Slash"
+                  ],
+        "size":  2,
+        "max_hit":  "32-43 (Melee)",
+        "skills":  {
+                       "atk":  280,
+                       "def":  0,
+                       "hp":  700,
+                       "magic":  215,
+                       "ranged":  0,
+                       "str":  0
+                   },
+        "offensive":  {
+                          "atk":  190,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  10
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  85,
+                          "magic":  580,
+                          "heavy":  580,
+                          "standard":  580,
+                          "light":  580,
+                          "slash":  65,
+                          "stab":  215
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "fire",
+                         "severity":  35
+                     }
+    },
+    {
+        "id":  6610,
+        "name":  "Venenatis",
+        "version":  "",
+        "image":  "Venenatis.png",
+        "level":  464,
+        "speed":  4,
+        "style":  [
+                      "Stab",
+                      "Magic",
+                      "Ranged"
+                  ],
+        "size":  4,
+        "max_hit":  "21 (Melee)",
+        "skills":  {
+                       "atk":  300,
+                       "def":  321,
+                       "hp":  850,
+                       "magic":  300,
+                       "ranged":  350,
+                       "str":  200
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  10,
+                          "magic":  300,
+                          "heavy":  150,
+                          "standard":  150,
+                          "light":  150,
+                          "slash":  100,
+                          "stab":  100
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "fire",
+                         "severity":  40
+                     }
+    },
+    {
+        "id":  8372,
+        "name":  "Verzik Vitur",
+        "version":  "Normal mode, Phase 2",
+        "image":  "Verzik Vitur (flying).png",
+        "level":  1265,
+        "speed":  4,
+        "style":  [
+                      "Crush",
+                      "Magic",
+                      "Ranged"
+                  ],
+        "size":  3,
+        "max_hit":  "47",
+        "skills":  {
+                       "atk":  400,
+                       "def":  200,
+                       "hp":  3500,
+                       "magic":  400,
+                       "ranged":  400,
+                       "str":  400
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  80,
+                          "magic_str":  80,
+                          "ranged":  80,
+                          "ranged_str":  80,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  100,
+                          "magic":  70,
+                          "heavy":  250,
+                          "standard":  250,
+                          "light":  250,
+                          "slash":  60,
+                          "stab":  100
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  null
+    },
+    {
+        "id":  8374,
+        "name":  "Verzik Vitur",
+        "version":  "Normal mode, Phase 3",
+        "image":  "Verzik Vitur (final form).png",
+        "level":  1520,
+        "speed":  7,
+        "style":  [
+                      "Typeless Crush",
+                      "Magic",
+                      "Ranged"
+                  ],
+        "size":  7,
+        "max_hit":  "63 (melee)",
+        "skills":  {
+                       "atk":  400,
+                       "def":  150,
+                       "hp":  3500,
+                       "magic":  300,
+                       "ranged":  300,
+                       "str":  400
+                   },
+        "offensive":  {
+                          "atk":  80,
+                          "magic":  80,
+                          "magic_str":  5,
+                          "ranged":  80,
+                          "ranged_str":  5,
+                          "str":  30
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  70,
+                          "magic":  100,
+                          "heavy":  230,
+                          "standard":  230,
+                          "light":  230,
+                          "slash":  30,
+                          "stab":  70
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  {
+                         "element":  "fire",
+                         "severity":  50
+                     }
+    },
+    {
+        "id":  6612,
+        "name":  "Vet\u0027ion",
+        "version":  "Enraged",
+        "image":  "Vet\u0027ion (enraged).png",
+        "level":  454,
+        "speed":  5,
+        "style":  [
+                      "Slash",
+                      "Magic"
+                  ],
+        "size":  3,
+        "max_hit":  "44",
+        "skills":  {
+                       "atk":  430,
+                       "def":  395,
+                       "hp":  255,
+                       "magic":  300,
+                       "ranged":  1,
+                       "str":  430
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  -10,
+                          "magic":  250,
+                          "heavy":  270,
+                          "standard":  270,
+                          "light":  270,
+                          "slash":  200,
+                          "stab":  201
+                      },
+        "attributes":  [
+                           "undead"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  null
+    },
+    {
+        "id":  6611,
+        "name":  "Vet\u0027ion",
+        "version":  "Normal",
+        "image":  "Vet\u0027ion.png",
+        "level":  454,
+        "speed":  6,
+        "style":  [
+                      "Slash",
+                      "Magic"
+                  ],
+        "size":  3,
+        "max_hit":  "44",
+        "skills":  {
+                       "atk":  430,
+                       "def":  395,
+                       "hp":  255,
+                       "magic":  300,
+                       "ranged":  1,
+                       "str":  430
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  -10,
+                          "magic":  250,
+                          "heavy":  270,
+                          "standard":  270,
+                          "light":  270,
+                          "slash":  200,
+                          "stab":  201
+                      },
+        "attributes":  [
+                           "undead"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  null
+    },
+    {
+        "id":  8059,
+        "name":  "Vorkath",
+        "version":  "Post-quest",
+        "image":  "Vorkath.png",
+        "level":  732,
+        "speed":  5,
+        "style":  [
+                      "Slash",
+                      "Magic",
+                      "Ranged",
+                      "Dragonfire"
+                  ],
+        "size":  7,
+        "max_hit":  "30 (Magic)",
+        "skills":  {
+                       "atk":  560,
+                       "def":  214,
+                       "hp":  750,
+                       "magic":  150,
+                       "ranged":  308,
+                       "str":  308
+                   },
+        "offensive":  {
+                          "atk":  16,
+                          "magic":  150,
+                          "magic_str":  56,
+                          "ranged":  78,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  108,
+                          "magic":  240,
+                          "heavy":  26,
+                          "standard":  26,
+                          "light":  26,
+                          "slash":  108,
+                          "stab":  26
+                      },
+        "attributes":  [
+                           "dragon",
+                           "undead",
+                           "fiery"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "fire",
+                         "severity":  40
+                     }
+    },
+    {
+        "id":  11730,
+        "name":  "Zebak",
+        "version":  "Normal",
+        "image":  "Zebak.png",
+        "level":  371,
+        "speed":  7,
+        "style":  [
+                      "Melee",
+                      "Ranged",
+                      "Magic"
+                  ],
+        "size":  9,
+        "max_hit":  "38 (Melee)",
+        "skills":  {
+                       "atk":  250,
+                       "def":  70,
+                       "hp":  580,
+                       "magic":  100,
+                       "ranged":  120,
+                       "str":  140
+                   },
+        "offensive":  {
+                          "atk":  160,
+                          "magic":  215,
+                          "magic_str":  30,
+                          "ranged":  220,
+                          "ranged_str":  16,
+                          "str":  100
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  260,
+                          "magic":  200,
+                          "heavy":  110,
+                          "standard":  110,
+                          "light":  110,
+                          "slash":  160,
+                          "stab":  160
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  null
+    },
+    {
+        "id":  2043,
+        "name":  "Zulrah",
+        "version":  "Magma",
+        "image":  "Zulrah (magma).png",
+        "level":  725,
+        "speed":  3,
+        "style":  [
+                      "Typeless"
+                  ],
+        "size":  5,
+        "max_hit":  "30",
+        "skills":  {
+                       "atk":  1,
+                       "def":  300,
+                       "hp":  500,
+                       "magic":  300,
+                       "ranged":  300,
+                       "str":  1
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  50,
+                          "magic_str":  20,
+                          "ranged":  50,
+                          "ranged_str":  20,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "heavy":  300,
+                          "standard":  300,
+                          "light":  300,
+                          "slash":  0,
+                          "stab":  0
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "fire",
+                         "severity":  50
+                     }
+    },
+    {
+        "id":  2042,
+        "name":  "Zulrah",
+        "version":  "Serpentine",
+        "image":  "Zulrah (serpentine).png",
+        "level":  725,
+        "speed":  3,
+        "style":  [
+                      "Ranged"
+                  ],
+        "size":  5,
+        "max_hit":  "41",
+        "skills":  {
+                       "atk":  1,
+                       "def":  300,
+                       "hp":  500,
+                       "magic":  300,
+                       "ranged":  300,
+                       "str":  1
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  50,
+                          "magic_str":  20,
+                          "ranged":  50,
+                          "ranged_str":  20,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  0,
+                          "magic":  -45,
+                          "heavy":  50,
+                          "standard":  50,
+                          "light":  50,
+                          "slash":  0,
+                          "stab":  0
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "fire",
+                         "severity":  50
+                     }
+    },
+    {
+        "id":  2044,
+        "name":  "Zulrah",
+        "version":  "Tanzanite",
+        "image":  "Zulrah (tanzanite).png",
+        "level":  725,
+        "speed":  3,
+        "style":  [
+                      "Magic",
+                      "Ranged"
+                  ],
+        "size":  5,
+        "max_hit":  "41",
+        "skills":  {
+                       "atk":  1,
+                       "def":  300,
+                       "hp":  500,
+                       "magic":  300,
+                       "ranged":  300,
+                       "str":  1
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  50,
+                          "magic_str":  20,
+                          "ranged":  50,
+                          "ranged_str":  20,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  0,
+                          "magic":  300,
+                          "heavy":  0,
+                          "standard":  0,
+                          "light":  0,
+                          "slash":  0,
+                          "stab":  0
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  {
+                         "element":  "fire",
+                         "severity":  50
+                     }
+    }
+]

@@ -15,6 +15,8 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.function.IntUnaryOperator;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -61,8 +63,11 @@ public class OwnedItemsService
 	private final ScheduledExecutorService executor;
 	private final File dataDir;
 
+	private static final long SAVE_DEBOUNCE_MS = 5_000;
+
 	private final Map<Source, Map<Integer, Integer>> owned = new EnumMap<>(Source.class);
 	private long loadedAccount = -1;
+	private ScheduledFuture<?> pendingSave;
 
 	@Inject
 	public OwnedItemsService(Client client, ItemManager itemManager, Gson gson, ScheduledExecutorService executor)
@@ -103,6 +108,7 @@ public class OwnedItemsService
 			return;
 		}
 
+		cancelPendingSave(); // don't let a stale save write the old account's items
 		synchronized (owned)
 		{
 			owned.clear();
@@ -124,6 +130,46 @@ public class OwnedItemsService
 		updateSource(source, e.getItemContainer().getItems(), itemManager::canonicalize);
 
 		long account = client.getAccountHash();
+		if (account != -1)
+		{
+			scheduleSave(account);
+		}
+	}
+
+	/**
+	 * Inventory changes fire constantly during play; coalesce writes so at
+	 * most one save happens per debounce window.
+	 */
+	private synchronized void scheduleSave(long account)
+	{
+		if (pendingSave != null && !pendingSave.isDone())
+		{
+			return;
+		}
+		pendingSave = executor.schedule(() -> saveToDisk(account, copyOwned()), SAVE_DEBOUNCE_MS, TimeUnit.MILLISECONDS);
+	}
+
+	private synchronized void cancelPendingSave()
+	{
+		if (pendingSave != null)
+		{
+			pendingSave.cancel(false);
+			pendingSave = null;
+		}
+	}
+
+	/**
+	 * Persists immediately, cancelling any pending debounced save. Call on
+	 * plugin shutdown.
+	 */
+	public void flush()
+	{
+		cancelPendingSave();
+		long account;
+		synchronized (owned)
+		{
+			account = loadedAccount;
+		}
 		if (account != -1)
 		{
 			Map<Source, Map<Integer, Integer>> copy = copyOwned();
@@ -160,13 +206,21 @@ public class OwnedItemsService
 	 */
 	public Map<Integer, Integer> getOwnedQuantities()
 	{
+		return getOwnedQuantitiesExcluding(null);
+	}
+
+	public Map<Integer, Integer> getOwnedQuantitiesExcluding(Source excluded)
+	{
 		Map<Integer, Integer> merged = new HashMap<>();
 		synchronized (owned)
 		{
-			for (Map<Integer, Integer> source : owned.values())
+			owned.forEach((source, items) ->
 			{
-				source.forEach((id, qty) -> merged.merge(id, qty, Integer::sum));
-			}
+				if (source != excluded)
+				{
+					items.forEach((id, qty) -> merged.merge(id, qty, Integer::sum));
+				}
+			});
 		}
 		return merged;
 	}

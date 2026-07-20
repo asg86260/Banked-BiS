@@ -16,8 +16,10 @@ import java.time.Instant;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.function.Consumer;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -52,6 +54,7 @@ public class WikiDataService
 
 	private final OkHttpClient okHttpClient;
 	private final Gson gson;
+	private final ScheduledExecutorService executor;
 	private final File cacheDir;
 
 	@Getter
@@ -61,13 +64,14 @@ public class WikiDataService
 	private volatile Map<Integer, NpcStats> npcStatsById = Collections.emptyMap();
 
 	@Inject
-	public WikiDataService(OkHttpClient okHttpClient, Gson gson)
+	public WikiDataService(OkHttpClient okHttpClient, Gson gson, ScheduledExecutorService executor)
 	{
-		this(okHttpClient, gson, new File(RuneLite.RUNELITE_DIR, "bank-bis"));
+		this(okHttpClient, gson, executor, new File(RuneLite.RUNELITE_DIR, "bank-bis"));
 	}
 
-	WikiDataService(OkHttpClient okHttpClient, Gson gson, File cacheDir)
+	WikiDataService(OkHttpClient okHttpClient, Gson gson, ScheduledExecutorService executor, File cacheDir)
 	{
+		this.executor = executor;
 		this.okHttpClient = okHttpClient.newBuilder()
 			.addInterceptor(chain -> chain.proceed(
 				chain.request()
@@ -99,11 +103,13 @@ public class WikiDataService
 
 		CompletableFuture<Void> monsters = loadFile("monsters.json", MONSTERS_TYPE, (List<MonsterJson> parsed) ->
 		{
-			Map<Integer, NpcStats> byId = new HashMap<>();
+			Map<Integer, MonsterJson> chosen = new HashMap<>();
 			for (MonsterJson m : parsed)
 			{
-				byId.put(m.getId(), NpcStats.of(m));
+				chosen.merge(m.getId(), m, WikiDataService::preferredVariant);
 			}
+			Map<Integer, NpcStats> byId = new HashMap<>();
+			chosen.forEach((id, m) -> byId.put(id, NpcStats.of(m)));
 			npcStatsById = Collections.unmodifiableMap(byId);
 			log.debug("Loaded {} monster entries", byId.size());
 		});
@@ -111,15 +117,59 @@ public class WikiDataService
 		return CompletableFuture.allOf(equipment, monsters);
 	}
 
+	/**
+	 * Some monsters share one id across several stat variants (e.g. Duke
+	 * Sucellus 12191 is listed as both Awakened and Post-quest). Prefer the
+	 * everyday variant over Awakened/during-quest stats.
+	 */
+	static MonsterJson preferredVariant(MonsterJson a, MonsterJson b)
+	{
+		return variantScore(b) > variantScore(a) ? b : a;
+	}
+
+	private static int variantScore(MonsterJson m)
+	{
+		String version = m.getVersion() == null ? "" : m.getVersion().toLowerCase(Locale.ROOT);
+		if (version.contains("awakened"))
+		{
+			return 0;
+		}
+		if (version.contains("quest") && !version.contains("post-quest"))
+		{
+			return 1;
+		}
+		return 2;
+	}
+
 	private <T> CompletableFuture<Void> loadFile(String fileName, Type type, Consumer<T> onParsed)
 	{
 		File cached = new File(cacheDir, fileName);
-		if (isFresh(cached))
-		{
-			return CompletableFuture.runAsync(() -> parseFromDisk(cached, type, onParsed));
-		}
-
 		CompletableFuture<Void> future = new CompletableFuture<>();
+		// even the freshness stat() belongs off the caller's thread
+		executor.execute(() ->
+		{
+			try
+			{
+				if (isFresh(cached))
+				{
+					parseFromDisk(cached, type, onParsed);
+					future.complete(null);
+				}
+				else
+				{
+					fetch(fileName, type, onParsed, cached, future);
+				}
+			}
+			catch (Exception e)
+			{
+				future.completeExceptionally(e);
+			}
+		});
+		return future;
+	}
+
+	private <T> void fetch(String fileName, Type type, Consumer<T> onParsed, File cached, CompletableFuture<Void> future)
+	{
 		Request request = new Request.Builder().url(BASE_URL + fileName).build();
 		okHttpClient.newCall(request).enqueue(new Callback()
 		{
@@ -170,7 +220,6 @@ public class WikiDataService
 				future.completeExceptionally(cause);
 			}
 		});
-		return future;
 	}
 
 	private <T> void parseFromDisk(File cached, Type type, Consumer<T> onParsed)
