@@ -4,6 +4,7 @@ import com.bankbis.bank.OwnedItemsService;
 import com.bankbis.content.ContentPreset;
 import com.bankbis.data.NpcStats;
 import com.bankbis.data.WikiDataService;
+import com.bankbis.party.PartyItemsService;
 import com.bankbis.optimizer.Loadout;
 import com.bankbis.optimizer.LoadoutOptimizer;
 import com.bankbis.optimizer.OptimizeRequest;
@@ -12,8 +13,10 @@ import com.duckblade.osrs.dpscalc.calc.model.Skills;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -38,6 +41,7 @@ public class RecommendationService
 	private final ClientThread clientThread;
 	private final OwnedItemsService ownedItemsService;
 	private final WikiDataService wikiDataService;
+	private final PartyItemsService partyItemsService;
 	private final LoadoutOptimizer optimizer;
 	private final ScheduledExecutorService executor;
 	private final BankBisConfig config;
@@ -47,6 +51,11 @@ public class RecommendationService
 	{
 		List<Loadout> loadouts;
 		List<String> warnings;
+
+		/**
+		 * Item ids only available via a party member's shared bank.
+		 */
+		Set<Integer> partyItemIds;
 	}
 
 	public CompletableFuture<Result> recommend(ContentPreset preset)
@@ -92,19 +101,19 @@ public class RecommendationService
 
 		if (skills == null)
 		{
-			return new Result(Collections.emptyList(), List.of("Log in to get recommendations."));
+			return new Result(Collections.emptyList(), List.of("Log in to get recommendations."), Collections.emptySet());
 		}
 
 		Map<Integer, ItemStats> wikiItems = wikiDataService.getItemStatsById();
 		if (wikiItems.isEmpty())
 		{
-			return new Result(Collections.emptyList(), List.of("Equipment data is still loading; try again shortly."));
+			return new Result(Collections.emptyList(), List.of("Equipment data is still loading; try again shortly."), Collections.emptySet());
 		}
 
 		NpcStats target = wikiDataService.getNpcStatsById().get(preset.getPrimaryMonsterId());
 		if (target == null)
 		{
-			return new Result(Collections.emptyList(), List.of("No monster data for " + preset.getLabel() + "."));
+			return new Result(Collections.emptyList(), List.of("No monster data for " + preset.getLabel() + "."), Collections.emptySet());
 		}
 
 		if (!ownedItemsService.hasBankSnapshot())
@@ -115,6 +124,19 @@ public class RecommendationService
 		Map<Integer, Integer> ownedQuantities = config.includeGroupStorage()
 			? ownedItemsService.getOwnedQuantities()
 			: ownedItemsService.getOwnedQuantitiesExcluding(OwnedItemsService.Source.GROUP_STORAGE);
+
+		Set<Integer> partyItemIds = new HashSet<>();
+		if (config.sharePartyBanks())
+		{
+			partyItemsService.getPartyQuantities().forEach((id, qty) ->
+			{
+				if (!ownedQuantities.containsKey(id))
+				{
+					partyItemIds.add(id);
+				}
+				ownedQuantities.merge(id, qty, Integer::sum);
+			});
+		}
 
 		List<ItemStats> ownedEquipment = new ArrayList<>();
 		for (Integer itemId : ownedQuantities.keySet())
@@ -129,7 +151,7 @@ public class RecommendationService
 		if (ownedEquipment.isEmpty())
 		{
 			warnings.add("No equippable items found yet.");
-			return new Result(Collections.emptyList(), warnings);
+			return new Result(Collections.emptyList(), warnings, Collections.emptySet());
 		}
 
 		OptimizeRequest request = OptimizeRequest.builder()
@@ -140,7 +162,7 @@ public class RecommendationService
 			.raidPartySize(preset.getRaidPartySize())
 			.build();
 
-		return new Result(optimizer.optimize(request), warnings);
+		return new Result(optimizer.optimize(request), warnings, partyItemIds);
 	}
 
 }

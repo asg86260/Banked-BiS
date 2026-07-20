@@ -153,7 +153,7 @@ public class BankBisPanel extends PluginPanel
 
 		for (Loadout loadout : result.getLoadouts())
 		{
-			resultsPanel.add(loadoutSection(loadout));
+			resultsPanel.add(loadoutSection(loadout, result.getPartyItemIds()));
 			resultsPanel.add(Box.createVerticalStrut(10));
 		}
 
@@ -169,7 +169,7 @@ public class BankBisPanel extends PluginPanel
 		return label;
 	}
 
-	private Component loadoutSection(Loadout loadout)
+	private Component loadoutSection(Loadout loadout, java.util.Set<Integer> partyItemIds)
 	{
 		JPanel section = new JPanel();
 		section.setLayout(new BoxLayout(section, BoxLayout.Y_AXIS));
@@ -195,13 +195,13 @@ public class BankBisPanel extends PluginPanel
 			ItemStats item = items.get(slot);
 			if (item != null)
 			{
-				section.add(itemRow(item));
+				section.add(itemRow(item, partyItemIds.contains(item.getItemId())));
 			}
 		}
 		return section;
 	}
 
-	private Component itemRow(ItemStats item)
+	private Component itemRow(ItemStats item, boolean fromParty)
 	{
 		JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 1));
 		row.setBackground(ColorScheme.DARKER_GRAY_COLOR);
@@ -212,8 +212,8 @@ public class BankBisPanel extends PluginPanel
 		itemManager.getImage(item.getItemId()).addTo(icon);
 		row.add(icon);
 
-		JLabel name = new JLabel(item.getName());
-		name.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+		JLabel name = new JLabel(fromParty ? item.getName() + " (party)" : item.getName());
+		name.setForeground(fromParty ? ColorScheme.PROGRESS_INPROGRESS_COLOR : ColorScheme.LIGHT_GRAY_COLOR);
 		row.add(name);
 		return row;
 	}

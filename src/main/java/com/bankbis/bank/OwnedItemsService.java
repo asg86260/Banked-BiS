@@ -26,6 +26,7 @@ import net.runelite.api.Item;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.ItemContainerChanged;
 import net.runelite.api.gameval.InventoryID;
+import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.game.ItemManager;
 
@@ -68,6 +69,7 @@ public class OwnedItemsService
 	private final ItemManager itemManager;
 	private final Gson gson;
 	private final ScheduledExecutorService executor;
+	private final EventBus eventBus;
 	private final File dataDir;
 
 	private final Map<Source, Map<Integer, Integer>> owned = new EnumMap<>(Source.class);
@@ -75,17 +77,18 @@ public class OwnedItemsService
 	private ScheduledFuture<?> pendingSave;
 
 	@Inject
-	public OwnedItemsService(Client client, ItemManager itemManager, Gson gson, ScheduledExecutorService executor)
+	public OwnedItemsService(Client client, ItemManager itemManager, Gson gson, ScheduledExecutorService executor, EventBus eventBus)
 	{
-		this(client, itemManager, gson, executor, PluginData.DIR);
+		this(client, itemManager, gson, executor, eventBus, PluginData.DIR);
 	}
 
-	OwnedItemsService(Client client, ItemManager itemManager, Gson gson, ScheduledExecutorService executor, File dataDir)
+	OwnedItemsService(Client client, ItemManager itemManager, Gson gson, ScheduledExecutorService executor, EventBus eventBus, File dataDir)
 	{
 		this.client = client;
 		this.itemManager = itemManager;
 		this.gson = gson;
 		this.executor = executor;
+		this.eventBus = eventBus;
 		this.dataDir = dataDir;
 	}
 
@@ -138,6 +141,7 @@ public class OwnedItemsService
 		{
 			scheduleSave(account);
 		}
+		eventBus.post(new OwnedItemsChanged());
 	}
 
 	/**

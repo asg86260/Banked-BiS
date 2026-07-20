@@ -2,6 +2,8 @@ package com.bankbis;
 
 import com.bankbis.bank.OwnedItemsService;
 import com.bankbis.data.WikiDataService;
+import com.bankbis.party.OwnedItemsUpdate;
+import com.bankbis.party.PartyItemsService;
 import com.bankbis.ui.BankBisPanel;
 import com.duckblade.osrs.dpscalc.calc.DpsComputeModule;
 import com.google.inject.Binder;
@@ -11,6 +13,7 @@ import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.EventBus;
+import net.runelite.client.party.WSClient;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.ClientToolbar;
@@ -38,6 +41,12 @@ public class BankBisPlugin extends Plugin
 	private WikiDataService wikiDataService;
 
 	@Inject
+	private PartyItemsService partyItemsService;
+
+	@Inject
+	private WSClient wsClient;
+
+	@Inject
 	private BankBisPanel panel;
 
 	private NavigationButton navButton;
@@ -52,6 +61,8 @@ public class BankBisPlugin extends Plugin
 	protected void startUp() throws Exception
 	{
 		eventBus.register(ownedItemsService);
+		eventBus.register(partyItemsService);
+		wsClient.registerMessage(OwnedItemsUpdate.class);
 		wikiDataService.load()
 			.exceptionally(e ->
 			{
@@ -73,6 +84,8 @@ public class BankBisPlugin extends Plugin
 	protected void shutDown() throws Exception
 	{
 		eventBus.unregister(ownedItemsService);
+		eventBus.unregister(partyItemsService);
+		wsClient.unregisterMessage(OwnedItemsUpdate.class);
 		ownedItemsService.flush();
 		wikiDataService.shutdown();
 		clientToolbar.removeNavigation(navButton);

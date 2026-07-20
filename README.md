@@ -35,6 +35,15 @@ Styles the target is immune to (e.g. melee at Zulrah) are omitted.
 - Ammo compatibility is enforced (arrow tiers per bow, dragon bolts only in
   dragon-tier crossbows, bolt racks only in Karil's, javelins in ballistae).
 
+## Party bank sharing (opt-in)
+
+Enable **Share banks with party** and join a RuneLite party with your group
+(e.g. your GIM team): everyone with the setting on shares their equippable
+item list (ids and quantities only - no wealth values, no locations) through
+the RuneLite party service. Recommendations then include gear a party member
+could lend, marked "(party)" in the results. Disabled by default; nothing is
+ever shared while the setting is off.
+
 ## Current limitations
 
 - Magic recommendations only consider powered staves (trident/sang/shadow,
