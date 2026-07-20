@@ -3,6 +3,7 @@ package com.duckblade.osrs.dpscalc.calc.gearbonus;
 import com.duckblade.osrs.dpscalc.calc.EquipmentItemIdsComputable;
 import com.duckblade.osrs.dpscalc.calc.compute.ComputeContext;
 import com.duckblade.osrs.dpscalc.calc.compute.ComputeInputs;
+import com.duckblade.osrs.dpscalc.calc.exceptions.MissingInputException;
 import com.duckblade.osrs.dpscalc.calc.model.GearBonuses;
 import com.duckblade.osrs.dpscalc.calc.model.Spell;
 import com.google.common.collect.ImmutableSet;
@@ -30,7 +31,7 @@ public class LeafyGearBonus implements GearBonusComputable
 		ItemID.LEAFBLADED_BATTLEAXE
 	);
 
-	private static final Set<Integer> LEAF_BLADED_AMMO = ImmutableSet.of(
+	public static final Set<Integer> LEAF_BLADED_AMMO = ImmutableSet.of(
 		ItemID.BROAD_ARROWS, // also unused, i think
 		ItemID.BROAD_ARROWS_4160,
 		ItemID.BROAD_BOLTS,
@@ -57,7 +58,15 @@ public class LeafyGearBonus implements GearBonusComputable
 		switch (context.get(ComputeInputs.ATTACK_STYLE).getAttackType())
 		{
 			case MAGIC:
-				Spell spell = context.get(ComputeInputs.SPELL);
+				Spell spell;
+				try
+				{
+					spell = context.get(ComputeInputs.SPELL);
+				}
+				catch (MissingInputException e)
+				{
+					spell = null; // powered staff paths supply no spell; treated as non-magic-dart below
+				}
 				if (LEAF_BLADED_SPELLS.contains(spell))
 				{
 					return GearBonuses.EMPTY;

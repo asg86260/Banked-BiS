@@ -28,15 +28,24 @@ Styles the target is immune to (e.g. melee at Zulrah) are omitted.
   your best darts for the blowpipe.
 - Slayer task presets assume you are on-task (slayer helmet bonuses apply).
 
+- Void, Inquisitor's, and crystal armour sets are evaluated as complete sets
+  when you own the pieces, alongside conventional gear.
+- Slayer helmets, salve amulets, tomes, and broad ammo are recognized as
+  special-cased items, not just stat sticks.
+- Ammo compatibility is enforced (arrow tiers per bow, dragon bolts only in
+  dragon-tier crossbows, bolt racks only in Karil's, javelins in ballistae).
+
 ## Current limitations
 
-- Magic recommendations only consider powered staves (trident/sang/shadow
-  etc.); autocast spell selection is not implemented yet.
-- Set effects that only pay off when complete (Void, Dharok's) can be
-  under-recommended.
+- Magic recommendations only consider powered staves (trident/sang/shadow,
+  Thammaron's/accursed sceptres, etc.); autocast spell selection is not
+  implemented yet.
+- Rigour and Augury are assumed unlocked if your prayer level allows them.
 - Items are matched by exact id, so an uncharged/broken variant of an item is
   treated as a different item than its usable form.
 - Special attacks are not modeled; recommendations are sustained DPS only.
+- Dharok's set (scales with missing HP) is not recommended since sustained
+  full-HP DPS is assumed.
 
 ## Data sources & credits
 

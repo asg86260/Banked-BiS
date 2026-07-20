@@ -26,9 +26,6 @@ import net.runelite.client.util.ImageUtil;
 public class BankBisPlugin extends Plugin
 {
 	@Inject
-	private BankBisConfig config;
-
-	@Inject
 	private EventBus eventBus;
 
 	@Inject
@@ -77,6 +74,7 @@ public class BankBisPlugin extends Plugin
 	{
 		eventBus.unregister(ownedItemsService);
 		ownedItemsService.flush();
+		wikiDataService.shutdown();
 		clientToolbar.removeNavigation(navButton);
 	}
 

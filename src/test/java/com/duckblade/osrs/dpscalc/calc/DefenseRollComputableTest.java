@@ -5,6 +5,7 @@ import com.duckblade.osrs.dpscalc.calc.compute.ComputeInputs;
 import com.duckblade.osrs.dpscalc.calc.defender.DefenderSkillsComputable;
 import com.duckblade.osrs.dpscalc.calc.defender.DefenseRollComputable;
 import com.duckblade.osrs.dpscalc.calc.model.AttackType;
+import com.duckblade.osrs.dpscalc.calc.model.DefenderAttributes;
 import com.duckblade.osrs.dpscalc.calc.model.DefensiveBonuses;
 import com.duckblade.osrs.dpscalc.calc.model.Skills;
 import static com.duckblade.osrs.dpscalc.calc.testutil.AttackStyleUtil.ofAttackType;
@@ -55,8 +56,19 @@ class DefenseRollComputableTest
 	void isCorrectForMagic()
 	{
 		when(context.get(ComputeInputs.ATTACK_STYLE)).thenReturn(ofAttackType(AttackType.MAGIC));
+		when(context.get(ComputeInputs.DEFENDER_ATTRIBUTES)).thenReturn(DefenderAttributes.EMPTY);
 
 		assertEquals((34 + 9) * (90 + 64), defenseRollComputable.compute(context));
+	}
+
+	@Test
+	void usesDefenceLevelForMagicAgainstVerzik()
+	{
+		when(context.get(ComputeInputs.ATTACK_STYLE)).thenReturn(ofAttackType(AttackType.MAGIC));
+		when(context.get(ComputeInputs.DEFENDER_ATTRIBUTES)).thenReturn(
+			DefenderAttributes.builder().npcId(8374).build()); // verzik p3
+
+		assertEquals((12 + 9) * (90 + 64), defenseRollComputable.compute(context));
 	}
 
 	@Test

@@ -1,19 +1,11 @@
 package com.bankbis.data;
 
+import com.bankbis.testutil.TestFixtures;
 import com.duckblade.osrs.dpscalc.calc.model.DefenderAttributes;
 import com.duckblade.osrs.dpscalc.calc.model.DefensiveBonuses;
 import com.duckblade.osrs.dpscalc.calc.model.ItemStats;
 import com.duckblade.osrs.dpscalc.calc.model.WeaponCategory;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import net.runelite.api.Skill;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -28,32 +20,10 @@ class WikiDataMapperTest
 	private static Map<String, MonsterJson> monsters;
 
 	@BeforeAll
-	static void loadFixtures() throws Exception
+	static void loadFixtures()
 	{
-		Gson gson = new Gson();
-		Type eqType = new TypeToken<List<EquipmentJson>>()
-		{
-		}.getType();
-		Type monType = new TypeToken<List<MonsterJson>>()
-		{
-		}.getType();
-
-		try (Reader r = open("equipment-sample.json"))
-		{
-			List<EquipmentJson> parsed = gson.fromJson(r, eqType);
-			equipment = parsed.stream().collect(Collectors.toMap(EquipmentJson::getId, Function.identity()));
-		}
-		try (Reader r = open("monsters-sample.json"))
-		{
-			List<MonsterJson> parsed = gson.fromJson(r, monType);
-			monsters = parsed.stream().collect(Collectors.toMap(WikiDataMapper::displayName, Function.identity()));
-		}
-	}
-
-	private static Reader open(String name)
-	{
-		return new InputStreamReader(
-			WikiDataMapperTest.class.getResourceAsStream(name), StandardCharsets.UTF_8);
+		equipment = TestFixtures.equipmentById(WikiDataMapperTest.class, "equipment-sample.json");
+		monsters = TestFixtures.monstersByDisplayName(WikiDataMapperTest.class, "monsters-sample.json");
 	}
 
 	@Test

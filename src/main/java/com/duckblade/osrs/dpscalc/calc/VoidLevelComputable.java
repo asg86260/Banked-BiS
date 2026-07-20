@@ -19,49 +19,49 @@ import net.runelite.api.ItemID;
 public class VoidLevelComputable implements Computable<VoidLevel>
 {
 
-	private static final Set<Integer> VOID_MELEE_HELMS = ImmutableSet.of(
+	public static final Set<Integer> VOID_MELEE_HELMS = ImmutableSet.of(
 		ItemID.VOID_MELEE_HELM,
 		ItemID.VOID_MELEE_HELM_L,
 		ItemID.VOID_MELEE_HELM_OR
 	);
 
-	private static final Set<Integer> VOID_RANGER_HELMS = ImmutableSet.of(
+	public static final Set<Integer> VOID_RANGER_HELMS = ImmutableSet.of(
 		ItemID.VOID_RANGER_HELM,
 		ItemID.VOID_RANGER_HELM_L,
 		ItemID.VOID_RANGER_HELM_OR
 	);
 
-	private static final Set<Integer> VOID_MAGE_HELMS = ImmutableSet.of(
+	public static final Set<Integer> VOID_MAGE_HELMS = ImmutableSet.of(
 		ItemID.VOID_MAGE_HELM,
 		ItemID.VOID_MAGE_HELM_L,
 		ItemID.VOID_MAGE_HELM_OR
 	);
 
-	private static final Set<Integer> VOID_KNIGHT_TOPS = ImmutableSet.of(
+	public static final Set<Integer> VOID_KNIGHT_TOPS = ImmutableSet.of(
 		ItemID.VOID_KNIGHT_TOP,
 		ItemID.VOID_KNIGHT_TOP_L,
 		ItemID.VOID_KNIGHT_TOP_OR
 	);
 
-	private static final Set<Integer> ELITE_VOID_TOPS = ImmutableSet.of(
+	public static final Set<Integer> ELITE_VOID_TOPS = ImmutableSet.of(
 		ItemID.ELITE_VOID_TOP,
 		ItemID.ELITE_VOID_TOP_L,
 		ItemID.ELITE_VOID_TOP_OR
 	);
 
-	private static final Set<Integer> VOID_KNIGHT_ROBES = ImmutableSet.of(
+	public static final Set<Integer> VOID_KNIGHT_ROBES = ImmutableSet.of(
 		ItemID.VOID_KNIGHT_ROBE,
 		ItemID.VOID_KNIGHT_ROBE_L,
 		ItemID.VOID_KNIGHT_ROBE_OR
 	);
 
-	private static final Set<Integer> ELITE_VOID_ROBES = ImmutableSet.of(
+	public static final Set<Integer> ELITE_VOID_ROBES = ImmutableSet.of(
 		ItemID.ELITE_VOID_ROBE,
 		ItemID.ELITE_VOID_ROBE_L,
 		ItemID.ELITE_VOID_ROBE_OR
 	);
 
-	private static final Set<Integer> VOID_KNIGHT_GLOVES = ImmutableSet.of(
+	public static final Set<Integer> VOID_KNIGHT_GLOVES = ImmutableSet.of(
 		ItemID.VOID_KNIGHT_GLOVES,
 		ItemID.VOID_KNIGHT_GLOVES_L,
 		ItemID.VOID_KNIGHT_GLOVES_OR

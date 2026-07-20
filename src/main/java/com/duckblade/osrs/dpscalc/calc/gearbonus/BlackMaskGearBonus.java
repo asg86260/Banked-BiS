@@ -19,7 +19,7 @@ import net.runelite.api.ItemID;
 public class BlackMaskGearBonus implements GearBonusComputable
 {
 
-	private static final Set<Integer> BLACK_MASKS_MAGE_RANGED = ImmutableSet.of(
+	public static final Set<Integer> BLACK_MASKS_MAGE_RANGED = ImmutableSet.of(
 		ItemID.BLACK_MASK_I,
 		ItemID.BLACK_MASK_I_25276,
 		ItemID.BLACK_MASK_I_26781,
@@ -88,7 +88,7 @@ public class BlackMaskGearBonus implements GearBonusComputable
 		ItemID.VAMPYRIC_SLAYER_HELMET_I_26683
 	);
 
-	private static final Set<Integer> BLACK_MASKS_MELEE = Sets.union(ImmutableSet.of(
+	public static final Set<Integer> BLACK_MASKS_MELEE = Sets.union(ImmutableSet.of(
 		ItemID.BLACK_MASK,
 		ItemID.BLACK_MASK_1,
 		ItemID.BLACK_MASK_2,

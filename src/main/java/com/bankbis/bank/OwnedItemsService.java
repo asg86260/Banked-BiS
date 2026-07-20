@@ -1,5 +1,6 @@
 package com.bankbis.bank;
 
+import com.bankbis.data.PluginData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.File;
@@ -8,8 +9,6 @@ import java.io.Reader;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -27,7 +26,6 @@ import net.runelite.api.Item;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.ItemContainerChanged;
 import net.runelite.api.gameval.InventoryID;
-import net.runelite.client.RuneLite;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.game.ItemManager;
 
@@ -37,6 +35,13 @@ import net.runelite.client.game.ItemManager;
  * them and persisted per-account, so a full picture is available even after
  * the bank is closed or the client restarted (bank/group storage require
  * having been opened at least once).
+ *
+ * <p>Threading: event handlers run on the client thread; disk IO runs on the
+ * shared executor. All mutable state ({@code owned}, {@code loadedAccount},
+ * {@code pendingSave}) is guarded by this object's monitor. Async tasks
+ * re-validate the account they captured against {@code loadedAccount} before
+ * touching state or disk, so a quick relog/world-hop can never write one
+ * account's items into another account's file.
  */
 @Slf4j
 @Singleton
@@ -57,13 +62,13 @@ public class OwnedItemsService
 	{
 	}.getType();
 
+	private static final long SAVE_DEBOUNCE_MS = 5_000;
+
 	private final Client client;
 	private final ItemManager itemManager;
 	private final Gson gson;
 	private final ScheduledExecutorService executor;
 	private final File dataDir;
-
-	private static final long SAVE_DEBOUNCE_MS = 5_000;
 
 	private final Map<Source, Map<Integer, Integer>> owned = new EnumMap<>(Source.class);
 	private long loadedAccount = -1;
@@ -72,7 +77,7 @@ public class OwnedItemsService
 	@Inject
 	public OwnedItemsService(Client client, ItemManager itemManager, Gson gson, ScheduledExecutorService executor)
 	{
-		this(client, itemManager, gson, executor, new File(RuneLite.RUNELITE_DIR, "bank-bis"));
+		this(client, itemManager, gson, executor, PluginData.DIR);
 	}
 
 	OwnedItemsService(Client client, ItemManager itemManager, Gson gson, ScheduledExecutorService executor, File dataDir)
@@ -103,14 +108,13 @@ public class OwnedItemsService
 		}
 
 		long account = client.getAccountHash();
-		if (account == -1 || account == loadedAccount)
+		synchronized (this)
 		{
-			return;
-		}
-
-		cancelPendingSave(); // don't let a stale save write the old account's items
-		synchronized (owned)
-		{
+			if (account == -1 || account == loadedAccount)
+			{
+				return;
+			}
+			cancelPendingSave();
 			owned.clear();
 			loadedAccount = account;
 		}
@@ -146,7 +150,7 @@ public class OwnedItemsService
 		{
 			return;
 		}
-		pendingSave = executor.schedule(() -> saveToDisk(account, copyOwned()), SAVE_DEBOUNCE_MS, TimeUnit.MILLISECONDS);
+		pendingSave = executor.schedule(() -> saveIfCurrent(account), SAVE_DEBOUNCE_MS, TimeUnit.MILLISECONDS);
 	}
 
 	private synchronized void cancelPendingSave()
@@ -164,16 +168,15 @@ public class OwnedItemsService
 	 */
 	public void flush()
 	{
-		cancelPendingSave();
 		long account;
-		synchronized (owned)
+		synchronized (this)
 		{
+			cancelPendingSave();
 			account = loadedAccount;
 		}
 		if (account != -1)
 		{
-			Map<Source, Map<Integer, Integer>> copy = copyOwned();
-			executor.execute(() -> saveToDisk(account, copy));
+			executor.execute(() -> saveIfCurrent(account));
 		}
 	}
 
@@ -195,7 +198,7 @@ public class OwnedItemsService
 			quantities.merge(id, item.getQuantity(), Integer::sum);
 		}
 
-		synchronized (owned)
+		synchronized (this)
 		{
 			owned.put(source, quantities);
 		}
@@ -209,46 +212,36 @@ public class OwnedItemsService
 		return getOwnedQuantitiesExcluding(null);
 	}
 
-	public Map<Integer, Integer> getOwnedQuantitiesExcluding(Source excluded)
+	public synchronized Map<Integer, Integer> getOwnedQuantitiesExcluding(Source excluded)
 	{
 		Map<Integer, Integer> merged = new HashMap<>();
-		synchronized (owned)
+		owned.forEach((source, items) ->
 		{
-			owned.forEach((source, items) ->
+			if (source != excluded)
 			{
-				if (source != excluded)
-				{
-					items.forEach((id, qty) -> merged.merge(id, qty, Integer::sum));
-				}
-			});
-		}
+				items.forEach((id, qty) -> merged.merge(id, qty, Integer::sum));
+			}
+		});
 		return merged;
 	}
 
-	public Map<Integer, Integer> getSource(Source source)
+	public synchronized boolean hasBankSnapshot()
 	{
-		synchronized (owned)
-		{
-			Map<Integer, Integer> quantities = owned.get(source);
-			return quantities == null ? Collections.emptyMap() : new HashMap<>(quantities);
-		}
+		return owned.containsKey(Source.BANK);
 	}
 
-	public boolean hasBankSnapshot()
+	/**
+	 * @return a deep copy of current state, or null if the given account is
+	 * no longer the loaded one (stale async task).
+	 */
+	private synchronized Map<Source, Map<Integer, Integer>> snapshotIfCurrent(long account)
 	{
-		synchronized (owned)
+		if (account != loadedAccount)
 		{
-			return owned.containsKey(Source.BANK);
+			return null;
 		}
-	}
-
-	private Map<Source, Map<Integer, Integer>> copyOwned()
-	{
 		Map<Source, Map<Integer, Integer>> copy = new EnumMap<>(Source.class);
-		synchronized (owned)
-		{
-			owned.forEach((k, v) -> copy.put(k, new HashMap<>(v)));
-		}
+		owned.forEach((k, v) -> copy.put(k, new HashMap<>(v)));
 		return copy;
 	}
 
@@ -265,35 +258,43 @@ public class OwnedItemsService
 			return;
 		}
 
+		Map<Source, Map<Integer, Integer>> persisted;
 		try (Reader reader = Files.newBufferedReader(file.toPath(), StandardCharsets.UTF_8))
 		{
-			Map<Source, Map<Integer, Integer>> persisted = gson.fromJson(reader, PERSIST_TYPE);
-			if (persisted == null)
-			{
-				return;
-			}
-			synchronized (owned)
-			{
-				// live container updates win over persisted state
-				persisted.forEach(owned::putIfAbsent);
-			}
-			log.debug("Loaded owned-items snapshot for account {}", Long.toHexString(account));
+			persisted = gson.fromJson(reader, PERSIST_TYPE);
 		}
 		catch (Exception e)
 		{
 			log.warn("Failed to load owned-items snapshot", e);
+			return;
 		}
+		if (persisted == null)
+		{
+			return;
+		}
+
+		synchronized (this)
+		{
+			if (account != loadedAccount)
+			{
+				return; // player already switched accounts; drop the stale load
+			}
+			// live container updates win over persisted state
+			persisted.forEach(owned::putIfAbsent);
+		}
+		log.debug("Loaded owned-items snapshot for account {}", Long.toHexString(account));
 	}
 
-	private void saveToDisk(long account, Map<Source, Map<Integer, Integer>> snapshot)
+	private void saveIfCurrent(long account)
 	{
-		File file = fileFor(account);
+		Map<Source, Map<Integer, Integer>> snapshot = snapshotIfCurrent(account);
+		if (snapshot == null)
+		{
+			return;
+		}
 		try
 		{
-			Files.createDirectories(dataDir.toPath());
-			Path tmp = file.toPath().resolveSibling(file.getName() + ".tmp");
-			Files.write(tmp, gson.toJson(snapshot, PERSIST_TYPE).getBytes(StandardCharsets.UTF_8));
-			Files.move(tmp, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			PluginData.writeAtomically(fileFor(account), gson.toJson(snapshot, PERSIST_TYPE).getBytes(StandardCharsets.UTF_8));
 		}
 		catch (IOException e)
 		{

@@ -19,15 +19,15 @@ import net.runelite.api.ItemID;
 public class InquisitorsGearBonus implements GearBonusComputable
 {
 
-	private static final Set<Integer> INQ_HELM_IDS = ImmutableSet.of(
+	public static final Set<Integer> INQ_HELM_IDS = ImmutableSet.of(
 		ItemID.INQUISITORS_GREAT_HELM
 	);
 
-	private static final Set<Integer> INQ_BODY_IDS = ImmutableSet.of(
+	public static final Set<Integer> INQ_BODY_IDS = ImmutableSet.of(
 		ItemID.INQUISITORS_HAUBERK
 	);
 
-	private static final Set<Integer> INQ_LEGS_IDS = ImmutableSet.of(
+	public static final Set<Integer> INQ_LEGS_IDS = ImmutableSet.of(
 		ItemID.INQUISITORS_PLATESKIRT
 	);
 

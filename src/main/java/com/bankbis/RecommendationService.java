@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import lombok.RequiredArgsConstructor;
@@ -51,8 +52,20 @@ public class RecommendationService
 	public CompletableFuture<Result> recommend(ContentPreset preset)
 	{
 		CompletableFuture<Skills> skillsFuture = new CompletableFuture<>();
-		clientThread.invoke(() -> skillsFuture.complete(snapshotSkills()));
-		return skillsFuture.thenApplyAsync(skills -> compute(preset, skills), executor);
+		clientThread.invoke(() ->
+		{
+			try
+			{
+				skillsFuture.complete(snapshotSkills());
+			}
+			catch (Exception e)
+			{
+				skillsFuture.completeExceptionally(e);
+			}
+		});
+		return skillsFuture
+			.orTimeout(15, TimeUnit.SECONDS) // never leave the panel wedged on "Computing..."
+			.thenApplyAsync(skills -> compute(preset, skills), executor);
 	}
 
 	private Skills snapshotSkills()

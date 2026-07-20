@@ -3,9 +3,12 @@ package com.bankbis.data;
 import com.duckblade.osrs.dpscalc.calc.model.ItemStats;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -56,6 +59,9 @@ public class WikiDataService
 	private final Gson gson;
 	private final ScheduledExecutorService executor;
 	private final File cacheDir;
+	private final List<Call> inFlight = Collections.synchronizedList(new ArrayList<>());
+
+	private CompletableFuture<Void> loadFuture;
 
 	@Getter
 	private volatile Map<Integer, ItemStats> itemStatsById = Collections.emptyMap();
@@ -66,7 +72,7 @@ public class WikiDataService
 	@Inject
 	public WikiDataService(OkHttpClient okHttpClient, Gson gson, ScheduledExecutorService executor)
 	{
-		this(okHttpClient, gson, executor, new File(RuneLite.RUNELITE_DIR, "bank-bis"));
+		this(okHttpClient, gson, executor, PluginData.DIR);
 	}
 
 	WikiDataService(OkHttpClient okHttpClient, Gson gson, ScheduledExecutorService executor, File cacheDir)
@@ -86,9 +92,34 @@ public class WikiDataService
 	/**
 	 * Loads both data files, from network if the disk cache is stale,
 	 * falling back to the disk cache when the network is unavailable.
-	 * Never call on the client thread.
+	 * Concurrent calls share one load. Never call on the client thread.
 	 */
-	public CompletableFuture<Void> load()
+	public synchronized CompletableFuture<Void> load()
+	{
+		if (loadFuture != null && !loadFuture.isDone())
+		{
+			return loadFuture;
+		}
+		loadFuture = doLoad();
+		return loadFuture;
+	}
+
+	/**
+	 * Cancels any in-flight downloads. Call on plugin shutdown.
+	 */
+	public void shutdown()
+	{
+		synchronized (inFlight)
+		{
+			for (Call call : inFlight)
+			{
+				call.cancel();
+			}
+			inFlight.clear();
+		}
+	}
+
+	private CompletableFuture<Void> doLoad()
 	{
 		CompletableFuture<Void> equipment = loadFile("equipment.json", EQUIPMENT_TYPE, (List<EquipmentJson> parsed) ->
 		{
@@ -148,17 +179,24 @@ public class WikiDataService
 		// even the freshness stat() belongs off the caller's thread
 		executor.execute(() ->
 		{
-			try
+			if (isFresh(cached))
 			{
-				if (isFresh(cached))
+				try
 				{
 					parseFromDisk(cached, type, onParsed);
 					future.complete(null);
+					return;
 				}
-				else
+				catch (Exception e)
 				{
-					fetch(fileName, type, onParsed, cached, future);
+					// fresh but unreadable (corrupt write, av interference):
+					// fall through and self-heal from the network
+					log.warn("Cached {} is unreadable, refetching", fileName, e);
 				}
+			}
+			try
+			{
+				fetch(fileName, type, onParsed, cached, future);
 			}
 			catch (Exception e)
 			{
@@ -171,11 +209,14 @@ public class WikiDataService
 	private <T> void fetch(String fileName, Type type, Consumer<T> onParsed, File cached, CompletableFuture<Void> future)
 	{
 		Request request = new Request.Builder().url(BASE_URL + fileName).build();
-		okHttpClient.newCall(request).enqueue(new Callback()
+		Call call = okHttpClient.newCall(request);
+		inFlight.add(call);
+		call.enqueue(new Callback()
 		{
 			@Override
 			public void onResponse(Call call, Response response)
 			{
+				inFlight.remove(call);
 				try (ResponseBody body = response.body())
 				{
 					if (!response.isSuccessful() || body == null)
@@ -183,7 +224,8 @@ public class WikiDataService
 						throw new IOException("Request for " + fileName + " failed: " + response);
 					}
 					byte[] bytes = body.bytes();
-					T parsed = gson.fromJson(new String(bytes, StandardCharsets.UTF_8), type);
+					T parsed = gson.fromJson(
+						new InputStreamReader(new ByteArrayInputStream(bytes), StandardCharsets.UTF_8), type);
 					onParsed.accept(parsed);
 					writeCache(cached, bytes);
 					future.complete(null);
@@ -197,6 +239,7 @@ public class WikiDataService
 			@Override
 			public void onFailure(Call call, IOException e)
 			{
+				inFlight.remove(call);
 				fallBackToDisk(e);
 			}
 

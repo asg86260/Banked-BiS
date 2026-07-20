@@ -1,25 +1,14 @@
 package com.bankbis.optimizer;
 
-import com.bankbis.data.EquipmentJson;
-import com.bankbis.data.MonsterJson;
 import com.bankbis.data.NpcStats;
-import com.bankbis.data.WikiDataMapper;
+import com.bankbis.testutil.TestFixtures;
 import com.duckblade.osrs.dpscalc.calc.DpsComputeModule;
 import com.duckblade.osrs.dpscalc.calc.model.ItemStats;
-import com.duckblade.osrs.dpscalc.calc.model.Skills;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.google.inject.Guice;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import net.runelite.api.EquipmentInventorySlot;
-import net.runelite.api.Skill;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -34,54 +23,18 @@ class LoadoutOptimizerTest
 	private static LoadoutOptimizer optimizer;
 
 	@BeforeAll
-	static void setUp() throws Exception
+	static void setUp()
 	{
-		Gson gson = new Gson();
-		Type eqType = new TypeToken<List<EquipmentJson>>()
-		{
-		}.getType();
-		Type monType = new TypeToken<List<MonsterJson>>()
-		{
-		}.getType();
-
-		try (Reader r = open("equipment-owned.json"))
-		{
-			List<EquipmentJson> parsed = gson.fromJson(r, eqType);
-			owned = parsed.stream().map(WikiDataMapper::toItemStats).collect(Collectors.toList());
-		}
-		try (Reader r = open("monsters-preset.json"))
-		{
-			List<MonsterJson> parsed = gson.fromJson(r, monType);
-			monsters = parsed.stream().collect(Collectors.toMap(WikiDataMapper::displayName, NpcStats::of));
-		}
-
+		owned = TestFixtures.loadItemStats(LoadoutOptimizerTest.class, "equipment-owned.json");
+		monsters = TestFixtures.npcStatsByDisplayName(LoadoutOptimizerTest.class, "monsters-preset.json");
 		optimizer = Guice.createInjector(new DpsComputeModule()).getInstance(LoadoutOptimizer.class);
-	}
-
-	private static Reader open(String name)
-	{
-		return new InputStreamReader(
-			LoadoutOptimizerTest.class.getResourceAsStream(name), StandardCharsets.UTF_8);
-	}
-
-	private static Skills maxedWithBoosts()
-	{
-		return Skills.builder()
-			.level(Skill.ATTACK, 99).boost(Skill.ATTACK, 19)
-			.level(Skill.STRENGTH, 99).boost(Skill.STRENGTH, 19)
-			.level(Skill.DEFENCE, 99).boost(Skill.DEFENCE, 19)
-			.level(Skill.RANGED, 99).boost(Skill.RANGED, 13)
-			.level(Skill.MAGIC, 99).boost(Skill.MAGIC, 13)
-			.level(Skill.HITPOINTS, 99)
-			.level(Skill.PRAYER, 99)
-			.build();
 	}
 
 	private static OptimizeRequest request(String monster)
 	{
 		return OptimizeRequest.builder()
 			.ownedEquipment(owned)
-			.playerSkills(maxedWithBoosts())
+			.playerSkills(TestFixtures.maxedWithBoosts())
 			.target(monsters.get(monster))
 			.build();
 	}
@@ -151,17 +104,51 @@ class LoadoutOptimizerTest
 	}
 
 	@Test
-	void slayerHelmNotInFixtureButTaskFlagDoesNotBreak()
+	void slayerHelmetChosenOnTaskDespiteZeroStats()
 	{
 		OptimizeRequest onTask = OptimizeRequest.builder()
 			.ownedEquipment(owned)
-			.playerSkills(maxedWithBoosts())
+			.playerSkills(TestFixtures.maxedWithBoosts())
 			.target(monsters.get("Abyssal demon (Standard)"))
 			.onSlayerTask(true)
 			.build();
-		Optional<Loadout> result = optimizer.optimizeClass(onTask, CombatClass.MELEE);
-		assertTrue(result.isPresent());
-		assertTrue(result.get().getDps() > 0);
+		Loadout loadout = optimizer.optimizeClass(onTask, CombatClass.MELEE).orElseThrow(IllegalStateException::new);
+		assertEquals("Slayer helmet (i)", loadout.getItems().get(EquipmentInventorySlot.HEAD).getName());
+	}
+
+	@Test
+	void salveBeatsTortureAgainstUndeadVorkath()
+	{
+		Loadout loadout = optimizer.optimizeClass(request("Vorkath (Post-quest)"), CombatClass.MELEE)
+			.orElseThrow(IllegalStateException::new);
+		assertTrue(loadout.getItems().get(EquipmentInventorySlot.AMULET).getName().startsWith("Salve amulet"),
+			"expected salve vs undead, got " + loadout.getItems().get(EquipmentInventorySlot.AMULET).getName());
+	}
+
+	@Test
+	void pruneKeepsZeroStatSpecialItems()
+	{
+		ItemStats slayerHelm = owned.stream()
+			.filter(i -> "Slayer helmet (i)".equals(i.getName())).findFirst().orElseThrow(IllegalStateException::new);
+		ItemStats torvaHelm = owned.stream()
+			.filter(i -> "Torva full helm".equals(i.getName())).findFirst().orElseThrow(IllegalStateException::new);
+
+		List<ItemStats> kept = optimizer.prune(List.of(slayerHelm, torvaHelm), CombatClass.MELEE);
+		assertTrue(kept.contains(slayerHelm), "slayer helmet must survive dominance pruning");
+		assertTrue(kept.contains(torvaHelm));
+	}
+
+	@Test
+	void dragonBoltsNotPairedWithRuneCrossbow()
+	{
+		Optional<Loadout> result = optimizer.optimizeClass(request("General Graardor"), CombatClass.RANGED);
+		Loadout loadout = result.orElseThrow(IllegalStateException::new);
+		String weapon = loadout.getItems().get(EquipmentInventorySlot.WEAPON).getName();
+		ItemStats ammo = loadout.getItems().get(EquipmentInventorySlot.AMMO);
+		if ("Rune crossbow".equals(weapon) && ammo != null)
+		{
+			assertFalse(ammo.getName().contains("dragon bolts"), "rune crossbow cannot fire dragon bolts");
+		}
 	}
 
 	@Test

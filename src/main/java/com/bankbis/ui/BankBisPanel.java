@@ -134,6 +134,8 @@ public class BankBisPanel extends PluginPanel
 		{
 			log.warn("Recommendation failed", error);
 			statusLabel.setText("Something went wrong; see logs.");
+			resultsPanel.revalidate();
+			resultsPanel.repaint();
 			return;
 		}
 

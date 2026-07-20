@@ -1,14 +1,8 @@
 package com.bankbis.content;
 
 import com.bankbis.data.MonsterJson;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
+import com.bankbis.testutil.TestFixtures;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,17 +16,10 @@ class ContentPresetTest
 	private static Set<Integer> knownMonsterIds;
 
 	@BeforeAll
-	static void loadFixture() throws Exception
+	static void loadFixture()
 	{
-		Type monType = new TypeToken<List<MonsterJson>>()
-		{
-		}.getType();
-		try (Reader r = new InputStreamReader(
-			ContentPresetTest.class.getResourceAsStream("monsters-all-presets.json"), StandardCharsets.UTF_8))
-		{
-			List<MonsterJson> parsed = new Gson().fromJson(r, monType);
-			knownMonsterIds = parsed.stream().map(MonsterJson::getId).collect(Collectors.toSet());
-		}
+		knownMonsterIds = TestFixtures.loadMonsterJson(ContentPresetTest.class, "monsters-all-presets.json")
+			.stream().map(MonsterJson::getId).collect(Collectors.toSet());
 	}
 
 	@Test

@@ -21,7 +21,7 @@ import net.runelite.api.ItemID;
 public class TomesGearBonus implements GearBonusComputable
 {
 
-	private static final Set<Integer> TOME_OF_FIRE = ImmutableSet.of(
+	public static final Set<Integer> TOME_OF_FIRE = ImmutableSet.of(
 		ItemID.TOME_OF_FIRE
 	);
 
@@ -33,7 +33,7 @@ public class TomesGearBonus implements GearBonusComputable
 		Spell.FIRE_SURGE
 	);
 
-	private static final Set<Integer> TOME_OF_WATER = ImmutableSet.of(
+	public static final Set<Integer> TOME_OF_WATER = ImmutableSet.of(
 		ItemID.TOME_OF_WATER
 	);
 

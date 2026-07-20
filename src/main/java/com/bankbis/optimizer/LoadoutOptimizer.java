@@ -1,12 +1,23 @@
 package com.bankbis.optimizer;
 
 import com.duckblade.osrs.dpscalc.calc.DpsComputable;
+import com.duckblade.osrs.dpscalc.calc.VoidLevelComputable;
+import com.duckblade.osrs.dpscalc.calc.ammo.BlowpipeDartsItemStatsComputable;
 import com.duckblade.osrs.dpscalc.calc.compute.ComputeContext;
 import com.duckblade.osrs.dpscalc.calc.compute.ComputeInputs;
 import com.duckblade.osrs.dpscalc.calc.exceptions.DpsComputeException;
+import com.duckblade.osrs.dpscalc.calc.gearbonus.BlackMaskGearBonus;
+import com.duckblade.osrs.dpscalc.calc.gearbonus.CrystalGearBonus;
+import com.duckblade.osrs.dpscalc.calc.gearbonus.InquisitorsGearBonus;
+import com.duckblade.osrs.dpscalc.calc.gearbonus.LeafyGearBonus;
+import com.duckblade.osrs.dpscalc.calc.gearbonus.SalveAmuletGearBonus;
+import com.duckblade.osrs.dpscalc.calc.gearbonus.TomesGearBonus;
+import com.duckblade.osrs.dpscalc.calc.maxhit.magic.PoweredStaffMaxHitComputable;
 import com.duckblade.osrs.dpscalc.calc.model.AttackStyle;
 import com.duckblade.osrs.dpscalc.calc.model.CombatStyle;
 import com.duckblade.osrs.dpscalc.calc.model.ItemStats;
+import com.duckblade.osrs.dpscalc.calc.model.Prayer;
+import com.duckblade.osrs.dpscalc.calc.model.Skills;
 import com.duckblade.osrs.dpscalc.calc.model.WeaponCategory;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -17,17 +28,21 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.EquipmentInventorySlot;
+import net.runelite.api.Skill;
 
 /**
  * Finds the highest-DPS loadout the player can assemble from owned items,
- * per combat class, using beam search over equipment slots with the full
- * calc engine as the scoring function.
+ * per combat class: beam search over equipment slots with the full calc
+ * engine as the scoring function, plus forced "set templates" (Void,
+ * Inquisitor's, crystal armour) whose value only materializes when several
+ * pieces are worn together.
  */
 @Slf4j
 @Singleton
@@ -36,7 +51,8 @@ public class LoadoutOptimizer
 {
 
 	private static final int MAX_CANDIDATES_PER_SLOT = 8;
-	private static final int BEAM_WIDTH = 25;
+	private static final int MAX_WEAPON_STYLES = 10;
+	private static final int BEAM_WIDTH = 20;
 	private static final int DEFAULT_ATTACK_DISTANCE = 5;
 
 	private static final List<EquipmentInventorySlot> ARMOR_SLOTS = ImmutableList.of(
@@ -52,17 +68,36 @@ public class LoadoutOptimizer
 		EquipmentInventorySlot.RING
 	);
 
-	// v1: magic is limited to powered staves; autocast spell selection comes later
-	private static final ImmutableSet<WeaponCategory> MAGIC_CATEGORIES = ImmutableSet.of(WeaponCategory.POWERED_STAFF);
+	private static final EquipmentInventorySlot[] SLOT_BY_IDX = buildSlotIndex();
 
 	// requires herb "ammo" the engine models separately; not worth supporting yet
-	private static final ImmutableSet<WeaponCategory> EXCLUDED_CATEGORIES = ImmutableSet.of(WeaponCategory.SALAMANDER);
+	private static final Set<WeaponCategory> EXCLUDED_CATEGORIES = ImmutableSet.of(WeaponCategory.SALAMANDER);
+
+	/**
+	 * Items whose power comes from engine special cases rather than raw
+	 * stats (slayer helms, salve, tomes, broad ammo, set pieces). They must
+	 * survive dominance pruning or the engine never gets to score them.
+	 */
+	private static final Set<Integer> NEVER_PRUNE = ImmutableSet.<Integer>builder()
+		.addAll(BlackMaskGearBonus.BLACK_MASKS_MELEE)
+		.addAll(BlackMaskGearBonus.BLACK_MASKS_MAGE_RANGED)
+		.addAll(SalveAmuletGearBonus.SALVE_ALL)
+		.addAll(LeafyGearBonus.LEAF_BLADED_AMMO)
+		.addAll(TomesGearBonus.TOME_OF_FIRE)
+		.addAll(TomesGearBonus.TOME_OF_WATER)
+		.addAll(InquisitorsGearBonus.INQ_HELM_IDS)
+		.addAll(InquisitorsGearBonus.INQ_BODY_IDS)
+		.addAll(InquisitorsGearBonus.INQ_LEGS_IDS)
+		.addAll(CrystalGearBonus.CRYSTAL_HELM_IDS)
+		.addAll(CrystalGearBonus.CRYSTAL_BODY_IDS)
+		.addAll(CrystalGearBonus.CRYSTAL_LEGS_IDS)
+		.build();
 
 	private final DpsComputable dpsComputable;
 
 	/**
 	 * Best loadout per combat class, ordered best-first. Classes with no
-	 * usable weapon are omitted.
+	 * usable weapon (or that the target is immune to) are omitted.
 	 */
 	public List<Loadout> optimize(OptimizeRequest request)
 	{
@@ -78,35 +113,105 @@ public class LoadoutOptimizer
 	public Optional<Loadout> optimizeClass(OptimizeRequest request, CombatClass combatClass)
 	{
 		ItemStats darts = bestDarts(request);
-		Loadout best = null;
+		Set<Prayer> prayers = combatClass.bestPrayers(prayerLevel(request));
 
+		// weapon prefilter: rank weapon+style pairs by weapon-only dps and
+		// keep the top few before paying for full beam searches
+		List<ScoredLoadout> seeds = new ArrayList<>();
 		for (ItemStats weapon : weaponCandidates(request, combatClass, darts))
 		{
 			for (AttackStyle style : usableStyles(weapon, combatClass))
 			{
-				Loadout candidate = beamSearch(request, combatClass, weapon, style, darts);
-				if (candidate != null && (best == null || candidate.getDps() > best.getDps()))
+				Map<EquipmentInventorySlot, ItemStats> seed = new EnumMap<>(EquipmentInventorySlot.class);
+				seed.put(EquipmentInventorySlot.WEAPON, weapon);
+				double dps = evaluate(request, seed, style, prayers, darts);
+				if (dps > 0)
 				{
-					best = candidate;
+					seeds.add(new ScoredLoadout(seed, style, dps));
 				}
 			}
 		}
-		return Optional.ofNullable(best);
+		seeds.sort(Comparator.comparingDouble((ScoredLoadout s) -> s.dps).reversed());
+		if (seeds.size() > MAX_WEAPON_STYLES)
+		{
+			seeds = seeds.subList(0, MAX_WEAPON_STYLES);
+		}
+
+		// weapon-independent candidates built and pruned once per class
+		Map<EquipmentInventorySlot, List<ItemStats>> baseCandidates = baseArmorCandidates(request, combatClass);
+		List<ItemStats> shields = baseCandidates.remove(EquipmentInventorySlot.SHIELD);
+
+		ScoredLoadout best = null;
+		for (ScoredLoadout seed : seeds)
+		{
+			ItemStats weapon = seed.items.get(EquipmentInventorySlot.WEAPON);
+
+			Map<EquipmentInventorySlot, List<ItemStats>> candidates = new EnumMap<>(baseCandidates);
+			if (!weapon.is2h() && shields != null)
+			{
+				candidates.put(EquipmentInventorySlot.SHIELD, shields);
+			}
+			List<ItemStats> ammo = ammoFor(request, weapon, combatClass);
+			if (!ammo.isEmpty())
+			{
+				candidates.put(EquipmentInventorySlot.AMMO, ammo);
+			}
+
+			ScoredLoadout searched = beamSearch(request, seed, candidates, prayers, darts);
+			best = better(best, searched);
+
+			for (Map<EquipmentInventorySlot, ItemStats> template : setTemplates(request, combatClass, weapon))
+			{
+				Map<EquipmentInventorySlot, ItemStats> templatedSeed = new EnumMap<>(seed.items);
+				templatedSeed.putAll(template);
+				Map<EquipmentInventorySlot, List<ItemStats>> remaining = new EnumMap<>(candidates);
+				remaining.keySet().removeAll(template.keySet());
+				ScoredLoadout templated = beamSearch(request,
+					new ScoredLoadout(templatedSeed, seed.style, 0), remaining, prayers, darts);
+				best = better(best, templated);
+			}
+		}
+
+		if (best == null || best.dps <= 0)
+		{
+			return Optional.empty();
+		}
+		return Optional.of(Loadout.builder()
+			.combatClass(combatClass)
+			.items(best.items)
+			.attackStyle(best.style)
+			.dps(best.dps)
+			.build());
 	}
 
-	private Loadout beamSearch(OptimizeRequest request, CombatClass combatClass, ItemStats weapon, AttackStyle style, ItemStats darts)
+	private static ScoredLoadout better(ScoredLoadout a, ScoredLoadout b)
 	{
-		Map<EquipmentInventorySlot, List<ItemStats>> candidates = armorCandidates(request, combatClass, weapon);
+		if (a == null)
+		{
+			return b;
+		}
+		if (b == null)
+		{
+			return a;
+		}
+		return b.dps > a.dps ? b : a;
+	}
 
-		List<ScoredLoadout> beam = new ArrayList<>();
-		Map<EquipmentInventorySlot, ItemStats> seed = new EnumMap<>(EquipmentInventorySlot.class);
-		seed.put(EquipmentInventorySlot.WEAPON, weapon);
-		double seedScore = evaluate(request, seed, style, darts);
+	private ScoredLoadout beamSearch(
+		OptimizeRequest request,
+		ScoredLoadout seed,
+		Map<EquipmentInventorySlot, List<ItemStats>> candidates,
+		Set<Prayer> prayers,
+		ItemStats darts)
+	{
+		double seedScore = evaluate(request, seed.items, seed.style, prayers, darts);
 		if (seedScore < 0)
 		{
-			return null; // weapon itself doesn't produce a computable dps
+			return null;
 		}
-		beam.add(new ScoredLoadout(seed, seedScore));
+
+		List<ScoredLoadout> beam = new ArrayList<>();
+		beam.add(new ScoredLoadout(seed.items, seed.style, seedScore));
 
 		for (EquipmentInventorySlot slot : ARMOR_SLOTS)
 		{
@@ -123,10 +228,10 @@ public class LoadoutOptimizer
 				{
 					Map<EquipmentInventorySlot, ItemStats> extended = new EnumMap<>(partial.items);
 					extended.put(slot, item);
-					double score = evaluate(request, extended, style, darts);
+					double score = evaluate(request, extended, seed.style, prayers, darts);
 					if (score >= 0)
 					{
-						next.add(new ScoredLoadout(extended, score));
+						next.add(new ScoredLoadout(extended, seed.style, score));
 					}
 				}
 			}
@@ -134,31 +239,26 @@ public class LoadoutOptimizer
 			beam = next.size() > BEAM_WIDTH ? new ArrayList<>(next.subList(0, BEAM_WIDTH)) : next;
 		}
 
-		ScoredLoadout top = beam.get(0);
-		if (top.dps <= 0)
-		{
-			return null; // target is immune to this combat class (e.g. melee at Zulrah)
-		}
-		return Loadout.builder()
-			.combatClass(combatClass)
-			.items(top.items)
-			.attackStyle(style)
-			.dps(top.dps)
-			.build();
+		return beam.get(0);
 	}
 
 	/**
 	 * @return dps, or -1 if this combination cannot be computed (missing
-	 * inputs, immune target, etc.)
+	 * inputs, unsupported weapon, etc.)
 	 */
-	private double evaluate(OptimizeRequest request, Map<EquipmentInventorySlot, ItemStats> items, AttackStyle style, ItemStats darts)
+	private double evaluate(
+		OptimizeRequest request,
+		Map<EquipmentInventorySlot, ItemStats> items,
+		AttackStyle style,
+		Set<Prayer> prayers,
+		ItemStats darts)
 	{
 		try
 		{
 			ComputeContext context = new ComputeContext();
 			context.put(ComputeInputs.ATTACKER_SKILLS, request.getPlayerSkills());
 			context.put(ComputeInputs.ATTACKER_ITEMS, items);
-			context.put(ComputeInputs.ATTACKER_PRAYERS, ImmutableSet.of(styleClass(style).getBestPrayer()));
+			context.put(ComputeInputs.ATTACKER_PRAYERS, prayers);
 			context.put(ComputeInputs.ATTACK_STYLE, style);
 			context.put(ComputeInputs.DEFENDER_SKILLS, request.getTarget().getSkills());
 			context.put(ComputeInputs.DEFENDER_BONUSES, request.getTarget().getDefensiveBonuses());
@@ -179,16 +279,11 @@ public class LoadoutOptimizer
 		}
 	}
 
-	private CombatClass styleClass(AttackStyle style)
+	private int prayerLevel(OptimizeRequest request)
 	{
-		for (CombatClass c : CombatClass.values())
-		{
-			if (c.includes(style.getAttackType()))
-			{
-				return c;
-			}
-		}
-		return CombatClass.MELEE;
+		Skills skills = request.getPlayerSkills();
+		Integer level = skills.getLevels() == null ? null : skills.getLevels().get(Skill.PRAYER);
+		return level == null ? 0 : level;
 	}
 
 	private List<ItemStats> weaponCandidates(OptimizeRequest request, CombatClass combatClass, ItemStats darts)
@@ -201,15 +296,19 @@ public class LoadoutOptimizer
 				continue;
 			}
 			WeaponCategory category = item.getWeaponCategory();
-			if (category == null || EXCLUDED_CATEGORIES.contains(category))
+			// UNARMED as a weapon's category means the wiki category is
+			// unknown to the engine; recommending it would use punch styles
+			if (category == null || category == WeaponCategory.UNARMED || EXCLUDED_CATEGORIES.contains(category))
 			{
 				continue;
 			}
-			if (combatClass == CombatClass.MAGIC && !MAGIC_CATEGORIES.contains(category))
+			if (combatClass == CombatClass.MAGIC
+				&& !(category == WeaponCategory.POWERED_STAFF
+				&& PoweredStaffMaxHitComputable.SUPPORTED_STAFF_IDS.contains(item.getItemId())))
 			{
 				continue;
 			}
-			if (isBlowpipe(item) && darts == null)
+			if (BlowpipeDartsItemStatsComputable.BLOWPIPE_IDS.contains(item.getItemId()) && darts == null)
 			{
 				continue;
 			}
@@ -241,64 +340,76 @@ public class LoadoutOptimizer
 		return styles;
 	}
 
-	private Map<EquipmentInventorySlot, List<ItemStats>> armorCandidates(OptimizeRequest request, CombatClass combatClass, ItemStats weapon)
+	private Map<EquipmentInventorySlot, List<ItemStats>> baseArmorCandidates(OptimizeRequest request, CombatClass combatClass)
 	{
 		Map<EquipmentInventorySlot, List<ItemStats>> candidates = new EnumMap<>(EquipmentInventorySlot.class);
 		for (ItemStats item : request.getOwnedEquipment())
 		{
 			EquipmentInventorySlot slot = slotOf(item);
-			if (slot == null || slot == EquipmentInventorySlot.WEAPON)
-			{
-				continue;
-			}
-			if (slot == EquipmentInventorySlot.SHIELD && weapon.is2h())
-			{
-				continue;
-			}
-			if (slot == EquipmentInventorySlot.AMMO && !ammoMatches(weapon, item))
+			if (slot == null || slot == EquipmentInventorySlot.WEAPON || slot == EquipmentInventorySlot.AMMO)
 			{
 				continue;
 			}
 			candidates.computeIfAbsent(slot, s -> new ArrayList<>()).add(item);
 		}
-
 		candidates.replaceAll((slot, items) -> prune(items, combatClass));
 		return candidates;
 	}
 
 	/**
 	 * Drops items strictly dominated by another candidate in the stats the
-	 * engine actually reads for this combat class, then caps list size.
+	 * engine reads for this combat class, then caps the list. Items with
+	 * engine special cases ({@link #NEVER_PRUNE}) always survive.
 	 */
 	List<ItemStats> prune(List<ItemStats> items, CombatClass combatClass)
 	{
-		List<ItemStats> kept = new ArrayList<>();
+		List<ItemStats> specials = new ArrayList<>();
+		List<ItemStats> normals = new ArrayList<>();
 		for (ItemStats item : items)
 		{
-			boolean dominated = items.stream()
-				.anyMatch(other -> other != item && dominates(other, item, combatClass));
+			(NEVER_PRUNE.contains(item.getItemId()) ? specials : normals).add(item);
+		}
+
+		int n = normals.size();
+		int[][] vectors = new int[n][];
+		for (int i = 0; i < n; i++)
+		{
+			vectors[i] = combatClass.statsVector(normals.get(i));
+		}
+
+		List<ItemStats> kept = new ArrayList<>();
+		for (int i = 0; i < n; i++)
+		{
+			boolean dominated = false;
+			for (int j = 0; j < n && !dominated; j++)
+			{
+				dominated = j != i && dominates(vectors[j], vectors[i]);
+			}
 			if (!dominated)
 			{
-				kept.add(item);
+				kept.add(normals.get(i));
 			}
 		}
-		kept.sort(Comparator.comparingInt((ItemStats i) -> strengthOf(i, combatClass)).reversed()
-			.thenComparing(Comparator.comparingInt((ItemStats i) -> accuracySumOf(i, combatClass)).reversed()));
-		return kept.size() > MAX_CANDIDATES_PER_SLOT ? kept.subList(0, MAX_CANDIDATES_PER_SLOT) : kept;
+		kept.sort(Comparator.comparingInt((ItemStats i) -> combatClass.strengthOf(i)).reversed()
+			.thenComparing(Comparator.comparingInt((ItemStats i) -> combatClass.accuracySumOf(i)).reversed()));
+		if (kept.size() > MAX_CANDIDATES_PER_SLOT)
+		{
+			kept = new ArrayList<>(kept.subList(0, MAX_CANDIDATES_PER_SLOT));
+		}
+		kept.addAll(specials);
+		return kept;
 	}
 
-	private boolean dominates(ItemStats a, ItemStats b, CombatClass combatClass)
+	private static boolean dominates(int[] a, int[] b)
 	{
-		int[] va = statsVector(a, combatClass);
-		int[] vb = statsVector(b, combatClass);
 		boolean strictlyBetter = false;
-		for (int i = 0; i < va.length; i++)
+		for (int i = 0; i < a.length; i++)
 		{
-			if (va[i] < vb[i])
+			if (a[i] < b[i])
 			{
 				return false;
 			}
-			if (va[i] > vb[i])
+			if (a[i] > b[i])
 			{
 				strictlyBetter = true;
 			}
@@ -306,77 +417,182 @@ public class LoadoutOptimizer
 		return strictlyBetter;
 	}
 
-	private int[] statsVector(ItemStats i, CombatClass combatClass)
-	{
-		switch (combatClass)
-		{
-			case MELEE:
-				return new int[]{i.getAccuracyStab(), i.getAccuracySlash(), i.getAccuracyCrush(), i.getStrengthMelee(), i.getPrayer()};
-			case RANGED:
-				return new int[]{i.getAccuracyRanged(), i.getStrengthRanged(), i.getPrayer()};
-			case MAGIC:
-			default:
-				return new int[]{i.getAccuracyMagic(), i.getStrengthMagic(), i.getPrayer()};
-		}
-	}
+	// ---- set templates ------------------------------------------------
 
-	private int strengthOf(ItemStats i, CombatClass combatClass)
+	/**
+	 * Piece combinations whose bonus only exists when worn together, so
+	 * incremental beam search would never assemble them on its own.
+	 */
+	private List<Map<EquipmentInventorySlot, ItemStats>> setTemplates(OptimizeRequest request, CombatClass combatClass, ItemStats weapon)
 	{
-		switch (combatClass)
-		{
-			case MELEE:
-				return i.getStrengthMelee();
-			case RANGED:
-				return i.getStrengthRanged();
-			case MAGIC:
-			default:
-				return i.getStrengthMagic();
-		}
-	}
+		List<Map<EquipmentInventorySlot, ItemStats>> templates = new ArrayList<>();
 
-	private int accuracySumOf(ItemStats i, CombatClass combatClass)
-	{
-		switch (combatClass)
+		Set<Integer> voidHelms = combatClass == CombatClass.MELEE ? VoidLevelComputable.VOID_MELEE_HELMS
+			: combatClass == CombatClass.RANGED ? VoidLevelComputable.VOID_RANGER_HELMS
+			: VoidLevelComputable.VOID_MAGE_HELMS;
+		ItemStats helm = firstOwned(request, voidHelms);
+		ItemStats gloves = firstOwned(request, VoidLevelComputable.VOID_KNIGHT_GLOVES);
+		if (helm != null && gloves != null)
 		{
-			case MELEE:
-				return i.getAccuracyStab() + i.getAccuracySlash() + i.getAccuracyCrush();
-			case RANGED:
-				return i.getAccuracyRanged();
-			case MAGIC:
-			default:
-				return i.getAccuracyMagic();
-		}
-	}
-
-	private EquipmentInventorySlot slotOf(ItemStats item)
-	{
-		for (EquipmentInventorySlot slot : EquipmentInventorySlot.values())
-		{
-			if (slot.getSlotIdx() == item.getSlot())
+			ItemStats eliteTop = firstOwned(request, VoidLevelComputable.ELITE_VOID_TOPS);
+			ItemStats eliteRobe = firstOwned(request, VoidLevelComputable.ELITE_VOID_ROBES);
+			ItemStats top = eliteTop != null ? eliteTop : firstOwned(request, VoidLevelComputable.VOID_KNIGHT_TOPS);
+			ItemStats robe = eliteRobe != null ? eliteRobe : firstOwned(request, VoidLevelComputable.VOID_KNIGHT_ROBES);
+			if (top != null && robe != null)
 			{
-				return slot;
+				Map<EquipmentInventorySlot, ItemStats> voidSet = new EnumMap<>(EquipmentInventorySlot.class);
+				voidSet.put(EquipmentInventorySlot.HEAD, helm);
+				voidSet.put(EquipmentInventorySlot.BODY, top);
+				voidSet.put(EquipmentInventorySlot.LEGS, robe);
+				voidSet.put(EquipmentInventorySlot.GLOVES, gloves);
+				templates.add(voidSet);
+			}
+		}
+
+		if (combatClass == CombatClass.MELEE)
+		{
+			ItemStats inqHelm = firstOwned(request, InquisitorsGearBonus.INQ_HELM_IDS);
+			ItemStats inqBody = firstOwned(request, InquisitorsGearBonus.INQ_BODY_IDS);
+			ItemStats inqLegs = firstOwned(request, InquisitorsGearBonus.INQ_LEGS_IDS);
+			if (inqHelm != null && inqBody != null && inqLegs != null)
+			{
+				Map<EquipmentInventorySlot, ItemStats> inq = new EnumMap<>(EquipmentInventorySlot.class);
+				inq.put(EquipmentInventorySlot.HEAD, inqHelm);
+				inq.put(EquipmentInventorySlot.BODY, inqBody);
+				inq.put(EquipmentInventorySlot.LEGS, inqLegs);
+				templates.add(inq);
+			}
+		}
+
+		if (combatClass == CombatClass.RANGED && CrystalGearBonus.CRYSTAL_BOWS.contains(weapon.getItemId()))
+		{
+			// crystal bonus scales per piece; force whatever is owned
+			Map<EquipmentInventorySlot, ItemStats> crystal = new EnumMap<>(EquipmentInventorySlot.class);
+			putIfOwned(crystal, EquipmentInventorySlot.HEAD, request, CrystalGearBonus.CRYSTAL_HELM_IDS);
+			putIfOwned(crystal, EquipmentInventorySlot.BODY, request, CrystalGearBonus.CRYSTAL_BODY_IDS);
+			putIfOwned(crystal, EquipmentInventorySlot.LEGS, request, CrystalGearBonus.CRYSTAL_LEGS_IDS);
+			if (!crystal.isEmpty())
+			{
+				templates.add(crystal);
+			}
+		}
+
+		return templates;
+	}
+
+	private static void putIfOwned(Map<EquipmentInventorySlot, ItemStats> map, EquipmentInventorySlot slot, OptimizeRequest request, Set<Integer> ids)
+	{
+		ItemStats item = firstOwned(request, ids);
+		if (item != null)
+		{
+			map.put(slot, item);
+		}
+	}
+
+	private static ItemStats firstOwned(OptimizeRequest request, Set<Integer> ids)
+	{
+		for (ItemStats item : request.getOwnedEquipment())
+		{
+			if (ids.contains(item.getItemId()))
+			{
+				return item;
 			}
 		}
 		return null;
 	}
 
-	private boolean ammoMatches(ItemStats weapon, ItemStats ammo)
+	// ---- ammo ---------------------------------------------------------
+
+	private static final List<String> ARROW_TIERS = ImmutableList.of(
+		"bronze arrow", "iron arrow", "steel arrow", "mithril arrow",
+		"adamant arrow", "broad arrow", "rune arrow", "amethyst arrow", "dragon arrow");
+
+	private List<ItemStats> ammoFor(OptimizeRequest request, ItemStats weapon, CombatClass combatClass)
 	{
-		String name = ammo.getName() == null ? "" : ammo.getName().toLowerCase(Locale.ROOT);
+		if (combatClass != CombatClass.RANGED
+			|| BlowpipeDartsItemStatsComputable.BLOWPIPE_IDS.contains(weapon.getItemId())
+			|| CrystalGearBonus.CRYSTAL_BOWS.contains(weapon.getItemId()))
+		{
+			return ImmutableList.of();
+		}
+
+		String weaponName = lowerName(weapon);
+		List<ItemStats> matches = new ArrayList<>();
+		for (ItemStats item : request.getOwnedEquipment())
+		{
+			if (item.getSlot() != EquipmentInventorySlot.AMMO.getSlotIdx())
+			{
+				continue;
+			}
+			if (ammoCompatible(weapon, weaponName, item))
+			{
+				matches.add(item);
+			}
+		}
+		return prune(matches, combatClass);
+	}
+
+	private boolean ammoCompatible(ItemStats weapon, String weaponName, ItemStats ammo)
+	{
+		String name = lowerName(ammo);
 		switch (weapon.getWeaponCategory())
 		{
 			case BOW:
-				return name.contains("arrow") && !name.contains("gloves");
+				int tier = arrowTier(name);
+				if (tier < 0 || name.contains("ogre") || name.contains("brutal") || name.contains("training"))
+				{
+					return false;
+				}
+				return tier <= maxArrowTier(weaponName);
+
 			case CROSSBOW:
-				return name.contains("bolt");
+				if (weaponName.contains("karil"))
+				{
+					return name.contains("bolt rack");
+				}
+				if (weaponName.contains("ballista"))
+				{
+					return name.contains("javelin");
+				}
+				if (!name.contains("bolt") || name.contains("bolt rack") || name.contains("kebbit"))
+				{
+					return false;
+				}
+				// dragon bolts need a dragon-tier crossbow
+				if (name.contains("dragon bolts") && !weaponName.contains("dragon") && !weaponName.contains("armadyl") && !weaponName.contains("zaryte"))
+				{
+					return false;
+				}
+				return true;
+
 			default:
 				return false; // other weapons gain nothing from ammo in the engine
 		}
 	}
 
-	private boolean isBlowpipe(ItemStats item)
+	private static int arrowTier(String ammoName)
 	{
-		return item.getName() != null && item.getName().toLowerCase(Locale.ROOT).contains("blowpipe");
+		for (int i = 0; i < ARROW_TIERS.size(); i++)
+		{
+			if (ammoName.contains(ARROW_TIERS.get(i)))
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	private static int maxArrowTier(String weaponName)
+	{
+		if (weaponName.contains("twisted bow") || weaponName.contains("dark bow") || weaponName.contains("venator"))
+		{
+			return ARROW_TIERS.indexOf("dragon arrow");
+		}
+		if (weaponName.contains("magic shortbow") || weaponName.contains("magic comp"))
+		{
+			return ARROW_TIERS.indexOf("amethyst arrow");
+		}
+		return ARROW_TIERS.indexOf("rune arrow");
 	}
 
 	private ItemStats bestDarts(OptimizeRequest request)
@@ -384,8 +600,11 @@ public class LoadoutOptimizer
 		ItemStats best = null;
 		for (ItemStats item : request.getOwnedEquipment())
 		{
-			String name = item.getName() == null ? "" : item.getName().toLowerCase(Locale.ROOT);
-			if (!name.endsWith("dart"))
+			// darts are weapon-slot thrown weapons; ammo-slot lookalikes
+			// (atlatl darts) are excluded by the slot check
+			if (item.getSlot() != EquipmentInventorySlot.WEAPON.getSlotIdx()
+				|| item.getWeaponCategory() != WeaponCategory.THROWN
+				|| !lowerName(item).contains("dart"))
 			{
 				continue;
 			}
@@ -397,10 +616,39 @@ public class LoadoutOptimizer
 		return best;
 	}
 
+	// ---- misc ---------------------------------------------------------
+
+	private static String lowerName(ItemStats item)
+	{
+		return item.getName() == null ? "" : item.getName().toLowerCase(Locale.ROOT);
+	}
+
+	private static EquipmentInventorySlot[] buildSlotIndex()
+	{
+		int max = 0;
+		for (EquipmentInventorySlot slot : EquipmentInventorySlot.values())
+		{
+			max = Math.max(max, slot.getSlotIdx());
+		}
+		EquipmentInventorySlot[] byIdx = new EquipmentInventorySlot[max + 1];
+		for (EquipmentInventorySlot slot : EquipmentInventorySlot.values())
+		{
+			byIdx[slot.getSlotIdx()] = slot;
+		}
+		return byIdx;
+	}
+
+	static EquipmentInventorySlot slotOf(ItemStats item)
+	{
+		int idx = item.getSlot();
+		return idx >= 0 && idx < SLOT_BY_IDX.length ? SLOT_BY_IDX[idx] : null;
+	}
+
 	@Value
 	private static class ScoredLoadout
 	{
 		Map<EquipmentInventorySlot, ItemStats> items;
+		AttackStyle style;
 		double dps;
 	}
 

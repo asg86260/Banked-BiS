@@ -18,8 +18,9 @@ import net.runelite.api.ItemID;
 public class BlowpipeDartsItemStatsComputable implements AmmoItemStatsComputable
 {
 
-	private static final Set<Integer> BLOWPIPE_IDS = ImmutableSet.of(
-		ItemID.TOXIC_BLOWPIPE
+	public static final Set<Integer> BLOWPIPE_IDS = ImmutableSet.of(
+		ItemID.TOXIC_BLOWPIPE,
+		28688 // blazing blowpipe
 	);
 
 	private final WeaponComputable weaponComputable;

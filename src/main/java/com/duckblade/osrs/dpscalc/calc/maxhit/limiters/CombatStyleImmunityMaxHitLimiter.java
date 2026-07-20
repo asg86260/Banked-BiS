@@ -39,13 +39,25 @@ public class CombatStyleImmunityMaxHitLimiter implements MaxHitLimiter
 
 		NpcID.ZULRAH,
 		NpcID.ZULRAH_2043,
-		NpcID.ZULRAH_2044
+		NpcID.ZULRAH_2044,
+
+		494, // kraken (wiki data id)
+		12214, 12215, 12219 // the leviathan
 	);
 
-	private static final Set<Integer> RANGED_IMMUNE = ImmutableSet.of();
+	// dusk (grotesque guardians) both forms, tekton, warriors' guild cyclopes
+	private static final Set<Integer> RANGED_IMMUNE = ImmutableSet.of(
+		7851, 7854, 7855, 7882, 7883, 7886, // dusk first form
+		7887, 7888, 7889, // dusk second form
+		7540, 7543, 7544, 7545, // tekton
+		2463, 2464, 2465, 2466, 2467, 2468, 2137, 2138, 2139, 2140, 2141, 2142 // cyclopes
+	);
 
 	private static final Set<Integer> MAGE_IMMUNE = ImmutableSet.of(
-		NpcID.CALLISTO
+		NpcID.CALLISTO,
+		7851, 7854, 7855, 7882, 7883, 7886, // dusk first form
+		7887, 7888, 7889, // dusk second form
+		2463, 2464, 2465, 2466, 2467, 2468, 2137, 2138, 2139, 2140, 2141, 2142 // cyclopes
 	);
 
 	private static final Map<AttackType, Set<Integer>> IMMUNITY_MAP = ImmutableMap.of(

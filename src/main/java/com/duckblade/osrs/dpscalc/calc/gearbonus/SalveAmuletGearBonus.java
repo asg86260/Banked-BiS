@@ -40,7 +40,7 @@ public class SalveAmuletGearBonus implements GearBonusComputable
 		ItemID.SALVE_AMULETEI_26782
 	);
 
-	private static final Set<Integer> SALVE_ALL = Sets.union(SALVE_IMBUED, Sets.union(SALVE_ENHANCED, SALVE_BASE));
+	public static final Set<Integer> SALVE_ALL = Sets.union(SALVE_IMBUED, Sets.union(SALVE_ENHANCED, SALVE_BASE));
 
 	private static final GearBonuses UNENHANCED_MELEE_RANGED = GearBonuses.symmetric(7.0 / 6.0);
 	private static final GearBonuses UNENHANCED_MAGE = GearBonuses.symmetric(1.15);

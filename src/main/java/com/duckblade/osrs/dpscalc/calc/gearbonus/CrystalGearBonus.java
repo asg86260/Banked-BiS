@@ -17,7 +17,7 @@ import net.runelite.api.ItemID;
 public class CrystalGearBonus implements GearBonusComputable
 {
 
-	private static final Set<Integer> CRYSTAL_BOWS = ImmutableSet.of(
+	public static final Set<Integer> CRYSTAL_BOWS = ImmutableSet.of(
 		// there are a few dozen cbow ids from pre-rework but i think these are the only two in use now
 		ItemID.CRYSTAL_BOW,
 		ItemID.CRYSTAL_BOW_24123,
@@ -32,7 +32,7 @@ public class CrystalGearBonus implements GearBonusComputable
 		ItemID.BOW_OF_FAERDHINEN_C_25896
 	);
 
-	private static final Set<Integer> CRYSTAL_HELM_IDS = ImmutableSet.of(
+	public static final Set<Integer> CRYSTAL_HELM_IDS = ImmutableSet.of(
 		ItemID.CRYSTAL_HELM,
 		ItemID.CRYSTAL_HELM_27705,
 		ItemID.CRYSTAL_HELM_27717,
@@ -43,7 +43,7 @@ public class CrystalGearBonus implements GearBonusComputable
 		ItemID.CRYSTAL_HELM_27777
 	);
 
-	private static final Set<Integer> CRYSTAL_BODY_IDS = ImmutableSet.of(
+	public static final Set<Integer> CRYSTAL_BODY_IDS = ImmutableSet.of(
 		ItemID.CRYSTAL_BODY,
 		ItemID.CRYSTAL_BODY_27697,
 		ItemID.CRYSTAL_BODY_27709,
@@ -54,7 +54,7 @@ public class CrystalGearBonus implements GearBonusComputable
 		ItemID.CRYSTAL_BODY_27769
 	);
 
-	private static final Set<Integer> CRYSTAL_LEGS_IDS = ImmutableSet.of(
+	public static final Set<Integer> CRYSTAL_LEGS_IDS = ImmutableSet.of(
 		ItemID.CRYSTAL_LEGS,
 		ItemID.CRYSTAL_LEGS_27701,
 		ItemID.CRYSTAL_LEGS_27713,

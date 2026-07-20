@@ -9,6 +9,7 @@ import com.duckblade.osrs.dpscalc.calc.model.AttackType;
 import com.duckblade.osrs.dpscalc.calc.model.WeaponCategory;
 import com.google.common.collect.ImmutableMap;
 import java.util.Map;
+import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +56,21 @@ public class PoweredStaffMaxHitComputable implements MagicMaxHitComputable
 		.put(ItemID.CRYSTAL_STAFF_PERFECTED, ignored -> 39)
 		.put(ItemID.CORRUPTED_STAFF_PERFECTED, ignored -> 39)
 		.put(ItemID.WARPED_SCEPTRE, WARPED)
+		// wiki-data ids for staves the upstream engine predates; formulas from
+		// weirdgloop/osrs-dps-calc PlayerVsNPCCalc.ts
+		.put(22555, ctx -> Math.max(1, magicLevel(ctx) / 3 - 8)) // thammaron's sceptre
+		.put(27665, ctx -> Math.max(1, magicLevel(ctx) / 3 - 6)) // accursed sceptre
+		.put(22516, ctx -> Math.max(1, magicLevel(ctx) / 6 - 1)) // dawnbringer
+		.put(31113, ctx -> Math.max(1, magicLevel(ctx) / 3 - 6)) // eye of ayak
+		.put(28796, ctx -> Math.max(1, magicLevel(ctx) / 3 - 5) + 10) // bone staff (rat-only weapon)
 		.build();
+
+	public static final Set<Integer> SUPPORTED_STAFF_IDS = SPELL_MAP.keySet();
+
+	private static int magicLevel(ComputeContext ctx)
+	{
+		return ctx.get(ComputeInputs.ATTACKER_SKILLS).getTotals().get(Skill.MAGIC);
+	}
 
 	private final WeaponComputable weaponComputable;
 

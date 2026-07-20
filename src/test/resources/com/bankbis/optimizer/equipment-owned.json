@@ -1610,5 +1610,377 @@
                           "ranged":  8
                       },
         "isTwoHanded":  false
+    },
+    {
+        "name":  "Bolt rack",
+        "id":  4740,
+        "weight":  0,
+        "version":  "",
+        "slot":  "ammo",
+        "image":  "Bolt rack 5.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  55,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Karil\u0027s crossbow",
+        "id":  4734,
+        "weight":  3.628,
+        "version":  "Undamaged",
+        "slot":  "weapon",
+        "image":  "Karil\u0027s crossbow.png",
+        "speed":  4,
+        "category":  "Crossbow",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  84
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  true
+    },
+    {
+        "name":  "Ruby dragon bolts (e)",
+        "id":  21944,
+        "weight":  0,
+        "version":  "",
+        "slot":  "ammo",
+        "image":  "Ruby dragon bolts (e) 5.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  122,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Rune crossbow",
+        "id":  9185,
+        "weight":  6,
+        "version":  "",
+        "slot":  "weapon",
+        "image":  "Rune crossbow.png",
+        "speed":  6,
+        "category":  "Crossbow",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  90
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Salve amulet(ei)",
+        "id":  26782,
+        "weight":  0.007,
+        "version":  "Emir\u0027s Arena",
+        "slot":  "neck",
+        "image":  "Salve amulet(ei).png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  3
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  3,
+                          "slash":  3,
+                          "crush":  3,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Salve amulet(ei)",
+        "id":  12018,
+        "weight":  0.007,
+        "version":  "",
+        "slot":  "neck",
+        "image":  "Salve amulet(ei).png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  3
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  3,
+                          "slash":  3,
+                          "crush":  3,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Salve amulet(ei)",
+        "id":  25278,
+        "weight":  0.007,
+        "version":  "Soul Wars",
+        "slot":  "neck",
+        "image":  "Salve amulet(ei).png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  3
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  3,
+                          "slash":  3,
+                          "crush":  3,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Slayer helmet (i)",
+        "id":  11865,
+        "weight":  2.267,
+        "version":  "",
+        "slot":  "head",
+        "image":  "Slayer helmet (i).png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  3,
+                          "ranged":  3
+                      },
+        "defensive":  {
+                          "stab":  30,
+                          "slash":  32,
+                          "crush":  27,
+                          "magic":  10,
+                          "ranged":  30
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Void knight gloves",
+        "id":  8842,
+        "weight":  0.453,
+        "version":  "Normal",
+        "slot":  "hands",
+        "image":  "Void knight gloves.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  6,
+                          "slash":  6,
+                          "crush":  6,
+                          "magic":  4,
+                          "ranged":  6
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Void knight robe",
+        "id":  8840,
+        "weight":  8.164,
+        "version":  "Normal",
+        "slot":  "legs",
+        "image":  "Void knight robe.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  30,
+                          "slash":  30,
+                          "crush":  30,
+                          "magic":  30,
+                          "ranged":  30
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Void knight top",
+        "id":  8839,
+        "weight":  6.803,
+        "version":  "Normal",
+        "slot":  "body",
+        "image":  "Void knight top.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  45,
+                          "slash":  45,
+                          "crush":  45,
+                          "magic":  45,
+                          "ranged":  45
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Void melee helm",
+        "id":  11665,
+        "weight":  0.453,
+        "version":  "Normal",
+        "slot":  "head",
+        "image":  "Void melee helm.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  6,
+                          "slash":  6,
+                          "crush":  6,
+                          "magic":  6,
+                          "ranged":  6
+                      },
+        "isTwoHanded":  false
     }
 ]
