@@ -13,7 +13,7 @@ public interface BankBisConfig extends Config
 		SETTINGS("Optimizer settings"),
 		BASE("Base"),
 		PRAYER("Prayer"),
-		POTTED("Potted"),
+		POTTED("Pray + pots"),
 		;
 
 		private final String label;

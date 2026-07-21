@@ -496,7 +496,7 @@ public class BankBisPanel extends PluginPanel
 					break;
 				case POTTED:
 					headerDps = breakdown.getPotted();
-					headerSuffix = " potted";
+					headerSuffix = " pray+pots";
 					break;
 				case SETTINGS:
 				default:
@@ -513,7 +513,7 @@ public class BankBisPanel extends PluginPanel
 
 		if (breakdown != null)
 		{
-			JLabel breakdownLabel = new JLabel(String.format("base %.1f · prayer %.1f · potted %.1f",
+			JLabel breakdownLabel = new JLabel(String.format("base %.1f · prayer %.1f · pray+pots %.1f",
 				breakdown.getBase(), breakdown.getPrayed(), breakdown.getPotted()));
 			breakdownLabel.setFont(FontManager.getRunescapeSmallFont());
 			breakdownLabel.setForeground(ColorScheme.LIGHT_GRAY_COLOR.darker());
