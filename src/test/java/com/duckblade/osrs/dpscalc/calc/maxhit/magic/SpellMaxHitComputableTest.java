@@ -5,8 +5,10 @@ import com.duckblade.osrs.dpscalc.calc.compute.ComputeContext;
 import com.duckblade.osrs.dpscalc.calc.compute.ComputeInputs;
 import com.duckblade.osrs.dpscalc.calc.model.AttackStyle;
 import com.duckblade.osrs.dpscalc.calc.model.AttackType;
+import com.duckblade.osrs.dpscalc.calc.model.Skills;
 import com.duckblade.osrs.dpscalc.calc.model.Spell;
 import com.duckblade.osrs.dpscalc.calc.model.WeaponCategory;
+import net.runelite.api.Skill;
 import static com.duckblade.osrs.dpscalc.calc.testutil.AttackStyleUtil.ofAttackType;
 import static com.duckblade.osrs.dpscalc.calc.testutil.ItemStatsUtil.ofWeaponCategory;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -76,6 +78,8 @@ class SpellMaxHitComputableTest
 	@Test
 	void returnsMaxHitWithBonus()
 	{
+		when(context.get(ComputeInputs.ATTACKER_SKILLS))
+			.thenReturn(Skills.builder().level(Skill.MAGIC, 99).build());
 		when(context.get(ComputeInputs.SPELL)).thenReturn(
 			Spell.BLOOD_BARRAGE,
 			Spell.FIRE_SURGE,

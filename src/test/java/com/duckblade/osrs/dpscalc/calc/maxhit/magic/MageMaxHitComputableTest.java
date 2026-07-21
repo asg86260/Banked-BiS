@@ -61,6 +61,7 @@ class MageMaxHitComputableTest
 		when(context.get(magicMaxHitComputable1)).thenReturn(5);
 		when(context.get(magicMaxHitComputable2)).thenReturn(10);
 		when(context.get(strengthBonusComputable)).thenReturn(0);
+		when(context.get(ComputeInputs.ATTACKER_PRAYERS)).thenReturn(java.util.Collections.emptySet());
 		when(context.get(aggregateGearBonusesComputable)).thenReturn(GearBonuses.EMPTY);
 		when(context.get(ComputeInputs.ATTACK_STYLE)).thenReturn(AttackStyle.MANUAL_CAST);
 		when(context.get(ComputeInputs.SPELL)).thenReturn(null);
@@ -73,13 +74,17 @@ class MageMaxHitComputableTest
 	void correctlyAppliesBonuses()
 	{
 		when(magicMaxHitComputable1.isApplicable(context)).thenReturn(true);
-		when(context.get(magicMaxHitComputable1)).thenReturn(5);
+		when(context.get(magicMaxHitComputable1)).thenReturn(20);
 		when(context.get(strengthBonusComputable)).thenReturn(10);
+		when(context.get(ComputeInputs.ATTACKER_PRAYERS)).thenReturn(java.util.Collections.emptySet());
 		when(context.get(aggregateGearBonusesComputable)).thenReturn(GearBonuses.of(1.2, 1.5));
 		when(context.get(ComputeInputs.ATTACK_STYLE)).thenReturn(AttackStyle.MANUAL_CAST);
 		when(context.get(ComputeInputs.SPELL)).thenReturn(null);
 
-		assertEquals((int) (5 * (1.10 * 1.5)), mageMaxHitComputable.compute(context));
+		// staged truncation: base + magic dmg bonus (truncated), then gear
+		// multiplier (truncated) — not one combined multiply
+		int afterMagicDmg = 20 + 20 * 10 / 100;
+		assertEquals((int) (afterMagicDmg * 1.5), mageMaxHitComputable.compute(context));
 	}
 
 }

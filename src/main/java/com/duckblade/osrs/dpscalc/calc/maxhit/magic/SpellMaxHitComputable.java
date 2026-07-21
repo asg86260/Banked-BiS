@@ -6,6 +6,7 @@ import com.duckblade.osrs.dpscalc.calc.compute.ComputeInputs;
 import com.duckblade.osrs.dpscalc.calc.model.AttackStyle;
 import com.duckblade.osrs.dpscalc.calc.model.AttackType;
 import com.duckblade.osrs.dpscalc.calc.model.WeaponCategory;
+import net.runelite.api.Skill;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,9 @@ public class SpellMaxHitComputable implements MagicMaxHitComputable
 	@Override
 	public Integer compute(ComputeContext context)
 	{
-		int baseMaxHit = context.get(ComputeInputs.SPELL).getBaseMaxHit();
+		int magicLevel = context.get(ComputeInputs.ATTACKER_SKILLS)
+			.getTotals().getOrDefault(Skill.MAGIC, 0);
+		int baseMaxHit = context.get(ComputeInputs.SPELL).getBaseMaxHit(magicLevel);
 		int spellBonus = context.get(spellcastingMaxHitBonusComputable);
 		return baseMaxHit + spellBonus;
 	}

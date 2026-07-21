@@ -99,4 +99,48 @@ public enum Spell
 		return null;
 	}
 
+	/**
+	 * Base max hit for the elemental spells scales with magic level, not the
+	 * element cast: once you clear a tier's threshold you hit as hard as the
+	 * next element up, so at 99 magic every surge hits for Fire Surge's 24.
+	 * Non-elemental spells ignore the level. Mirrors the wiki calc's
+	 * getSpellMaxHit; the element still drives weakness/runes elsewhere.
+	 */
+	public int getBaseMaxHit(int magicLevel)
+	{
+		if (getElement() == null)
+		{
+			return baseMaxHit;
+		}
+		String tier = name().substring(name().indexOf('_') + 1);
+		int[] req; // {water, earth, fire} level requirements for this tier
+		switch (tier)
+		{
+			case "STRIKE": req = new int[]{5, 9, 13}; break;
+			case "BOLT": req = new int[]{23, 29, 35}; break;
+			case "BLAST": req = new int[]{47, 53, 59}; break;
+			case "WAVE": req = new int[]{65, 70, 75}; break;
+			case "SURGE": req = new int[]{85, 90, 95}; break;
+			default: return baseMaxHit;
+		}
+		String element;
+		if (magicLevel >= req[2])
+		{
+			element = "FIRE_";
+		}
+		else if (magicLevel >= req[1])
+		{
+			element = "EARTH_";
+		}
+		else if (magicLevel >= req[0])
+		{
+			element = "WATER_";
+		}
+		else
+		{
+			element = "WIND_";
+		}
+		return Spell.valueOf(element + tier).baseMaxHit;
+	}
+
 }
