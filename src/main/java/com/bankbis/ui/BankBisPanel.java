@@ -4,8 +4,10 @@ import com.bankbis.BankBisConfig;
 import com.bankbis.RecommendationService;
 import com.bankbis.bank.OwnedItemsService;
 import com.bankbis.content.ContentPreset;
+import com.bankbis.content.MonsterSearchIndex;
 import com.bankbis.content.PresetCategory;
 import com.bankbis.content.RaidType;
+import com.bankbis.content.SlayerTaskMatcher;
 import com.bankbis.content.Target;
 import com.bankbis.data.NpcStats;
 import com.bankbis.data.WikiDataService;
@@ -94,10 +96,8 @@ public class BankBisPanel extends PluginPanel
 
 	private final List<JToggleButton> highlightButtons = new ArrayList<>();
 
-	// lazily built from wiki data: lowercased display name -> id / display name
-	private final Map<String, Integer> monsterIdByName = new HashMap<>();
-	private final Map<String, String> monsterDisplayByName = new HashMap<>();
-	private final List<String> monsterNames = new ArrayList<>();
+	// lazily built from wiki data on first use
+	private final MonsterSearchIndex searchIndex = new MonsterSearchIndex();
 
 	private final JPopupMenu suggestionPopup = new JPopupMenu();
 	private boolean suppressSuggestions;
@@ -536,38 +536,23 @@ public class BankBisPanel extends PluginPanel
 		if (!query.isEmpty())
 		{
 			ensureMonsterIndex();
-			if (monsterIdByName.isEmpty())
+			if (searchIndex.isEmpty())
 			{
 				statusLabel.setText("Monster data is still loading; try again shortly.");
 				return null;
 			}
-			String key = query.toLowerCase(Locale.ROOT);
-			Integer id = monsterIdByName.get(key);
-			String label = monsterDisplayByName.get(key);
-			if (id == null)
+			MonsterSearchIndex.Resolution resolution = searchIndex.resolve(query);
+			if (!resolution.isMatch())
 			{
-				List<String> matches = new ArrayList<>();
-				for (String name : monsterIdByName.keySet())
-				{
-					if (name.contains(key))
-					{
-						matches.add(name);
-					}
-				}
-				if (matches.size() != 1)
-				{
-					statusLabel.setText(matches.isEmpty()
-						? "No monster matches '" + query + "'."
-						: "Several monsters match; pick a suggestion.");
-					return null;
-				}
-				id = monsterIdByName.get(matches.get(0));
-				label = monsterDisplayByName.get(matches.get(0));
+				statusLabel.setText(resolution.isAmbiguous()
+					? "Several monsters match; pick a suggestion."
+					: "No monster matches '" + query + "'.");
+				return null;
 			}
 			return Target.builder()
-				.npcId(id)
-				.label(label)
-				.onSlayerTask(onSlayerTask(label))
+				.npcId(resolution.getNpcId())
+				.label(resolution.getDisplayName())
+				.onSlayerTask(onSlayerTask(resolution.getDisplayName()))
 				.raidPartySize(partySize(1))
 				.build();
 		}
@@ -601,19 +586,7 @@ public class BankBisPanel extends PluginPanel
 		if (display == null && !cleanName.isEmpty())
 		{
 			ensureMonsterIndex();
-			String key = cleanName.toLowerCase(Locale.ROOT);
-			display = monsterDisplayByName.get(key);
-			if (display == null)
-			{
-				for (Map.Entry<String, String> entry : monsterDisplayByName.entrySet())
-				{
-					if (entry.getKey().startsWith(key))
-					{
-						display = entry.getValue();
-						break;
-					}
-				}
-			}
+			display = searchIndex.displayForName(cleanName);
 		}
 
 		if (display == null)
@@ -633,23 +606,7 @@ public class BankBisPanel extends PluginPanel
 	 */
 	private boolean onSlayerTask(String monsterDisplay)
 	{
-		String task = configManager.getConfiguration("slayer", "taskName");
-		if (task == null || task.isEmpty() || monsterDisplay == null)
-		{
-			return false;
-		}
-		String monster = monsterDisplay.toLowerCase(Locale.ROOT);
-		int variantIdx = monster.indexOf(" (");
-		if (variantIdx > 0)
-		{
-			monster = monster.substring(0, variantIdx);
-		}
-		String taskSingular = task.toLowerCase(Locale.ROOT);
-		if (taskSingular.endsWith("s"))
-		{
-			taskSingular = taskSingular.substring(0, taskSingular.length() - 1);
-		}
-		return monster.contains(taskSingular) || taskSingular.contains(monster);
+		return SlayerTaskMatcher.matches(configManager.getConfiguration("slayer", "taskName"), monsterDisplay);
 	}
 
 	private int partySize(int defaultSize)
@@ -660,30 +617,7 @@ public class BankBisPanel extends PluginPanel
 
 	private void ensureMonsterIndex()
 	{
-		if (!monsterIdByName.isEmpty())
-		{
-			return;
-		}
-		Map<Integer, NpcStats> stats = wikiDataService.getNpcStatsById();
-		if (stats.isEmpty())
-		{
-			return;
-		}
-		stats.forEach((id, npc) ->
-		{
-			String display = npc.getDisplayName();
-			if (display == null || display.isEmpty())
-			{
-				return;
-			}
-			String key = display.toLowerCase(Locale.ROOT);
-			if (monsterIdByName.putIfAbsent(key, id) == null)
-			{
-				monsterDisplayByName.put(key, display);
-				monsterNames.add(display);
-			}
-		});
-		monsterNames.sort(String.CASE_INSENSITIVE_ORDER);
+		searchIndex.build(wikiDataService.getNpcStatsById());
 	}
 
 	/**
@@ -700,44 +634,21 @@ public class BankBisPanel extends PluginPanel
 		suggestionPopup.setVisible(false);
 		suggestionPopup.removeAll();
 
-		String query = searchField.getText() == null ? "" : searchField.getText().trim().toLowerCase(Locale.ROOT);
+		String query = searchField.getText() == null ? "" : searchField.getText().trim();
 		if (query.length() < 2)
 		{
 			return;
 		}
 		ensureMonsterIndex();
-		if (monsterIdByName.containsKey(query))
+		if (searchIndex.hasExact(query))
 		{
 			return; // text already names a monster exactly; nothing to suggest
 		}
 
-		List<String> matches = new ArrayList<>();
-		for (String name : monsterNames)
-		{
-			if (name.toLowerCase(Locale.ROOT).startsWith(query))
-			{
-				matches.add(name);
-			}
-		}
-		for (String name : monsterNames)
-		{
-			if (matches.size() >= 10)
-			{
-				break;
-			}
-			String lower = name.toLowerCase(Locale.ROOT);
-			if (!lower.startsWith(query) && lower.contains(query))
-			{
-				matches.add(name);
-			}
-		}
+		List<String> matches = searchIndex.suggest(query, 10);
 		if (matches.isEmpty())
 		{
 			return;
-		}
-		if (matches.size() > 10)
-		{
-			matches = matches.subList(0, 10);
 		}
 
 		for (String name : matches)
