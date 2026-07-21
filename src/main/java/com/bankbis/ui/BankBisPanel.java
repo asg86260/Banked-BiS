@@ -16,8 +16,11 @@ import com.duckblade.osrs.dpscalc.calc.model.ItemStats;
 import com.google.gson.Gson;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.FlowLayout;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
@@ -50,6 +53,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -109,8 +113,8 @@ public class BankBisPanel extends PluginPanel
 	private final JPanel raidHolder = new JPanel(new BorderLayout());
 	private final JComboBox<PotionBoost> potionCombo = new JComboBox<>(PotionBoost.values());
 	private final JComboBox<PrayerAssumption> prayerCombo = new JComboBox<>(PrayerAssumption.values());
-	private final JButton refreshButton = new JButton("Find my best gear");
-	private final JToggleButton advancedToggle = new JToggleButton("Advanced ▸");
+	private final JButton refreshButton = new PrimaryButton("Find my best gear");
+	private final JToggleButton advancedToggle = new JToggleButton("ASSUMPTIONS  ▸");
 	private final JPanel advancedHolder = new JPanel(new BorderLayout());
 	private final JLabel statusLabel = new JLabel();
 	private final JPanel resultsPanel = new JPanel();
@@ -143,13 +147,17 @@ public class BankBisPanel extends PluginPanel
 			getScrollPane().setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		}
 
-		JPanel controls = new JPanel(new GridLayout(0, 1, 0, 6));
-		controls.setOpaque(false);
+		JPanel stack = new JPanel();
+		stack.setLayout(new BoxLayout(stack, BoxLayout.Y_AXIS));
+		stack.setOpaque(false);
 
 		JLabel title = new JLabel("Banked BiS");
 		title.setFont(FontManager.getRunescapeBoldFont());
 		title.setForeground(ColorScheme.BRAND_ORANGE);
-		controls.add(title);
+		stack.add(fullWidth(title));
+		stack.add(Box.createVerticalStrut(10));
+		stack.add(fullWidth(sectionHeader("Target")));
+		stack.add(Box.createVerticalStrut(6));
 
 		categoryCombo.setFont(FontManager.getRunescapeSmallFont());
 		presetCombo.setFont(FontManager.getRunescapeSmallFont());
@@ -168,9 +176,12 @@ public class BankBisPanel extends PluginPanel
 				setSearchTextQuietly("");
 			}
 		});
-		controls.add(categoryCombo);
-		controls.add(presetCombo);
-		controls.add(orDivider());
+		stack.add(fullWidth(categoryCombo));
+		stack.add(Box.createVerticalStrut(4));
+		stack.add(fullWidth(presetCombo));
+		stack.add(Box.createVerticalStrut(4));
+		stack.add(fullWidth(orDivider()));
+		stack.add(Box.createVerticalStrut(4));
 
 		// free-text monster search; when non-empty it takes precedence over
 		// the preset dropdowns above
@@ -216,50 +227,45 @@ public class BankBisPanel extends PluginPanel
 		searchRow.setOpaque(false);
 		searchRow.add(searchField, BorderLayout.CENTER);
 		searchRow.add(pickButton, BorderLayout.EAST);
-		controls.add(searchRow);
+		stack.add(fullWidth(searchRow));
 
-		advancedToggle.setFont(FontManager.getRunescapeSmallFont());
-		advancedToggle.setFocusPainted(false);
-		advancedToggle.addActionListener(e -> toggleAdvanced());
-
-		refreshButton.setFont(FontManager.getRunescapeSmallFont());
-		refreshButton.setFocusPainted(false);
-		refreshButton.addActionListener(e -> compute());
-
-		statusLabel.setFont(FontManager.getRunescapeSmallFont());
-		statusLabel.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
-
-		// raid options appear only for raid categories; the advanced section
-		// sits below them - both collapse fully by adding/removing children
+		// raid options appear only for raid categories, indented under the
+		// boss dropdown they refine; both holders collapse fully when empty
 		raidHolder.setOpaque(false);
 		advancedHolder.setOpaque(false);
 		cmCheck.setFont(FontManager.getRunescapeSmallFont());
 		cmCheck.setOpaque(false);
 		invoSpinner.setFont(FontManager.getRunescapeSmallFont());
 		partyCombo.setFont(FontManager.getRunescapeSmallFont());
+		stack.add(fullWidthTall(raidHolder));
 
-		// order: raid options (contextual) -> advanced toggle -> advanced rows
-		JPanel advStack = new JPanel(new BorderLayout(0, 6));
-		advStack.setOpaque(false);
-		advStack.add(advancedToggle, BorderLayout.NORTH);
-		advStack.add(advancedHolder, BorderLayout.CENTER);
+		// "Assumptions" is a collapsible section header, not a boxed button
+		advancedToggle.setFont(FontManager.getRunescapeSmallFont());
+		advancedToggle.setFocusPainted(false);
+		advancedToggle.setContentAreaFilled(false);
+		advancedToggle.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+		advancedToggle.setIcon(new ImageIcon(sectionTick()));
+		advancedToggle.setIconTextGap(6);
+		advancedToggle.setHorizontalAlignment(SwingConstants.LEFT);
+		advancedToggle.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
+		advancedToggle.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		advancedToggle.addActionListener(e -> toggleAdvanced());
+		stack.add(Box.createVerticalStrut(10));
+		stack.add(fullWidth(advancedToggle));
+		stack.add(fullWidthTall(advancedHolder));
 
-		JPanel midStack = new JPanel(new BorderLayout(0, 6));
-		midStack.setOpaque(false);
-		midStack.add(raidHolder, BorderLayout.NORTH);
-		midStack.add(advStack, BorderLayout.CENTER);
+		refreshButton.setFocusPainted(false);
+		refreshButton.addActionListener(e -> compute());
+		stack.add(Box.createVerticalStrut(12));
+		stack.add(fullWidth(refreshButton));
+		stack.add(Box.createVerticalStrut(6));
 
-		JPanel bottomControls = new JPanel(new GridLayout(0, 1, 0, 6));
-		bottomControls.setOpaque(false);
-		bottomControls.add(refreshButton);
-		bottomControls.add(statusLabel);
+		statusLabel.setFont(FontManager.getRunescapeSmallFont());
+		statusLabel.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+		statusLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		stack.add(fullWidth(statusLabel));
 
-		JPanel north = new JPanel(new BorderLayout(0, 6));
-		north.setOpaque(false);
-		north.add(controls, BorderLayout.NORTH);
-		north.add(midStack, BorderLayout.CENTER);
-		north.add(bottomControls, BorderLayout.SOUTH);
-		add(north, BorderLayout.NORTH);
+		add(stack, BorderLayout.NORTH);
 		updateRaidOptions();
 
 		resultsPanel.setLayout(new BoxLayout(resultsPanel, BoxLayout.Y_AXIS));
@@ -307,14 +313,107 @@ public class BankBisPanel extends PluginPanel
 				invoSpinner.setToolTipText("Invocation level scales monster HP only - it does not change which gear is best");
 				rows.add(labeledRow("Invocation", invoSpinner));
 			}
-			raidHolder.add(rows, BorderLayout.NORTH);
+			raidHolder.add(indentBlock(rows), BorderLayout.NORTH);
 		}
 		raidHolder.revalidate();
 		raidHolder.repaint();
 	}
 
+	// ---- layout helpers ------------------------------------------------
+
+	/** Full-width row in the vertical stack, height fixed at preferred. */
+	private static Component fullWidth(JComponent c)
+	{
+		c.setAlignmentX(Component.LEFT_ALIGNMENT);
+		c.setMaximumSize(new Dimension(Integer.MAX_VALUE, c.getPreferredSize().height));
+		return c;
+	}
+
+	/** Full-width row whose height changes at runtime (collapsible holders). */
+	private static Component fullWidthTall(JComponent c)
+	{
+		c.setAlignmentX(Component.LEFT_ALIGNMENT);
+		c.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
+		return c;
+	}
+
+	/** Orange tick + muted uppercase label marking a section. */
+	private static JLabel sectionHeader(String text)
+	{
+		JLabel label = new JLabel(text.toUpperCase(Locale.ROOT));
+		label.setFont(FontManager.getRunescapeSmallFont());
+		label.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+		label.setIcon(new ImageIcon(sectionTick()));
+		label.setIconTextGap(6);
+		return label;
+	}
+
+	private static BufferedImage sectionTick()
+	{
+		BufferedImage img = new BufferedImage(3, 10, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = img.createGraphics();
+		g.setColor(ColorScheme.BRAND_ORANGE);
+		g.fillRect(0, 0, 3, 10);
+		g.dispose();
+		return img;
+	}
+
 	/**
-	 * A muted "── or ──" separator between the preset dropdowns and the
+	 * Indents content with a left rule: visually attaches contextual rows
+	 * to the control above them (raid options to the boss, assumption rows
+	 * to their header).
+	 */
+	private static JPanel indentBlock(JPanel content)
+	{
+		JPanel wrapper = new JPanel(new BorderLayout());
+		wrapper.setOpaque(false);
+		wrapper.setBorder(BorderFactory.createCompoundBorder(
+			BorderFactory.createEmptyBorder(6, 2, 0, 0),
+			BorderFactory.createCompoundBorder(
+				BorderFactory.createMatteBorder(0, 2, 0, 0, ColorScheme.MEDIUM_GRAY_COLOR),
+				BorderFactory.createEmptyBorder(0, 8, 0, 0))));
+		wrapper.add(content, BorderLayout.NORTH);
+		return wrapper;
+	}
+
+	/** The panel's single filled primary action. */
+	private static class PrimaryButton extends JButton
+	{
+		PrimaryButton(String text)
+		{
+			super(text);
+			setFont(FontManager.getRunescapeBoldFont());
+			setForeground(new Color(0x2B2317));
+			setContentAreaFilled(false);
+			setFocusPainted(false);
+			setBorder(BorderFactory.createEmptyBorder(7, 0, 7, 0));
+			setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		}
+
+		@Override
+		protected void paintComponent(Graphics g)
+		{
+			Color base = ColorScheme.BRAND_ORANGE;
+			if (!isEnabled())
+			{
+				base = ColorScheme.MEDIUM_GRAY_COLOR;
+			}
+			else if (getModel().isPressed())
+			{
+				base = base.darker();
+			}
+			else if (getModel().isRollover())
+			{
+				base = base.brighter();
+			}
+			g.setColor(base);
+			g.fillRect(0, 0, getWidth(), getHeight());
+			super.paintComponent(g);
+		}
+	}
+
+	/**
+	 * A muted "-- or --" separator between the preset dropdowns and the
 	 * free-text search, since the two are alternative ways to pick a target.
 	 */
 	private static JPanel orDivider()
@@ -354,7 +453,7 @@ public class BankBisPanel extends PluginPanel
 		advancedHolder.removeAll();
 		if (advancedToggle.isSelected())
 		{
-			advancedToggle.setText("Advanced ▾");
+			advancedToggle.setText("ASSUMPTIONS  ▾");
 
 			JPanel rows = new JPanel(new GridLayout(0, 1, 0, 4));
 			rows.setOpaque(false);
@@ -364,11 +463,11 @@ public class BankBisPanel extends PluginPanel
 			rows.add(advancedLabel("Prayers"));
 			prayerCombo.setFont(FontManager.getRunescapeSmallFont());
 			rows.add(prayerCombo);
-			advancedHolder.add(rows, BorderLayout.NORTH);
+			advancedHolder.add(indentBlock(rows), BorderLayout.NORTH);
 		}
 		else
 		{
-			advancedToggle.setText("Advanced ▸");
+			advancedToggle.setText("ASSUMPTIONS  ▸");
 		}
 		advancedHolder.revalidate();
 		advancedHolder.repaint();
