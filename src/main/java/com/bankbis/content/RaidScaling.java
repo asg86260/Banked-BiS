@@ -22,18 +22,18 @@ import net.runelite.api.Skill;
 public final class RaidScaling
 {
 
-	private static final Set<Integer> TEKTON_IDS = ImmutableSet.of(7540, 7543);
+	private static final Set<Integer> TEKTON_IDS = ImmutableSet.of(7540, 7543, 7544, 7545);
 
 	/**
 	 * CoX monsters whose magic level counts as a defensive stat for
 	 * scaling (Olm hands, Tekton, Vespula and portal, deathly rangers);
 	 * everything else scales magic with the offensive multiplier. Ids
-	 * verified against monsters.json.
+	 * match the wiki calc's constants (regular + challenge mode).
 	 */
 	private static final Set<Integer> COX_MAGIC_IS_DEFENSIVE = ImmutableSet.of(
-		7540, 7543, // Tekton
-		7550, // Olm melee hand
-		7552, // Olm mage hand
+		7540, 7543, 7544, 7545, // Tekton
+		7552, 7555, // Olm melee hand
+		7550, 7553, // Olm mage hand
 		7530, // Vespula
 		7533, // Abyssal portal
 		7559 // Deathly ranger

@@ -15,15 +15,18 @@ public class DptComputable implements Computable<Double>
 
 	private final BaseHitDptComputable baseHitDptComputable;
 	private final Set<MultiHitDptComputable> multiHitDptComputables;
+	private final DamageReductionComputable damageReductionComputable;
 
 	@Override
 	public Double compute(ComputeContext context)
 	{
-		return multiHitDptComputables.stream()
+		double dpt = multiHitDptComputables.stream()
 			.filter(mhdc -> mhdc.isApplicable(context))
 			.findFirst()
 			.map(context::get)
 			.orElseGet(() -> context.get(baseHitDptComputable));
+		// flat monster damage reductions (e.g. Kraken takes 1/7 from ranged)
+		return dpt * context.get(damageReductionComputable);
 	}
 
 }

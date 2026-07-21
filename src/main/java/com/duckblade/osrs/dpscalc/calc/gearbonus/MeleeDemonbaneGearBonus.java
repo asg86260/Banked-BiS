@@ -17,11 +17,11 @@ import net.runelite.api.ItemID;
 public class MeleeDemonbaneGearBonus implements GearBonusComputable
 {
 
-	private static final Set<Integer> DEMONBANE_L2 = ImmutableSet.of(
+	public static final Set<Integer> DEMONBANE_L2 = ImmutableSet.of(
 		ItemID.ARCLIGHT
 	);
 
-	private static final Set<Integer> DEMONBANE_L1 = ImmutableSet.of(
+	public static final Set<Integer> DEMONBANE_L1 = ImmutableSet.of(
 		ItemID.DARKLIGHT,
 		ItemID.SILVERLIGHT,
 		ItemID.SILVERLIGHT_6745 // stained black, mid-shadow of the storm

@@ -23,6 +23,9 @@ class DptComputableTest
 	private MultiHitDptComputable multiHitDptComputable1, multiHitDptComputable2;
 
 	@Mock
+	private DamageReductionComputable damageReductionComputable;
+
+	@Mock
 	private ComputeContext context;
 
 	private DptComputable dptComputable;
@@ -32,7 +35,8 @@ class DptComputableTest
 	{
 		dptComputable = new DptComputable(
 			baseHitDptComputable,
-			ImmutableSet.of(multiHitDptComputable1, multiHitDptComputable2)
+			ImmutableSet.of(multiHitDptComputable1, multiHitDptComputable2),
+			damageReductionComputable
 		);
 	}
 
@@ -42,6 +46,7 @@ class DptComputableTest
 		when(multiHitDptComputable1.isApplicable(context)).thenReturn(false);
 		when(multiHitDptComputable2.isApplicable(context)).thenReturn(true);
 		when(context.get(multiHitDptComputable2)).thenReturn(3.0);
+		when(context.get(damageReductionComputable)).thenReturn(1.0);
 
 		assertEquals(3.0, dptComputable.compute(context));
 	}
@@ -52,8 +57,20 @@ class DptComputableTest
 		when(context.get(baseHitDptComputable)).thenReturn(5.0);
 		when(multiHitDptComputable1.isApplicable(context)).thenReturn(false);
 		when(multiHitDptComputable2.isApplicable(context)).thenReturn(false);
+		when(context.get(damageReductionComputable)).thenReturn(1.0);
 
 		assertEquals(5.0, dptComputable.compute(context));
+	}
+
+	@Test
+	void appliesDamageReductionFactor()
+	{
+		when(context.get(baseHitDptComputable)).thenReturn(7.0);
+		when(multiHitDptComputable1.isApplicable(context)).thenReturn(false);
+		when(multiHitDptComputable2.isApplicable(context)).thenReturn(false);
+		when(context.get(damageReductionComputable)).thenReturn(1.0 / 7.0);
+
+		assertEquals(1.0, dptComputable.compute(context), 1e-9);
 	}
 
 	@Test
