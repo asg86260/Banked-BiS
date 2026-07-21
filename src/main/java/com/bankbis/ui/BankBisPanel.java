@@ -34,7 +34,6 @@ import java.awt.event.MouseEvent;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -805,8 +804,8 @@ public class BankBisPanel extends PluginPanel
 		header.setFont(FontManager.getRunescapeBoldFont());
 		header.setForeground(ColorScheme.BRAND_ORANGE);
 
-		JToggleButton highlight = new JToggleButton("Show in bank", actionIcon(ColorScheme.LIGHT_GRAY_COLOR, false));
-		highlight.setSelectedIcon(actionIcon(ColorScheme.BRAND_ORANGE, false));
+		JToggleButton highlight = new JToggleButton("Show in bank", actionIcon(ColorScheme.LIGHT_GRAY_COLOR));
+		highlight.setSelectedIcon(actionIcon(ColorScheme.BRAND_ORANGE));
 		styleActionButton(highlight, "Filter the open bank to this loadout and outline its items");
 		highlight.addActionListener(e ->
 		{
@@ -892,28 +891,18 @@ public class BankBisPanel extends PluginPanel
 	}
 
 	/**
-	 * Small 14px action glyphs drawn at runtime (no bundled assets):
-	 * highlight = slot outline with a center dot, export = arrow into tray.
+	 * Small 14px slot-outline glyph (a slot with a centered item dot),
+	 * drawn at runtime so no image assets are bundled.
 	 */
-	private static ImageIcon actionIcon(java.awt.Color color, boolean export)
+	private static ImageIcon actionIcon(java.awt.Color color)
 	{
 		BufferedImage img = new BufferedImage(14, 14, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = img.createGraphics();
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setColor(color);
 		g.setStroke(new BasicStroke(1.4f));
-		if (export)
-		{
-			g.drawLine(7, 1, 7, 8);
-			g.drawLine(4, 5, 7, 8);
-			g.drawLine(10, 5, 7, 8);
-			g.drawPolyline(new int[]{2, 2, 12, 12}, new int[]{9, 12, 12, 9}, 4);
-		}
-		else
-		{
-			g.drawRect(2, 2, 10, 10);
-			g.fillOval(5, 5, 4, 4);
-		}
+		g.drawRect(2, 2, 10, 10);
+		g.fillOval(5, 5, 4, 4);
 		g.dispose();
 		return new ImageIcon(img);
 	}

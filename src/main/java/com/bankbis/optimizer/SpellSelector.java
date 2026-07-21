@@ -53,9 +53,4 @@ public final class SpellSelector
 		return spells;
 	}
 
-	public static int levelRequired(Spell spell)
-	{
-		return LEVEL_REQS.getOrDefault(spell, Integer.MAX_VALUE);
-	}
-
 }
