@@ -1,5 +1,6 @@
 package com.duckblade.osrs.dpscalc.calc.defender;
 
+import com.duckblade.osrs.dpscalc.calc.WeaponComputable;
 import com.duckblade.osrs.dpscalc.calc.compute.Computable;
 import com.duckblade.osrs.dpscalc.calc.compute.ComputeContext;
 import com.duckblade.osrs.dpscalc.calc.compute.ComputeInputs;
@@ -29,6 +30,7 @@ public class DefenseRollComputable implements Computable<Integer>
 	);
 
 	private final DefenderSkillsComputable defenderSkillsComputable;
+	private final WeaponComputable weaponComputable;
 
 	@Override
 	public Integer compute(ComputeContext context)
@@ -52,7 +54,7 @@ public class DefenseRollComputable implements Computable<Integer>
 
 			case RANGED:
 				defenseLevel = skills.getTotals().get(Skill.DEFENCE);
-				defenseBonus = defensiveBonuses.getDefenseRanged();
+				defenseBonus = rangedDefenceBonus(context, defensiveBonuses);
 				break;
 
 			case STAB:
@@ -72,5 +74,24 @@ public class DefenseRollComputable implements Computable<Integer>
 		}
 
 		return (defenseLevel + 9) * (defenseBonus + 64);
+	}
+
+	// Select the ranged defence type by weapon (wiki calc getRangedDamageType):
+	// thrown = light, crossbows/chinchompas = heavy, salamanders = mixed
+	// (average), everything else (bows) = standard.
+	private int rangedDefenceBonus(ComputeContext context, DefensiveBonuses d)
+	{
+		switch (context.get(weaponComputable).getWeaponCategory())
+		{
+			case THROWN:
+				return d.getDefenseRangedLight();
+			case CROSSBOW:
+			case CHINCHOMPAS:
+				return d.getDefenseRangedHeavy();
+			case SALAMANDER:
+				return (d.getDefenseRangedLight() + d.getDefenseRanged() + d.getDefenseRangedHeavy()) / 3;
+			default:
+				return d.getDefenseRanged();
+		}
 	}
 }

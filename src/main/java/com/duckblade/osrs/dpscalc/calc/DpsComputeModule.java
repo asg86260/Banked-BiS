@@ -35,6 +35,7 @@ import com.duckblade.osrs.dpscalc.calc.maxhit.magic.PoweredStaffMaxHitComputable
 import com.duckblade.osrs.dpscalc.calc.maxhit.magic.SpellMaxHitComputable;
 import com.duckblade.osrs.dpscalc.calc.multihit.ColossalBladeDptComputable;
 import com.duckblade.osrs.dpscalc.calc.multihit.DharoksDptComputable;
+import com.duckblade.osrs.dpscalc.calc.multihit.EnchantedBoltDptComputable;
 import com.duckblade.osrs.dpscalc.calc.multihit.KarilsDptComputable;
 import com.duckblade.osrs.dpscalc.calc.multihit.KerisDptComputable;
 import com.duckblade.osrs.dpscalc.calc.multihit.MultiHitDptComputable;
@@ -144,12 +145,13 @@ public class DpsComputeModule extends AbstractModule
 	Set<MultiHitDptComputable> multiHitDptComputables(
 		ColossalBladeDptComputable colossalBlade,
 		DharoksDptComputable dharoks,
+		EnchantedBoltDptComputable enchantedBolt,
 		KarilsDptComputable karils,
 		KerisDptComputable keris,
 		ScytheDptComputable scythe,
 		VeracsDptComputable veracs)
 	{
-		return ImmutableSet.of(colossalBlade, dharoks, karils, keris, scythe, veracs);
+		return ImmutableSet.of(colossalBlade, dharoks, enchantedBolt, karils, keris, scythe, veracs);
 	}
 
 }

@@ -8,7 +8,9 @@ import com.duckblade.osrs.dpscalc.calc.model.AttackType;
 import com.duckblade.osrs.dpscalc.calc.model.DefenderAttributes;
 import com.duckblade.osrs.dpscalc.calc.model.DefensiveBonuses;
 import com.duckblade.osrs.dpscalc.calc.model.Skills;
+import com.duckblade.osrs.dpscalc.calc.model.WeaponCategory;
 import static com.duckblade.osrs.dpscalc.calc.testutil.AttackStyleUtil.ofAttackType;
+import static com.duckblade.osrs.dpscalc.calc.testutil.ItemStatsUtil.ofWeaponCategory;
 import net.runelite.api.Skill;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,11 +35,16 @@ class DefenseRollComputableTest
 		.defenseSlash(34)
 		.defenseCrush(56)
 		.defenseRanged(78)
+		.defenseRangedLight(20)
+		.defenseRangedHeavy(40)
 		.defenseMagic(90)
 		.build();
 
 	@Mock
 	private DefenderSkillsComputable defenderSkillsComputable;
+
+	@Mock
+	private WeaponComputable weaponComputable;
 
 	@Mock
 	private ComputeContext context;
@@ -74,9 +81,29 @@ class DefenseRollComputableTest
 	@Test
 	void isCorrectForRanged()
 	{
+		// bows roll against standard ranged defence
 		when(context.get(ComputeInputs.ATTACK_STYLE)).thenReturn(ofAttackType(AttackType.RANGED));
+		when(context.get(weaponComputable)).thenReturn(ofWeaponCategory(WeaponCategory.BOW));
 
 		assertEquals((12 + 9) * (78 + 64), defenseRollComputable.compute(context));
+	}
+
+	@Test
+	void usesHeavyRangedDefenceForCrossbows()
+	{
+		when(context.get(ComputeInputs.ATTACK_STYLE)).thenReturn(ofAttackType(AttackType.RANGED));
+		when(context.get(weaponComputable)).thenReturn(ofWeaponCategory(WeaponCategory.CROSSBOW));
+
+		assertEquals((12 + 9) * (40 + 64), defenseRollComputable.compute(context));
+	}
+
+	@Test
+	void usesLightRangedDefenceForThrown()
+	{
+		when(context.get(ComputeInputs.ATTACK_STYLE)).thenReturn(ofAttackType(AttackType.RANGED));
+		when(context.get(weaponComputable)).thenReturn(ofWeaponCategory(WeaponCategory.THROWN));
+
+		assertEquals((12 + 9) * (20 + 64), defenseRollComputable.compute(context));
 	}
 
 	@Test

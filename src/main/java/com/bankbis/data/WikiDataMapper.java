@@ -119,8 +119,10 @@ public class WikiDataMapper
 			.defenseSlash(m.getDefensive().getSlash())
 			.defenseCrush(m.getDefensive().getCrush())
 			.defenseMagic(m.getDefensive().getMagic())
-			// engine predates the light/standard/heavy ranged defence split
+			// split ranged defence: standard = bows, light = thrown, heavy = crossbows
 			.defenseRanged(m.getDefensive().getStandard())
+			.defenseRangedLight(m.getDefensive().getLight())
+			.defenseRangedHeavy(m.getDefensive().getHeavy())
 			.build();
 	}
 
@@ -131,6 +133,7 @@ public class WikiDataMapper
 		boolean kalphite = m.getAttributes().contains("kalphite");
 		boolean leafy = m.getAttributes().contains("leafy");
 		boolean undead = m.getAttributes().contains("undead");
+		boolean fiery = m.getAttributes().contains("fiery");
 
 		return DefenderAttributes.builder()
 			.npcId(m.getId())
@@ -140,6 +143,7 @@ public class WikiDataMapper
 			.isKalphite(kalphite)
 			.isLeafy(leafy)
 			.isUndead(undead)
+			.isFiery(fiery)
 			.isVampyre1(m.getAttributes().contains("vampyre1"))
 			.isVampyre2(m.getAttributes().contains("vampyre2"))
 			.isVampyre3(m.getAttributes().contains("vampyre3"))

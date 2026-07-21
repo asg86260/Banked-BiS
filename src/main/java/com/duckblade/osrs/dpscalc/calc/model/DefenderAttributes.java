@@ -32,6 +32,9 @@ public class DefenderAttributes
 	private final boolean isUndead = false; // salve
 
 	@Builder.Default
+	private final boolean isFiery = false; // pearl/dragonstone bolt effects
+
+	@Builder.Default
 	private final boolean isVampyre1 = false;
 
 	@Builder.Default
