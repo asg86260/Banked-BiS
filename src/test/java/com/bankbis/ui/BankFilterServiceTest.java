@@ -71,18 +71,18 @@ class BankFilterServiceTest
 	}
 
 	@Test
-	void clearClosesOnlyOurOwnActiveTag()
+	void clearClosesTheFilterWeOpened()
 	{
-		when(bankTagsService.getActiveTag()).thenReturn("banked-bis");
+		service.show(Set.of(4151));
 		service.clear();
 		verify(bankTagsService).closeBankTag();
 		verify(tagManager).unregisterTag("banked-bis");
 	}
 
 	@Test
-	void clearLeavesForeignActiveTagOpen()
+	void clearWithoutShowNeverClosesForeignTags()
 	{
-		when(bankTagsService.getActiveTag()).thenReturn("my-slayer-tab");
+		// nothing of ours is open; a user's own tag tab must stay open
 		service.clear();
 		verify(bankTagsService, never()).closeBankTag();
 		verify(tagManager).unregisterTag("banked-bis");

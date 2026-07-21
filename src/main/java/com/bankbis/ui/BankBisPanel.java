@@ -112,7 +112,7 @@ public class BankBisPanel extends PluginPanel
 	private final JComboBox<PotionBoost> potionCombo = new JComboBox<>(PotionBoost.values());
 	private final JComboBox<PrayerAssumption> prayerCombo = new JComboBox<>(PrayerAssumption.values());
 	private final JButton refreshButton = new PrimaryButton("Find my best gear");
-	private final JToggleButton advancedToggle = new JToggleButton("BOOSTS  ▸");
+	private final JToggleButton advancedToggle = new JToggleButton("OPTIONS  ▸");
 	private final JPanel advancedHolder = new JPanel(new BorderLayout());
 	private final JLabel statusLabel = new JLabel();
 	private final JPanel resultsPanel = new JPanel();
@@ -458,7 +458,7 @@ public class BankBisPanel extends PluginPanel
 		advancedHolder.removeAll();
 		if (advancedToggle.isSelected())
 		{
-			advancedToggle.setText("BOOSTS  ▾");
+			advancedToggle.setText("OPTIONS  ▾");
 
 			JPanel rows = new JPanel(new GridLayout(0, 1, 0, 4));
 			rows.setOpaque(false);
@@ -474,7 +474,7 @@ public class BankBisPanel extends PluginPanel
 		}
 		else
 		{
-			advancedToggle.setText("BOOSTS  ▸");
+			advancedToggle.setText("OPTIONS  ▸");
 		}
 		advancedHolder.revalidate();
 		advancedHolder.repaint();

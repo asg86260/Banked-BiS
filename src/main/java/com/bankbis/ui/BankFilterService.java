@@ -27,6 +27,12 @@ public class BankFilterService
 	private final BankTagsService bankTagsService;
 	private final ItemManager itemManager;
 
+	// whether WE opened the filter; only mutated on the client thread.
+	// closing is keyed off this flag rather than getActiveTag() - if the
+	// active-tag string ever mismatches, an unregistered-but-active tag
+	// would leave the bank looking empty on reopen
+	private boolean filterActive;
+
 	@Inject
 	BankFilterService(ClientThread clientThread, TagManager tagManager, BankTagsService bankTagsService, ItemManager itemManager)
 	{
@@ -44,6 +50,7 @@ public class BankFilterService
 			{
 				tagManager.registerTag(TAG, itemId -> itemIds.contains(itemManager.canonicalize(itemId)));
 				bankTagsService.openBankTag(TAG, BankTagsService.OPTION_NO_LAYOUT | BankTagsService.OPTION_HIDE_TAG_NAME);
+				filterActive = true;
 			}
 			catch (Exception e)
 			{
@@ -58,9 +65,10 @@ public class BankFilterService
 		{
 			try
 			{
-				if (TAG.equals(bankTagsService.getActiveTag()))
+				if (filterActive)
 				{
 					bankTagsService.closeBankTag();
+					filterActive = false;
 				}
 				tagManager.unregisterTag(TAG);
 			}
