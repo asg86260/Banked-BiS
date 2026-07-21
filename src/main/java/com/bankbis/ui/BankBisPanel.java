@@ -23,6 +23,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.FlowLayout;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -496,18 +497,42 @@ public class BankBisPanel extends PluginPanel
 
 	/**
 	 * The max hit drawn on a damage hitsplat, like the in-game max hit splat.
+	 * The number is composited onto the sprite (rather than overlaid via a
+	 * JLabel) so it stays pixel-centered regardless of the sprite's own bounds.
 	 */
 	private JLabel maxHitSplat(int maxHit)
 	{
-		JLabel splat = new JLabel(String.valueOf(maxHit));
-		splat.setFont(FontManager.getRunescapeSmallFont());
-		splat.setForeground(Color.WHITE);
-		splat.setHorizontalTextPosition(SwingConstants.CENTER);
-		splat.setVerticalTextPosition(SwingConstants.CENTER);
+		JLabel splat = new JLabel();
 		splat.setToolTipText("Max hit");
+		String text = String.valueOf(maxHit);
 		spriteManager.getSpriteAsync(HITSPLAT_RED_DAMAGE, 0, sprite ->
-			SwingUtilities.invokeLater(() -> splat.setIcon(new ImageIcon(sprite))));
+			SwingUtilities.invokeLater(() ->
+			{
+				if (sprite != null)
+				{
+					splat.setIcon(new ImageIcon(drawCentered(sprite, text)));
+				}
+			}));
 		return splat;
+	}
+
+	private static BufferedImage drawCentered(BufferedImage sprite, String text)
+	{
+		BufferedImage out = new BufferedImage(sprite.getWidth(), sprite.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = out.createGraphics();
+		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		g.drawImage(sprite, 0, 0, null);
+		g.setFont(FontManager.getRunescapeSmallFont());
+		FontMetrics fm = g.getFontMetrics();
+		int x = (sprite.getWidth() - fm.stringWidth(text)) / 2;
+		int y = (sprite.getHeight() - fm.getAscent() - fm.getDescent()) / 2 + fm.getAscent();
+		// drop shadow for legibility against the splat, then the white number
+		g.setColor(Color.BLACK);
+		g.drawString(text, x + 1, y + 1);
+		g.setColor(Color.WHITE);
+		g.drawString(text, x, y);
+		g.dispose();
+		return out;
 	}
 
 	private static JLabel advancedLabel(String text)

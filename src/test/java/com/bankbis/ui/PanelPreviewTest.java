@@ -29,6 +29,10 @@ class PanelPreviewTest
 	{
 		Assumptions.assumeFalse(GraphicsEnvironment.isHeadless());
 
+		JFrame[] frameRef = new JFrame[1];
+
+		// build + render in one EDT task; async sprite callbacks (setIcon via
+		// invokeLater) are queued here and run before the next task
 		SwingUtilities.invokeAndWait(() ->
 		{
 			try
@@ -43,7 +47,21 @@ class PanelPreviewTest
 				frame.pack();
 				frame.setSize(242, Math.max(650, panel.getPreferredSize().height + 20));
 				frame.validate();
+				frameRef[0] = frame;
+			}
+			catch (Exception e)
+			{
+				throw new RuntimeException(e);
+			}
+		});
 
+		// capture in a later task so queued sprite icons are painted
+		SwingUtilities.invokeAndWait(() ->
+		{
+			try
+			{
+				JFrame frame = frameRef[0];
+				frame.validate();
 				BufferedImage shot = new BufferedImage(frame.getWidth(), frame.getHeight(), BufferedImage.TYPE_INT_RGB);
 				Graphics2D g = shot.createGraphics();
 				frame.getContentPane().paint(g);
