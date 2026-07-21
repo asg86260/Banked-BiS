@@ -13,11 +13,16 @@ import com.bankbis.optimizer.PotionBoost;
 import com.bankbis.optimizer.PrayerAssumption;
 import com.duckblade.osrs.dpscalc.calc.model.ItemStats;
 import com.google.gson.Gson;
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.FlowLayout;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.RenderingHints;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -31,6 +36,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import javax.inject.Inject;
+import javax.swing.AbstractButton;
+import javax.swing.ImageIcon;
 import javax.inject.Singleton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -626,43 +633,10 @@ public class BankBisPanel extends PluginPanel
 		JLabel header = new JLabel(String.format("%s  -  %.2f DPS%s", Text.titleCase(loadout.getCombatClass()), headerDps, headerSuffix));
 		header.setFont(FontManager.getRunescapeBoldFont());
 		header.setForeground(ColorScheme.BRAND_ORANGE);
-		header.setHorizontalAlignment(SwingConstants.CENTER);
-		header.setAlignmentX(Component.CENTER_ALIGNMENT);
-		section.add(header);
 
-		if (breakdown != null)
-		{
-			JLabel breakdownLabel = new JLabel(String.format("base %.1f · prayer %.1f · pray+pots %.1f",
-				breakdown.getBase(), breakdown.getPrayed(), breakdown.getPotted()));
-			breakdownLabel.setFont(FontManager.getRunescapeSmallFont());
-			breakdownLabel.setForeground(ColorScheme.LIGHT_GRAY_COLOR.darker());
-			breakdownLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-			section.add(breakdownLabel);
-		}
-
-		JLabel style = new JLabel(loadout.getAttackStyle().getDisplayName());
-		style.setFont(FontManager.getRunescapeSmallFont());
-		style.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
-		style.setAlignmentX(Component.CENTER_ALIGNMENT);
-		section.add(style);
-		section.add(Box.createVerticalStrut(6));
-
-		EquipmentGridPanel grid = new EquipmentGridPanel(loadout.getItems(), result.getPartyItemIds(),
-			result.getGroupStorageItemIds(), ownedItemsService.getWornItemIds(), itemManager, spriteManager);
-		grid.setAlignmentX(Component.CENTER_ALIGNMENT);
-		section.add(grid);
-		section.add(Box.createVerticalStrut(6));
-
-		Set<Integer> loadoutItemIds = new HashSet<>();
-		for (ItemStats item : loadout.getItems().values())
-		{
-			loadoutItemIds.add(item.getItemId());
-		}
-
-		JToggleButton highlight = new JToggleButton("Highlight in bank");
-		highlight.setFont(FontManager.getRunescapeSmallFont());
-		highlight.setFocusPainted(false);
-		highlight.setAlignmentX(Component.CENTER_ALIGNMENT);
+		JToggleButton highlight = new JToggleButton(actionIcon(ColorScheme.LIGHT_GRAY_COLOR, false));
+		highlight.setSelectedIcon(actionIcon(ColorScheme.BRAND_ORANGE, false));
+		styleIconButton(highlight, "Highlight this loadout's items in the bank");
 		highlight.addActionListener(e ->
 		{
 			if (highlight.isSelected())
@@ -675,7 +649,7 @@ public class BankBisPanel extends PluginPanel
 						other.setSelected(false);
 					}
 				}
-				highlightState.set(loadoutItemIds);
+				highlightState.set(loadoutItemIdsOf(loadout));
 			}
 			else
 			{
@@ -683,22 +657,98 @@ public class BankBisPanel extends PluginPanel
 			}
 		});
 		highlightButtons.add(highlight);
-		section.add(highlight);
-		section.add(Box.createVerticalStrut(4));
 
-		JButton export = new JButton("Export to Inventory Setups");
-		export.setFont(FontManager.getRunescapeSmallFont());
-		export.setFocusPainted(false);
-		export.setToolTipText("Copy this loadout as an Inventory Setups import to the clipboard");
-		export.setAlignmentX(Component.CENTER_ALIGNMENT);
+		JButton export = new JButton(actionIcon(ColorScheme.LIGHT_GRAY_COLOR, true));
+		export.setRolloverIcon(actionIcon(ColorScheme.BRAND_ORANGE, true));
+		styleIconButton(export, "Copy as an Inventory Setups import");
 		export.addActionListener(e ->
 		{
 			String json = InventorySetupExport.toJson(gson, loadout, target.getLabel());
 			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(json), null);
 			statusLabel.setText("Copied - use Import setup in Inventory Setups.");
 		});
-		section.add(export);
+
+		JPanel actions = new JPanel(new FlowLayout(FlowLayout.RIGHT, 4, 0));
+		actions.setOpaque(false);
+		actions.add(highlight);
+		actions.add(export);
+
+		JPanel headerRow = new JPanel(new BorderLayout());
+		headerRow.setOpaque(false);
+		headerRow.add(header, BorderLayout.WEST);
+		headerRow.add(actions, BorderLayout.EAST);
+		headerRow.setAlignmentX(Component.CENTER_ALIGNMENT);
+		headerRow.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, headerRow.getPreferredSize().height));
+		section.add(headerRow);
+
+		if (breakdown != null)
+		{
+			JLabel breakdownLabel = new JLabel(String.format("base %.1f · prayer %.1f · pray+pots %.1f",
+				breakdown.getBase(), breakdown.getPrayed(), breakdown.getPotted()));
+			breakdownLabel.setFont(FontManager.getRunescapeSmallFont());
+			breakdownLabel.setForeground(ColorScheme.LIGHT_GRAY_COLOR.darker());
+			breakdownLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+			section.add(breakdownLabel);
+		}
+
+		JLabel style = new JLabel(loadout.getAttackStyle().getDisplayName());
+		style.setFont(FontManager.getRunescapeSmallFont());
+		style.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+		style.setAlignmentX(Component.LEFT_ALIGNMENT);
+		section.add(style);
+		section.add(Box.createVerticalStrut(6));
+
+		EquipmentGridPanel grid = new EquipmentGridPanel(loadout.getItems(), result.getPartyItemIds(),
+			result.getGroupStorageItemIds(), ownedItemsService.getWornItemIds(), itemManager, spriteManager);
+		grid.setAlignmentX(Component.CENTER_ALIGNMENT);
+		section.add(grid);
 		return section;
+	}
+
+	private static Set<Integer> loadoutItemIdsOf(Loadout loadout)
+	{
+		Set<Integer> ids = new HashSet<>();
+		for (ItemStats item : loadout.getItems().values())
+		{
+			ids.add(item.getItemId());
+		}
+		return ids;
+	}
+
+	private static void styleIconButton(AbstractButton button, String tooltip)
+	{
+		button.setPreferredSize(new java.awt.Dimension(18, 18));
+		button.setContentAreaFilled(false);
+		button.setFocusPainted(false);
+		button.setBorder(BorderFactory.createEmptyBorder());
+		button.setToolTipText(tooltip);
+	}
+
+	/**
+	 * Small 14px action glyphs drawn at runtime (no bundled assets):
+	 * highlight = slot outline with a center dot, export = arrow into tray.
+	 */
+	private static ImageIcon actionIcon(java.awt.Color color, boolean export)
+	{
+		BufferedImage img = new BufferedImage(14, 14, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = img.createGraphics();
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g.setColor(color);
+		g.setStroke(new BasicStroke(1.4f));
+		if (export)
+		{
+			g.drawLine(7, 1, 7, 8);
+			g.drawLine(4, 5, 7, 8);
+			g.drawLine(10, 5, 7, 8);
+			g.drawPolyline(new int[]{2, 2, 12, 12}, new int[]{9, 12, 12, 9}, 4);
+		}
+		else
+		{
+			g.drawRect(2, 2, 10, 10);
+			g.fillOval(5, 5, 4, 4);
+		}
+		g.dispose();
+		return new ImageIcon(img);
 	}
 
 	/**
