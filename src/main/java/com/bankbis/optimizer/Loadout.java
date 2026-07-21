@@ -2,6 +2,7 @@ package com.bankbis.optimizer;
 
 import com.duckblade.osrs.dpscalc.calc.model.AttackStyle;
 import com.duckblade.osrs.dpscalc.calc.model.ItemStats;
+import com.duckblade.osrs.dpscalc.calc.model.Spell;
 import java.util.Map;
 import lombok.Builder;
 import lombok.Value;
@@ -19,6 +20,10 @@ public class Loadout
 	private final CombatClass combatClass;
 	private final Map<EquipmentInventorySlot, ItemStats> items;
 	private final AttackStyle attackStyle;
+
+	/** The spell being cast, or null for non-casting loadouts. */
+	private final Spell spell;
+
 	private final double dps;
 
 	/**

@@ -839,7 +839,9 @@ public class BankBisPanel extends PluginPanel
 			section.add(breakdownLabel);
 		}
 
-		JLabel style = new JLabel(loadout.getAttackStyle().getDisplayName());
+		JLabel style = new JLabel(loadout.getSpell() != null
+			? loadout.getSpell().getDisplayName()
+			: loadout.getAttackStyle().getDisplayName());
 		style.setFont(FontManager.getRunescapeSmallFont());
 		style.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 		style.setAlignmentX(Component.LEFT_ALIGNMENT);

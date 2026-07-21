@@ -44,17 +44,36 @@ the RuneLite party service. Recommendations then include gear a party member
 could lend, marked "(party)" in the results. Disabled by default; nothing is
 ever shared while the setting is off.
 
-## Current limitations
+## Accuracy vs. the Wiki DPS Calculator
 
-- Magic recommendations only consider powered staves (trident/sang/shadow,
-  Thammaron's/accursed sceptres, etc.); autocast spell selection is not
-  implemented yet.
-- Rigour and Augury are assumed unlocked if your prayer level allows them.
-- Items are matched by exact id, so an uncharged/broken variant of an item is
-  treated as a different item than its usable form.
-- Special attacks are not modeled; recommendations are sustained DPS only.
-- Dharok's set (scales with missing HP) is not recommended since sustained
+The math follows the OSRS Wiki DPS calculator's formulas, and the biggest
+mechanics are at parity: melee, ranged, powered staves, standard elemental
+spellcasting with **elemental weaknesses** (accuracy and max-hit bonuses),
+prayer unlock detection, potion boosts, CoX party/Challenge Mode defence
+scaling, and the gear special cases listed above.
+
+Known gaps, so you know exactly when to double-check against the wiki calc:
+
+- **Spellbooks**: only standard elemental spells are auto-selected (best
+  castable per element). Ancients, Arceuus (demonbane/grasps), god spells,
+  Iban Blast, and Magic Dart are not tried - autocast and unlock state are
+  not detectable from the client.
+- **Ranged defence split**: monsters' light/standard/heavy ranged defence is
+  collapsed to "standard"; heavy crossbow vs. dart distinctions against
+  split-defence monsters (e.g. Araxxor) may be slightly off.
+- **Flat armour** (Tormented demons' damage reduction) is not modeled.
+- **Special attacks** are not modeled; recommendations are sustained DPS.
+- **ToA invocations and ToB/ToA party size** scale monster HP only, which
+  never changes gear ranking, so they intentionally do not alter results.
+- **CoX scaling** assumes a maxed party (the wiki calc's highest-HP/combat
+  inputs); Tekton CM uses its exact 20/35% defence boost.
+- **Consumables/sundries**: rune costs, sunfire runes, and charge states are
+  ignored; items are matched by exact id, so uncharged/broken variants are
+  treated as different items.
+- **Dharok's** (scales with missing HP) is not recommended since sustained
   full-HP DPS is assumed.
+- The engine's item special cases are maintained by hand; very recent items
+  may be plain stat-sticks until added.
 
 ## Data sources & credits
 

@@ -1,8 +1,10 @@
 package com.duckblade.osrs.dpscalc.calc.maxhit.magic;
 
 import com.duckblade.osrs.dpscalc.calc.compute.ComputeContext;
+import com.duckblade.osrs.dpscalc.calc.compute.ComputeInputs;
 import com.duckblade.osrs.dpscalc.calc.gearbonus.AggregateGearBonusesComputable;
 import com.duckblade.osrs.dpscalc.calc.maxhit.StrengthBonusComputable;
+import com.duckblade.osrs.dpscalc.calc.model.AttackStyle;
 import com.duckblade.osrs.dpscalc.calc.model.GearBonuses;
 import com.google.common.collect.ImmutableSet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -60,6 +62,8 @@ class MageMaxHitComputableTest
 		when(context.get(magicMaxHitComputable2)).thenReturn(10);
 		when(context.get(strengthBonusComputable)).thenReturn(0);
 		when(context.get(aggregateGearBonusesComputable)).thenReturn(GearBonuses.EMPTY);
+		when(context.get(ComputeInputs.ATTACK_STYLE)).thenReturn(AttackStyle.MANUAL_CAST);
+		when(context.get(ComputeInputs.SPELL)).thenReturn(null);
 
 		assertEquals(5, mageMaxHitComputable.compute(context));
 		assertEquals(10, mageMaxHitComputable.compute(context));
@@ -72,6 +76,8 @@ class MageMaxHitComputableTest
 		when(context.get(magicMaxHitComputable1)).thenReturn(5);
 		when(context.get(strengthBonusComputable)).thenReturn(10);
 		when(context.get(aggregateGearBonusesComputable)).thenReturn(GearBonuses.of(1.2, 1.5));
+		when(context.get(ComputeInputs.ATTACK_STYLE)).thenReturn(AttackStyle.MANUAL_CAST);
+		when(context.get(ComputeInputs.SPELL)).thenReturn(null);
 
 		assertEquals((int) (5 * (1.10 * 1.5)), mageMaxHitComputable.compute(context));
 	}

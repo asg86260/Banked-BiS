@@ -145,6 +145,9 @@ public class WikiDataMapper
 			.isVampyre3(m.getAttributes().contains("vampyre3"))
 			.size(m.getSize())
 			.accuracyMagic(m.getOffensive().getMagic())
+			.elementalWeakness(m.getWeakness() == null || m.getWeakness().getElement() == null
+				? null : m.getWeakness().getElement().toLowerCase(Locale.ROOT))
+			.elementalWeaknessSeverity(m.getWeakness() == null ? 0 : m.getWeakness().getSeverity())
 			.build();
 	}
 

@@ -73,4 +73,30 @@ public enum Spell
 
 	private final Spellbook spellbook;
 
+	/**
+	 * The spell's element for the elemental weakness system, matching the
+	 * wiki data's element strings; null for non-elemental spells.
+	 */
+	public String getElement()
+	{
+		String n = name();
+		if (n.startsWith("WIND_"))
+		{
+			return "air";
+		}
+		if (n.startsWith("WATER_"))
+		{
+			return "water";
+		}
+		if (n.startsWith("EARTH_"))
+		{
+			return "earth";
+		}
+		if (n.startsWith("FIRE_"))
+		{
+			return "fire";
+		}
+		return null;
+	}
+
 }

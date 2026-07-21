@@ -1,7 +1,9 @@
 package com.duckblade.osrs.dpscalc.calc.maxhit.magic;
 
+import com.duckblade.osrs.dpscalc.calc.attack.AttackRollComputable;
 import com.duckblade.osrs.dpscalc.calc.compute.Computable;
 import com.duckblade.osrs.dpscalc.calc.compute.ComputeContext;
+import com.duckblade.osrs.dpscalc.calc.compute.ComputeInputs;
 import com.duckblade.osrs.dpscalc.calc.gearbonus.AggregateGearBonusesComputable;
 import com.duckblade.osrs.dpscalc.calc.maxhit.StrengthBonusComputable;
 import java.util.Set;
@@ -30,6 +32,15 @@ public class MageMaxHitComputable implements Computable<Integer>
 		double magDmgBonus = 1 + context.get(strengthBonusComputable) / 100.0;
 		double gearBonus = context.get(aggregateGearBonusesComputable).getStrengthBonus();
 		double bonus = magDmgBonus * gearBonus;
-		return (int) (weaponMaxHit * bonus);
+		int maxHit = (int) (weaponMaxHit * bonus);
+
+		// elemental weakness: matching-element spells add severity% of the
+		// spell's base max hit, after all multipliers (wiki calc parity)
+		int severity = AttackRollComputable.elementalWeaknessSeverity(context);
+		if (severity > 0)
+		{
+			maxHit += context.get(ComputeInputs.SPELL).getBaseMaxHit() * severity / 100;
+		}
+		return maxHit;
 	}
 }

@@ -18,6 +18,7 @@ import com.duckblade.osrs.dpscalc.calc.model.CombatStyle;
 import com.duckblade.osrs.dpscalc.calc.model.ItemStats;
 import com.duckblade.osrs.dpscalc.calc.model.Prayer;
 import com.duckblade.osrs.dpscalc.calc.model.Skills;
+import com.duckblade.osrs.dpscalc.calc.model.Spell;
 import com.duckblade.osrs.dpscalc.calc.model.WeaponCategory;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -115,19 +116,36 @@ public class LoadoutOptimizer
 		ItemStats darts = bestDarts(request);
 		Set<Prayer> prayers = request.getPrayerAssumption().prayersFor(combatClass, prayerLevel(request), request.getPrayerUnlocks());
 
-		// weapon prefilter: rank weapon+style pairs by weapon-only dps and
-		// keep the top few before paying for full beam searches
+		// weapon prefilter: rank weapon+style(+spell) combos by weapon-only
+		// dps and keep the top few before paying for full beam searches
 		List<ScoredLoadout> seeds = new ArrayList<>();
 		for (ItemStats weapon : weaponCandidates(request, combatClass, darts))
 		{
+			if (combatClass == CombatClass.MAGIC && isCastingStaff(weapon))
+			{
+				// casting staves attack by spell, not by weapon style; try
+				// the best castable spell of each element (weakness makes
+				// the element matter, not just the tier)
+				for (Spell spell : SpellSelector.bestCastable(magicLevel(request)))
+				{
+					Map<EquipmentInventorySlot, ItemStats> seed = new EnumMap<>(EquipmentInventorySlot.class);
+					seed.put(EquipmentInventorySlot.WEAPON, weapon);
+					double dps = evaluate(request, seed, AttackStyle.MANUAL_CAST, spell, prayers, darts);
+					if (dps > 0)
+					{
+						seeds.add(new ScoredLoadout(seed, AttackStyle.MANUAL_CAST, spell, dps));
+					}
+				}
+				continue;
+			}
 			for (AttackStyle style : usableStyles(weapon, combatClass))
 			{
 				Map<EquipmentInventorySlot, ItemStats> seed = new EnumMap<>(EquipmentInventorySlot.class);
 				seed.put(EquipmentInventorySlot.WEAPON, weapon);
-				double dps = evaluate(request, seed, style, prayers, darts);
+				double dps = evaluate(request, seed, style, null, prayers, darts);
 				if (dps > 0)
 				{
-					seeds.add(new ScoredLoadout(seed, style, dps));
+					seeds.add(new ScoredLoadout(seed, style, null, dps));
 				}
 			}
 		}
@@ -167,7 +185,7 @@ public class LoadoutOptimizer
 				Map<EquipmentInventorySlot, List<ItemStats>> remaining = new EnumMap<>(candidates);
 				remaining.keySet().removeAll(template.keySet());
 				ScoredLoadout templated = beamSearch(request,
-					new ScoredLoadout(templatedSeed, seed.style, 0), remaining, prayers, darts);
+					new ScoredLoadout(templatedSeed, seed.style, seed.spell, 0), remaining, prayers, darts);
 				best = better(best, templated);
 			}
 		}
@@ -180,6 +198,7 @@ public class LoadoutOptimizer
 			.combatClass(combatClass)
 			.items(best.items)
 			.attackStyle(best.style)
+			.spell(best.spell)
 			.dps(best.dps)
 			.build());
 	}
@@ -192,7 +211,7 @@ public class LoadoutOptimizer
 	 */
 	public double evaluateLoadout(OptimizeRequest request, Loadout loadout, Set<Prayer> prayers)
 	{
-		return evaluate(request, loadout.getItems(), loadout.getAttackStyle(), prayers, bestDarts(request));
+		return evaluate(request, loadout.getItems(), loadout.getAttackStyle(), loadout.getSpell(), prayers, bestDarts(request));
 	}
 
 	private static ScoredLoadout better(ScoredLoadout a, ScoredLoadout b)
@@ -215,14 +234,14 @@ public class LoadoutOptimizer
 		Set<Prayer> prayers,
 		ItemStats darts)
 	{
-		double seedScore = evaluate(request, seed.items, seed.style, prayers, darts);
+		double seedScore = evaluate(request, seed.items, seed.style, seed.spell, prayers, darts);
 		if (seedScore < 0)
 		{
 			return null;
 		}
 
 		List<ScoredLoadout> beam = new ArrayList<>();
-		beam.add(new ScoredLoadout(seed.items, seed.style, seedScore));
+		beam.add(new ScoredLoadout(seed.items, seed.style, seed.spell, seedScore));
 
 		for (EquipmentInventorySlot slot : ARMOR_SLOTS)
 		{
@@ -239,10 +258,10 @@ public class LoadoutOptimizer
 				{
 					Map<EquipmentInventorySlot, ItemStats> extended = new EnumMap<>(partial.items);
 					extended.put(slot, item);
-					double score = evaluate(request, extended, seed.style, prayers, darts);
+					double score = evaluate(request, extended, seed.style, seed.spell, prayers, darts);
 					if (score >= 0)
 					{
-						next.add(new ScoredLoadout(extended, seed.style, score));
+						next.add(new ScoredLoadout(extended, seed.style, seed.spell, score));
 					}
 				}
 			}
@@ -261,6 +280,7 @@ public class LoadoutOptimizer
 		OptimizeRequest request,
 		Map<EquipmentInventorySlot, ItemStats> items,
 		AttackStyle style,
+		Spell spell,
 		Set<Prayer> prayers,
 		ItemStats darts)
 	{
@@ -271,6 +291,10 @@ public class LoadoutOptimizer
 			context.put(ComputeInputs.ATTACKER_ITEMS, items);
 			context.put(ComputeInputs.ATTACKER_PRAYERS, prayers);
 			context.put(ComputeInputs.ATTACK_STYLE, style);
+			if (spell != null)
+			{
+				context.put(ComputeInputs.SPELL, spell);
+			}
 			context.put(ComputeInputs.DEFENDER_SKILLS, request.getTarget().getSkills());
 			context.put(ComputeInputs.DEFENDER_BONUSES, request.getTarget().getDefensiveBonuses());
 			context.put(ComputeInputs.DEFENDER_ATTRIBUTES, request.getTarget().getAttributes());
@@ -297,6 +321,19 @@ public class LoadoutOptimizer
 		return level == null ? 0 : level;
 	}
 
+	private int magicLevel(OptimizeRequest request)
+	{
+		Skills skills = request.getPlayerSkills();
+		Integer level = skills.getLevels() == null ? null : skills.getLevels().get(Skill.MAGIC);
+		return level == null ? 0 : level;
+	}
+
+	private static boolean isCastingStaff(ItemStats weapon)
+	{
+		WeaponCategory category = weapon.getWeaponCategory();
+		return category == WeaponCategory.STAFF || category == WeaponCategory.BLADED_STAFF;
+	}
+
 	private List<ItemStats> weaponCandidates(OptimizeRequest request, CombatClass combatClass, ItemStats darts)
 	{
 		List<ItemStats> weapons = new ArrayList<>();
@@ -315,7 +352,8 @@ public class LoadoutOptimizer
 			}
 			if (combatClass == CombatClass.MAGIC
 				&& !(category == WeaponCategory.POWERED_STAFF
-				&& PoweredStaffMaxHitComputable.SUPPORTED_STAFF_IDS.contains(item.getItemId())))
+				&& PoweredStaffMaxHitComputable.SUPPORTED_STAFF_IDS.contains(item.getItemId()))
+				&& !isCastingStaff(item))
 			{
 				continue;
 			}
@@ -660,6 +698,7 @@ public class LoadoutOptimizer
 	{
 		Map<EquipmentInventorySlot, ItemStats> items;
 		AttackStyle style;
+		Spell spell;
 		double dps;
 	}
 

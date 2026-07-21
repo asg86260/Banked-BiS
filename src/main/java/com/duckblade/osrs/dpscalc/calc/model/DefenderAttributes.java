@@ -46,6 +46,15 @@ public class DefenderAttributes
 	@Builder.Default
 	private final int accuracyMagic = 0; // tbow
 
+	// elemental weakness (2024 mechanic): matching-element spells gain
+	// severity% of the base roll as accuracy and severity% of the spell's
+	// base max hit as damage
+	@Builder.Default
+	private final String elementalWeakness = null;
+
+	@Builder.Default
+	private final int elementalWeaknessSeverity = 0;
+
 	public boolean isVampyre()
 	{
 		return isVampyre1 ||

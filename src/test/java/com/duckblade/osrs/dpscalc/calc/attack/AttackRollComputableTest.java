@@ -1,7 +1,10 @@
 package com.duckblade.osrs.dpscalc.calc.attack;
 
 import com.duckblade.osrs.dpscalc.calc.compute.ComputeContext;
+import com.duckblade.osrs.dpscalc.calc.compute.ComputeInputs;
 import com.duckblade.osrs.dpscalc.calc.gearbonus.AggregateGearBonusesComputable;
+import com.duckblade.osrs.dpscalc.calc.model.AttackStyle;
+import com.duckblade.osrs.dpscalc.calc.model.AttackType;
 import com.duckblade.osrs.dpscalc.calc.model.GearBonuses;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
@@ -36,8 +39,14 @@ class AttackRollComputableTest
 		when(context.get(effectiveAttackLevelComputable)).thenReturn(12);
 		when(context.get(attackBonusComputable)).thenReturn(34);
 		when(context.get(aggregateGearBonusesComputable)).thenReturn(GearBonuses.of(1.2, 1.4));
+		when(context.get(ComputeInputs.ATTACK_STYLE)).thenReturn(meleeStyle());
 
 		assertEquals((int) (12 * (34 + 64) * 1.2), attackRollComputable.compute(context));
+	}
+
+	private static AttackStyle meleeStyle()
+	{
+		return AttackStyle.builder().attackType(AttackType.SLASH).build();
 	}
 
 }

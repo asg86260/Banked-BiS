@@ -26,6 +26,15 @@ public class MonsterJson
 	@SerializedName("is_slayer_monster")
 	private boolean slayerMonster;
 
+	private Weakness weakness;
+
+	@Data
+	public static class Weakness
+	{
+		private String element;
+		private int severity;
+	}
+
 	@Data
 	public static class Skills
 	{
