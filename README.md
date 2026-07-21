@@ -31,6 +31,15 @@ and worn equipment - using the OSRS Wiki DPS calculator's formulas.
 2. Pick a target, hit **Find my best gear**, grab your setup with
    **Show in bank**.
 
+## Good to know
+
+- Equip requirements (levels, quests) are **not** checked - owning an item is
+  enough for it to be recommended.
+- Slayer-category presets assume you are on task; searched or picked monsters
+  check your actual task via the Slayer plugin.
+- Group storage counts as owned (toggleable) but reflects the last time you
+  opened it - a teammate may have taken something since.
+
 ## Accuracy
 
 Formulas match the wiki calc for melee, ranged, powered staves, and standard
