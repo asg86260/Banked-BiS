@@ -19,8 +19,8 @@ import net.runelite.api.Client;
 import net.runelite.api.MenuAction;
 import net.runelite.api.MenuEntry;
 import net.runelite.api.NPC;
-import net.runelite.api.events.ClientTick;
 import net.runelite.api.events.MenuOptionClicked;
+import net.runelite.api.events.PostMenuSort;
 import net.runelite.api.events.WidgetClosed;
 import net.runelite.api.gameval.InterfaceID;
 import net.runelite.client.config.ConfigManager;
@@ -84,9 +84,11 @@ public class BankBisPlugin extends Plugin
 	 * While the picker is armed, put a "Select target" entry on top of the
 	 * menu for the hovered NPC (wiki-lookup style): the top-left hover text
 	 * shows the action, left-click runs it, and nothing goes to the server.
+	 * PostMenuSort fires after the client has built and sorted the frame's
+	 * menu - entries added earlier (e.g. during ClientTick) get wiped.
 	 */
 	@Subscribe
-	public void onClientTick(ClientTick tick)
+	public void onPostMenuSort(PostMenuSort e)
 	{
 		if (!targetPickerState.isArmed() || client.isMenuOpen())
 		{

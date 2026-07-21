@@ -1,5 +1,6 @@
 package com.bankbis.ui;
 
+import com.bankbis.BankBisConfig;
 import com.bankbis.RecommendationService;
 import com.bankbis.bank.OwnedItemsService;
 import com.bankbis.content.ContentPreset;
@@ -58,6 +59,7 @@ public class BankBisPanel extends PluginPanel
 	private final TargetPickerState pickerState;
 	private final OwnedItemsService ownedItemsService;
 	private final ConfigManager configManager;
+	private final BankBisConfig config;
 
 	private final List<JToggleButton> highlightButtons = new ArrayList<>();
 
@@ -82,8 +84,10 @@ public class BankBisPanel extends PluginPanel
 	@Inject
 	public BankBisPanel(RecommendationService recommendationService, ItemManager itemManager,
 		SpriteManager spriteManager, BankHighlightState highlightState, WikiDataService wikiDataService,
-		TargetPickerState pickerState, OwnedItemsService ownedItemsService, ConfigManager configManager)
+		TargetPickerState pickerState, OwnedItemsService ownedItemsService, ConfigManager configManager,
+		BankBisConfig config)
 	{
+		this.config = config;
 		this.recommendationService = recommendationService;
 		this.itemManager = itemManager;
 		this.spriteManager = spriteManager;
@@ -475,22 +479,46 @@ public class BankBisPanel extends PluginPanel
 		section.setBorder(BorderFactory.createEmptyBorder(8, 8, 10, 8));
 		section.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-		JLabel header = new JLabel(String.format("%s  -  %.2f DPS", Text.titleCase(loadout.getCombatClass()), loadout.getDps()));
+		double headerDps = loadout.getDps();
+		String headerSuffix = "";
+		Loadout.DpsBreakdown breakdown = loadout.getBreakdown();
+		if (breakdown != null)
+		{
+			switch (config.headerDps())
+			{
+				case BASE:
+					headerDps = breakdown.getBase();
+					headerSuffix = " base";
+					break;
+				case PRAYER:
+					headerDps = breakdown.getPrayed();
+					headerSuffix = " prayer";
+					break;
+				case POTTED:
+					headerDps = breakdown.getPotted();
+					headerSuffix = " potted";
+					break;
+				case SETTINGS:
+				default:
+					break;
+			}
+		}
+
+		JLabel header = new JLabel(String.format("%s  -  %.2f DPS%s", Text.titleCase(loadout.getCombatClass()), headerDps, headerSuffix));
 		header.setFont(FontManager.getRunescapeBoldFont());
 		header.setForeground(ColorScheme.BRAND_ORANGE);
 		header.setHorizontalAlignment(SwingConstants.CENTER);
 		header.setAlignmentX(Component.CENTER_ALIGNMENT);
 		section.add(header);
 
-		if (loadout.getBreakdown() != null)
+		if (breakdown != null)
 		{
-			Loadout.DpsBreakdown b = loadout.getBreakdown();
-			JLabel breakdown = new JLabel(String.format("base %.1f · prayed %.1f · potted %.1f",
-				b.getBase(), b.getPrayed(), b.getPotted()));
-			breakdown.setFont(FontManager.getRunescapeSmallFont());
-			breakdown.setForeground(ColorScheme.LIGHT_GRAY_COLOR.darker());
-			breakdown.setAlignmentX(Component.CENTER_ALIGNMENT);
-			section.add(breakdown);
+			JLabel breakdownLabel = new JLabel(String.format("base %.1f · prayer %.1f · potted %.1f",
+				breakdown.getBase(), breakdown.getPrayed(), breakdown.getPotted()));
+			breakdownLabel.setFont(FontManager.getRunescapeSmallFont());
+			breakdownLabel.setForeground(ColorScheme.LIGHT_GRAY_COLOR.darker());
+			breakdownLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+			section.add(breakdownLabel);
 		}
 
 		JLabel style = new JLabel(loadout.getAttackStyle().getDisplayName());

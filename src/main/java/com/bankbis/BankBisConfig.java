@@ -8,6 +8,39 @@ import net.runelite.client.config.ConfigItem;
 public interface BankBisConfig extends Config
 {
 
+	enum HeaderDps
+	{
+		SETTINGS("Optimizer settings"),
+		BASE("Base"),
+		PRAYER("Prayer"),
+		POTTED("Potted"),
+		;
+
+		private final String label;
+
+		HeaderDps(String label)
+		{
+			this.label = label;
+		}
+
+		@Override
+		public String toString()
+		{
+			return label;
+		}
+	}
+
+	@ConfigItem(
+		keyName = "headerDps",
+		name = "Title DPS",
+		description = "Which DPS number each loadout's title shows: the value the optimizer "
+			+ "maximized under your panel settings, or a fixed scenario (base / prayed / potted)"
+	)
+	default HeaderDps headerDps()
+	{
+		return HeaderDps.SETTINGS;
+	}
+
 	@ConfigItem(
 		keyName = "includeGroupStorage",
 		name = "Include group storage",
