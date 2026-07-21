@@ -85,7 +85,13 @@ public class BlackMaskGearBonus implements GearBonusComputable
 		ItemID.TZTOK_SLAYER_HELMET_I_26682,
 		ItemID.VAMPYRIC_SLAYER_HELMET_I,
 		ItemID.VAMPYRIC_SLAYER_HELMET_I_25908,
-		ItemID.VAMPYRIC_SLAYER_HELMET_I_26683
+		ItemID.VAMPYRIC_SLAYER_HELMET_I_26683,
+		// post-fork recolors (base/Soul Wars/Emir's Arena imbues); raw ids
+		// verified against wiki equipment data by SpecialItemVariantAuditTest
+		29818, 29820, 29822, // Araxyte slayer helmet (i)
+		33068, 33070, 33072, // Hooded slayer helmet (i)
+		33439, 33441, 33443, // Oathplate slayer helmet (i)
+		33445, 33447, 33449 // Radiant slayer helmet (i)
 	);
 
 	public static final Set<Integer> BLACK_MASKS_MELEE = Sets.union(ImmutableSet.of(
@@ -110,7 +116,11 @@ public class BlackMaskGearBonus implements GearBonusComputable
 		ItemID.TWISTED_SLAYER_HELMET,
 		ItemID.TZKAL_SLAYER_HELMET,
 		ItemID.TZTOK_SLAYER_HELMET,
-		ItemID.VAMPYRIC_SLAYER_HELMET
+		ItemID.VAMPYRIC_SLAYER_HELMET,
+		ItemID.ARAXYTE_SLAYER_HELMET,
+		ItemID.HOODED_SLAYER_HELMET,
+		ItemID.OATHPLATE_SLAYER_HELMET,
+		ItemID.RADIANT_SLAYER_HELMET
 	), BLACK_MASKS_MAGE_RANGED);
 
 	private static final GearBonuses BLACK_MASK_MELEE = GearBonuses.symmetric(7.0 / 6.0);
