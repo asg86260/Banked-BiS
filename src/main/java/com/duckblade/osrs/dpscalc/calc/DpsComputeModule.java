@@ -41,11 +41,14 @@ import com.duckblade.osrs.dpscalc.calc.multihit.MultiHitDptComputable;
 import com.duckblade.osrs.dpscalc.calc.multihit.ScytheDptComputable;
 import com.duckblade.osrs.dpscalc.calc.multihit.VeracsDptComputable;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
-import com.google.inject.multibindings.Multibinder;
 import com.google.inject.name.Names;
 import java.util.List;
+import java.util.Set;
 
 public class DpsComputeModule extends AbstractModule
 {
@@ -53,51 +56,6 @@ public class DpsComputeModule extends AbstractModule
 	@Override
 	protected void configure()
 	{
-		Multibinder<AmmoItemStatsComputable> ammoItemStatsComputables = Multibinder.newSetBinder(binder(), AmmoItemStatsComputable.class);
-		ammoItemStatsComputables.addBinding().to(AmmolessRangedAmmoItemStatsComputable.class);
-		ammoItemStatsComputables.addBinding().to(BlowpipeDartsItemStatsComputable.class);
-
-		Multibinder<SkillScaling> defenderSkillsTransformers = Multibinder.newSetBinder(binder(), SkillScaling.class);
-		defenderSkillsTransformers.addBinding().to(TheatreSkillScaling.class);
-
-		Multibinder<GearBonusComputable> gearBonusComputables = Multibinder.newSetBinder(binder(), GearBonusComputable.class);
-		gearBonusComputables.addBinding().to(AhrimsAutocastGearBonus.class);
-		gearBonusComputables.addBinding().to(BlackMaskGearBonus.class);
-		gearBonusComputables.addBinding().to(ChinchompaDistanceGearBonus.class);
-		gearBonusComputables.addBinding().to(CrystalGearBonus.class);
-		gearBonusComputables.addBinding().to(MageDemonbaneGearBonus.class);
-		gearBonusComputables.addBinding().to(DragonHunterGearBonus.class);
-		gearBonusComputables.addBinding().to(InquisitorsGearBonus.class);
-		gearBonusComputables.addBinding().to(KerisGearBonus.class);
-		gearBonusComputables.addBinding().to(LeafyGearBonus.class);
-		gearBonusComputables.addBinding().to(MeleeDemonbaneGearBonus.class);
-		gearBonusComputables.addBinding().to(RevenantWeaponGearBonus.class);
-		gearBonusComputables.addBinding().to(SalveAmuletGearBonus.class);
-		gearBonusComputables.addBinding().to(SmokeBattlestaffGearBonus.class);
-		gearBonusComputables.addBinding().to(TbowGearBonus.class);
-		gearBonusComputables.addBinding().to(TomesGearBonus.class);
-		gearBonusComputables.addBinding().to(VampyreBaneGearBonus.class);
-		gearBonusComputables.addBinding().to(VoidGearBonus.class);
-
-		Multibinder<MagicMaxHitComputable> magicMaxHitComputables = Multibinder.newSetBinder(binder(), MagicMaxHitComputable.class);
-		magicMaxHitComputables.addBinding().to(MagicSalamanderMaxHitComputable.class);
-		magicMaxHitComputables.addBinding().to(PoweredStaffMaxHitComputable.class);
-		magicMaxHitComputables.addBinding().to(SpellMaxHitComputable.class);
-
-		Multibinder<MaxHitLimiter> maxHitLimiters = Multibinder.newSetBinder(binder(), MaxHitLimiter.class);
-		maxHitLimiters.addBinding().to(CombatStyleImmunityMaxHitLimiter.class);
-		maxHitLimiters.addBinding().to(Tier2VampyreImmunities.class);
-		maxHitLimiters.addBinding().to(Tier3VampyreImmunities.class);
-		maxHitLimiters.addBinding().to(ZulrahMaxHitLimiter.class);
-
-		Multibinder<MultiHitDptComputable> multiHitDptComputables = Multibinder.newSetBinder(binder(), MultiHitDptComputable.class);
-		multiHitDptComputables.addBinding().to(ColossalBladeDptComputable.class);
-		multiHitDptComputables.addBinding().to(DharoksDptComputable.class);
-		multiHitDptComputables.addBinding().to(KarilsDptComputable.class);
-		multiHitDptComputables.addBinding().to(KerisDptComputable.class);
-		multiHitDptComputables.addBinding().to(ScytheDptComputable.class);
-		multiHitDptComputables.addBinding().to(VeracsDptComputable.class);
-
 		// CHECKSTYLE:OFF
 		bind(new TypeLiteral<List<ComputeOutput<Integer>>>() {})
 			.annotatedWith(Names.named("EffectMaxHitOutputs"))
@@ -111,6 +69,87 @@ public class DpsComputeModule extends AbstractModule
 		// CHECKSTYLE:ON
 
 		bind(DptComputable.class).asEagerSingleton();
+	}
+
+	// Plain @Provides set bindings instead of Guice Multibinder: the plugin
+	// hub's build environment ships a Guice without the multibindings
+	// package. ImmutableSet preserves insertion order, which matters for
+	// the first-applicable lookups (magic max hit, multi-hit dpt).
+
+	@Provides
+	@Singleton
+	Set<AmmoItemStatsComputable> ammoItemStatsComputables(
+		AmmolessRangedAmmoItemStatsComputable ammoless,
+		BlowpipeDartsItemStatsComputable blowpipeDarts)
+	{
+		return ImmutableSet.of(ammoless, blowpipeDarts);
+	}
+
+	@Provides
+	@Singleton
+	Set<SkillScaling> skillScalings(TheatreSkillScaling theatre)
+	{
+		return ImmutableSet.of(theatre);
+	}
+
+	@Provides
+	@Singleton
+	Set<GearBonusComputable> gearBonusComputables(
+		AhrimsAutocastGearBonus ahrims,
+		BlackMaskGearBonus blackMask,
+		ChinchompaDistanceGearBonus chinchompa,
+		CrystalGearBonus crystal,
+		MageDemonbaneGearBonus mageDemonbane,
+		DragonHunterGearBonus dragonHunter,
+		InquisitorsGearBonus inquisitors,
+		KerisGearBonus keris,
+		LeafyGearBonus leafy,
+		MeleeDemonbaneGearBonus meleeDemonbane,
+		RevenantWeaponGearBonus revenant,
+		SalveAmuletGearBonus salve,
+		SmokeBattlestaffGearBonus smokeBattlestaff,
+		TbowGearBonus tbow,
+		TomesGearBonus tomes,
+		VampyreBaneGearBonus vampyreBane,
+		VoidGearBonus voidBonus)
+	{
+		return ImmutableSet.of(ahrims, blackMask, chinchompa, crystal, mageDemonbane,
+			dragonHunter, inquisitors, keris, leafy, meleeDemonbane, revenant, salve,
+			smokeBattlestaff, tbow, tomes, vampyreBane, voidBonus);
+	}
+
+	@Provides
+	@Singleton
+	Set<MagicMaxHitComputable> magicMaxHitComputables(
+		MagicSalamanderMaxHitComputable salamander,
+		PoweredStaffMaxHitComputable poweredStaff,
+		SpellMaxHitComputable spell)
+	{
+		return ImmutableSet.of(salamander, poweredStaff, spell);
+	}
+
+	@Provides
+	@Singleton
+	Set<MaxHitLimiter> maxHitLimiters(
+		CombatStyleImmunityMaxHitLimiter styleImmunity,
+		Tier2VampyreImmunities vampyre2,
+		Tier3VampyreImmunities vampyre3,
+		ZulrahMaxHitLimiter zulrah)
+	{
+		return ImmutableSet.of(styleImmunity, vampyre2, vampyre3, zulrah);
+	}
+
+	@Provides
+	@Singleton
+	Set<MultiHitDptComputable> multiHitDptComputables(
+		ColossalBladeDptComputable colossalBlade,
+		DharoksDptComputable dharoks,
+		KarilsDptComputable karils,
+		KerisDptComputable keris,
+		ScytheDptComputable scythe,
+		VeracsDptComputable veracs)
+	{
+		return ImmutableSet.of(colossalBlade, dharoks, karils, keris, scythe, veracs);
 	}
 
 }
