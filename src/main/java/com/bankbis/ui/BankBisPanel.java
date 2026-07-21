@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.Set;
 import javax.inject.Inject;
 import javax.swing.AbstractButton;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.inject.Singleton;
 import javax.swing.BorderFactory;
@@ -92,6 +93,7 @@ public class BankBisPanel extends PluginPanel
 
 	private final JPopupMenu suggestionPopup = new JPopupMenu();
 	private boolean suppressSuggestions;
+	private boolean refreshingPresets;
 
 	private final JComboBox<PresetCategory> categoryCombo = new JComboBox<>(PresetCategory.values());
 	private final JComboBox<ContentPreset> presetCombo = new JComboBox<>();
@@ -152,6 +154,16 @@ public class BankBisPanel extends PluginPanel
 		{
 			refreshPresetChoices();
 			updateRaidOptions();
+			setSearchTextQuietly("");
+		});
+		// touching the preset dropdowns is a statement of intent: drop any
+		// lingering search text so it stops overriding the selection
+		presetCombo.addActionListener(e ->
+		{
+			if (!refreshingPresets)
+			{
+				setSearchTextQuietly("");
+			}
 		});
 		controls.add(categoryCombo);
 		controls.add(presetCombo);
@@ -269,6 +281,16 @@ public class BankBisPanel extends PluginPanel
 			rows.setOpaque(false);
 			if (raid == RaidType.COX || raid == RaidType.TOB)
 			{
+				// CoX scales up to huge parties; ToB is capped at 5
+				String[] options = raid == RaidType.COX
+					? new String[]{"Auto", "1", "2", "3", "4", "5", "6", "7", "8", "16", "24", "50", "100"}
+					: new String[]{"Auto", "1", "2", "3", "4", "5"};
+				String previous = (String) partyCombo.getSelectedItem();
+				partyCombo.setModel(new DefaultComboBoxModel<>(options));
+				if (previous != null && java.util.Arrays.asList(options).contains(previous))
+				{
+					partyCombo.setSelectedItem(previous);
+				}
 				rows.add(labeledRow("Party size", partyCombo));
 			}
 			if (raid == RaidType.COX)
@@ -334,14 +356,22 @@ public class BankBisPanel extends PluginPanel
 
 	private void refreshPresetChoices()
 	{
-		PresetCategory category = (PresetCategory) categoryCombo.getSelectedItem();
-		presetCombo.removeAllItems();
-		for (ContentPreset preset : ContentPreset.values())
+		refreshingPresets = true;
+		try
 		{
-			if (preset.getCategory() == category)
+			PresetCategory category = (PresetCategory) categoryCombo.getSelectedItem();
+			presetCombo.removeAllItems();
+			for (ContentPreset preset : ContentPreset.values())
 			{
-				presetCombo.addItem(preset);
+				if (preset.getCategory() == category)
+				{
+					presetCombo.addItem(preset);
+				}
 			}
+		}
+		finally
+		{
+			refreshingPresets = false;
 		}
 	}
 
