@@ -176,9 +176,18 @@ public class BankBisPanel extends PluginPanel
 				setSearchTextQuietly("");
 			}
 		});
+		raidHolder.setOpaque(false);
+		cmCheck.setFont(FontManager.getRunescapeSmallFont());
+		cmCheck.setOpaque(false);
+		invoSpinner.setFont(FontManager.getRunescapeSmallFont());
+		partyCombo.setFont(FontManager.getRunescapeSmallFont());
+
 		stack.add(fullWidth(categoryCombo));
 		stack.add(Box.createVerticalStrut(4));
 		stack.add(fullWidth(presetCombo));
+		// raid options hang directly off the boss dropdown they refine,
+		// before the alternative search path below
+		stack.add(fullWidthTall(raidHolder));
 		stack.add(Box.createVerticalStrut(4));
 		stack.add(fullWidth(orDivider()));
 		stack.add(Box.createVerticalStrut(4));
@@ -229,15 +238,7 @@ public class BankBisPanel extends PluginPanel
 		searchRow.add(pickButton, BorderLayout.EAST);
 		stack.add(fullWidth(searchRow));
 
-		// raid options appear only for raid categories, indented under the
-		// boss dropdown they refine; both holders collapse fully when empty
-		raidHolder.setOpaque(false);
 		advancedHolder.setOpaque(false);
-		cmCheck.setFont(FontManager.getRunescapeSmallFont());
-		cmCheck.setOpaque(false);
-		invoSpinner.setFont(FontManager.getRunescapeSmallFont());
-		partyCombo.setFont(FontManager.getRunescapeSmallFont());
-		stack.add(fullWidthTall(raidHolder));
 
 		// "Assumptions" is a collapsible section header, not a boxed button
 		advancedToggle.setFont(FontManager.getRunescapeSmallFont());
