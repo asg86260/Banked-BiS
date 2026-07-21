@@ -1,14 +1,17 @@
 package com.bankbis;
 
 import com.bankbis.bank.OwnedItemsService;
-import com.bankbis.content.ContentPreset;
+import com.bankbis.content.Target;
 import com.bankbis.data.NpcStats;
 import com.bankbis.data.WikiDataService;
 import com.bankbis.party.PartyItemsService;
 import com.bankbis.optimizer.Loadout;
 import com.bankbis.optimizer.LoadoutOptimizer;
 import com.bankbis.optimizer.OptimizeRequest;
+import com.bankbis.optimizer.PotionBoost;
+import com.bankbis.optimizer.PrayerAssumption;
 import com.duckblade.osrs.dpscalc.calc.model.ItemStats;
+import com.duckblade.osrs.dpscalc.calc.model.Prayer;
 import com.duckblade.osrs.dpscalc.calc.model.Skills;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,9 +59,15 @@ public class RecommendationService
 		 * Item ids only available via a party member's shared bank.
 		 */
 		Set<Integer> partyItemIds;
+
+		/**
+		 * Item ids that live only in group storage (not bank/inventory/worn),
+		 * so the player has to fetch them before use.
+		 */
+		Set<Integer> groupStorageItemIds;
 	}
 
-	public CompletableFuture<Result> recommend(ContentPreset preset)
+	public CompletableFuture<Result> recommend(Target target, PotionBoost potionBoost, PrayerAssumption prayerAssumption)
 	{
 		CompletableFuture<Skills> skillsFuture = new CompletableFuture<>();
 		clientThread.invoke(() ->
@@ -74,7 +83,21 @@ public class RecommendationService
 		});
 		return skillsFuture
 			.orTimeout(15, TimeUnit.SECONDS) // never leave the panel wedged on "Computing..."
-			.thenApplyAsync(skills -> compute(preset, skills), executor);
+			.thenApplyAsync(skills -> compute(target, applyBoosts(skills, potionBoost), potionBoost, prayerAssumption), executor);
+	}
+
+	private static Skills applyBoosts(Skills skills, PotionBoost potionBoost)
+	{
+		if (skills == null)
+		{
+			return null;
+		}
+		Map<Skill, Integer> boosts = potionBoost.boostsFor(skills.getLevels());
+		if (boosts == null)
+		{
+			return skills; // CURRENT: keep live boosts
+		}
+		return Skills.builder().levels(skills.getLevels()).boosts(boosts).build();
 	}
 
 	private Skills snapshotSkills()
@@ -95,25 +118,25 @@ public class RecommendationService
 		return Skills.builder().levels(levels).boosts(boosts).build();
 	}
 
-	private Result compute(ContentPreset preset, Skills skills)
+	private Result compute(Target target, Skills skills, PotionBoost potionBoost, PrayerAssumption prayerAssumption)
 	{
 		List<String> warnings = new ArrayList<>();
 
 		if (skills == null)
 		{
-			return new Result(Collections.emptyList(), List.of("Log in to get recommendations."), Collections.emptySet());
+			return new Result(Collections.emptyList(), List.of("Log in to get recommendations."), Collections.emptySet(), Collections.emptySet());
 		}
 
 		Map<Integer, ItemStats> wikiItems = wikiDataService.getItemStatsById();
 		if (wikiItems.isEmpty())
 		{
-			return new Result(Collections.emptyList(), List.of("Equipment data is still loading; try again shortly."), Collections.emptySet());
+			return new Result(Collections.emptyList(), List.of("Equipment data is still loading; try again shortly."), Collections.emptySet(), Collections.emptySet());
 		}
 
-		NpcStats target = wikiDataService.getNpcStatsById().get(preset.getPrimaryMonsterId());
-		if (target == null)
+		NpcStats npcStats = wikiDataService.getNpcStatsById().get(target.getNpcId());
+		if (npcStats == null)
 		{
-			return new Result(Collections.emptyList(), List.of("No monster data for " + preset.getLabel() + "."), Collections.emptySet());
+			return new Result(Collections.emptyList(), List.of("No monster data for " + target.getLabel() + "."), Collections.emptySet(), Collections.emptySet());
 		}
 
 		if (!ownedItemsService.hasBankSnapshot())
@@ -151,18 +174,59 @@ public class RecommendationService
 		if (ownedEquipment.isEmpty())
 		{
 			warnings.add("No equippable items found yet.");
-			return new Result(Collections.emptyList(), warnings, Collections.emptySet());
+			return new Result(Collections.emptyList(), warnings, Collections.emptySet(), Collections.emptySet());
 		}
 
 		OptimizeRequest request = OptimizeRequest.builder()
 			.ownedEquipment(ownedEquipment)
 			.playerSkills(skills)
-			.target(target)
-			.onSlayerTask(preset.isOnSlayerTask())
-			.raidPartySize(preset.getRaidPartySize())
+			.target(npcStats)
+			.onSlayerTask(target.isOnSlayerTask())
+			.raidPartySize(target.getRaidPartySize())
+			.prayerAssumption(prayerAssumption)
 			.build();
 
-		return new Result(optimizer.optimize(request), warnings, partyItemIds);
+		Set<Integer> groupStorageItemIds = config.includeGroupStorage()
+			? ownedItemsService.getGroupOnlyItemIds()
+			: Collections.emptySet();
+
+		List<Loadout> loadouts = new ArrayList<>();
+		for (Loadout loadout : optimizer.optimize(request))
+		{
+			loadouts.add(withBreakdown(loadout, request, potionBoost, prayerAssumption));
+		}
+		return new Result(loadouts, warnings, partyItemIds, groupStorageItemIds);
+	}
+
+	/**
+	 * Re-evaluates the chosen gear under fixed scenarios so the panel can
+	 * show what potting/praying is worth: base (nothing), prayed (prayers
+	 * only), potted (prayers + potion). "Potted" uses the selected potion,
+	 * or a super set when the selection is CURRENT/NONE, so the line is
+	 * meaningful even when optimizing from live unpotted stats.
+	 */
+	private Loadout withBreakdown(Loadout loadout, OptimizeRequest request, PotionBoost potionBoost, PrayerAssumption prayerAssumption)
+	{
+		Skills skills = request.getPlayerSkills();
+		PotionBoost pottedBoost = potionBoost == PotionBoost.CURRENT || potionBoost == PotionBoost.NONE
+			? PotionBoost.SUPER_SET
+			: potionBoost;
+
+		Skills unboosted = Skills.builder().levels(skills.getLevels()).boosts(PotionBoost.NONE.boostsFor(skills.getLevels())).build();
+		Skills potted = Skills.builder().levels(skills.getLevels()).boosts(pottedBoost.boostsFor(skills.getLevels())).build();
+
+		Integer prayerLevel = skills.getLevels().get(Skill.PRAYER);
+		Set<Prayer> prayers = prayerAssumption.prayersFor(loadout.getCombatClass(), prayerLevel == null ? 0 : prayerLevel);
+
+		double base = optimizer.evaluateLoadout(request.toBuilder().playerSkills(unboosted).build(), loadout, Collections.emptySet());
+		double prayed = optimizer.evaluateLoadout(request.toBuilder().playerSkills(unboosted).build(), loadout, prayers);
+		double pottedDps = optimizer.evaluateLoadout(request.toBuilder().playerSkills(potted).build(), loadout, prayers);
+
+		if (base < 0 || prayed < 0 || pottedDps < 0)
+		{
+			return loadout;
+		}
+		return loadout.toBuilder().breakdown(new Loadout.DpsBreakdown(base, prayed, pottedDps)).build();
 	}
 
 }

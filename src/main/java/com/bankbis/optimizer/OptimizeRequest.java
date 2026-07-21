@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Value;
 
 @Value
-@Builder
+@Builder(toBuilder = true)
 public class OptimizeRequest
 {
 
@@ -27,5 +27,8 @@ public class OptimizeRequest
 
 	@Builder.Default
 	private final int raidPartySize = 1;
+
+	@Builder.Default
+	private final PrayerAssumption prayerAssumption = PrayerAssumption.AUTO;
 
 }

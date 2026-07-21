@@ -113,7 +113,7 @@ public class LoadoutOptimizer
 	public Optional<Loadout> optimizeClass(OptimizeRequest request, CombatClass combatClass)
 	{
 		ItemStats darts = bestDarts(request);
-		Set<Prayer> prayers = combatClass.bestPrayers(prayerLevel(request));
+		Set<Prayer> prayers = request.getPrayerAssumption().prayersFor(combatClass, prayerLevel(request));
 
 		// weapon prefilter: rank weapon+style pairs by weapon-only dps and
 		// keep the top few before paying for full beam searches
@@ -182,6 +182,17 @@ public class LoadoutOptimizer
 			.attackStyle(best.style)
 			.dps(best.dps)
 			.build());
+	}
+
+	/**
+	 * Re-evaluates an already-chosen loadout under the request's skills and
+	 * the given prayers, for scenario comparisons (base/prayed/potted).
+	 *
+	 * @return dps, or -1 if the combination cannot be computed
+	 */
+	public double evaluateLoadout(OptimizeRequest request, Loadout loadout, Set<Prayer> prayers)
+	{
+		return evaluate(request, loadout.getItems(), loadout.getAttackStyle(), prayers, bestDarts(request));
 	}
 
 	private static ScoredLoadout better(ScoredLoadout a, ScoredLoadout b)

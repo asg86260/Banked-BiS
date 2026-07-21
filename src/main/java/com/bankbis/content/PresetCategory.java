@@ -18,4 +18,10 @@ public enum PresetCategory
 
 	private final String label;
 
+	@Override
+	public String toString()
+	{
+		return label;
+	}
+
 }

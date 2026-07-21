@@ -12,10 +12,13 @@ import java.nio.file.Files;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.function.IntPredicate;
 import java.util.function.IntUnaryOperator;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -98,6 +101,10 @@ public class OwnedItemsService
 		sources.put(InventoryID.BANK, Source.BANK);
 		sources.put(InventoryID.INV_GROUP_TEMP, Source.GROUP_STORAGE);
 		sources.put(InventoryID.INV, Source.INVENTORY);
+		// while the group storage UI is open, the player's inventory is
+		// represented by this temp container; without it, deposits leave
+		// stale copies recorded under INVENTORY
+		sources.put(InventoryID.INV_PLAYER_TEMP, Source.INVENTORY);
 		sources.put(InventoryID.WORN, Source.EQUIPMENT);
 		return Collections.unmodifiableMap(sources);
 	}
@@ -133,8 +140,9 @@ public class OwnedItemsService
 			return;
 		}
 
-		// runs on the client thread, where canonicalize is safe
-		updateSource(source, e.getItemContainer().getItems(), itemManager::canonicalize);
+		// runs on the client thread, where item composition lookups are safe
+		updateSource(source, e.getItemContainer().getItems(), itemManager::canonicalize,
+			id -> itemManager.getItemComposition(id).getPlaceholderTemplateId() != -1);
 
 		long account = client.getAccountHash();
 		if (account != -1)
@@ -185,16 +193,18 @@ public class OwnedItemsService
 	}
 
 	/**
-	 * Replaces one source's contents. Noted items and placeholders resolve
-	 * to their canonical id; empty slots and zero quantities (placeholders)
-	 * are dropped.
+	 * Replaces one source's contents. Noted items resolve to their canonical
+	 * id; empty slots, zero quantities, and bank placeholders are dropped.
+	 * Placeholders must be detected via item composition - they can carry a
+	 * nonzero quantity in the container, and canonicalize would resolve them
+	 * to the real item as if it were owned.
 	 */
-	void updateSource(Source source, Item[] items, IntUnaryOperator canonicalize)
+	void updateSource(Source source, Item[] items, IntUnaryOperator canonicalize, IntPredicate isPlaceholder)
 	{
 		Map<Integer, Integer> quantities = new HashMap<>();
 		for (Item item : items)
 		{
-			if (item == null || item.getId() <= 0 || item.getQuantity() <= 0)
+			if (item == null || item.getId() <= 0 || item.getQuantity() <= 0 || isPlaceholder.test(item.getId()))
 			{
 				continue;
 			}
@@ -227,6 +237,39 @@ public class OwnedItemsService
 			}
 		});
 		return merged;
+	}
+
+	/**
+	 * Item ids present in group storage and nowhere else the player can
+	 * reach directly (bank/inventory/equipment) - i.e. gear that must be
+	 * fetched from group storage to actually wear.
+	 */
+	public synchronized Set<Integer> getGroupOnlyItemIds()
+	{
+		Map<Integer, Integer> group = owned.get(Source.GROUP_STORAGE);
+		if (group == null || group.isEmpty())
+		{
+			return Collections.emptySet();
+		}
+		Set<Integer> ids = new HashSet<>(group.keySet());
+		owned.forEach((source, items) ->
+		{
+			if (source != Source.GROUP_STORAGE)
+			{
+				ids.removeAll(items.keySet());
+			}
+		});
+		return ids;
+	}
+
+	/**
+	 * Canonical ids of currently worn equipment, for marking recommended
+	 * pieces the player already has on.
+	 */
+	public synchronized Set<Integer> getWornItemIds()
+	{
+		Map<Integer, Integer> worn = owned.get(Source.EQUIPMENT);
+		return worn == null ? Collections.emptySet() : new HashSet<>(worn.keySet());
 	}
 
 	public synchronized boolean hasBankSnapshot()

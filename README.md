@@ -1,8 +1,8 @@
-# Bank BiS
+# Banked BiS
 
 Tells you the best gear **you actually own** for the content you're about to do.
 
-Pick an activity (a raid room, a God Wars boss, your slayer task, ...) and Bank BiS
+Pick an activity (a raid room, a God Wars boss, your slayer task, ...) and Banked BiS
 searches everything in your bank, group storage, inventory, and worn equipment for
 the highest-DPS setup per combat style, using the same combat formulas as the
 OSRS Wiki DPS calculator.

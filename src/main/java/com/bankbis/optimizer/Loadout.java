@@ -12,7 +12,7 @@ import net.runelite.api.EquipmentInventorySlot;
  * resulting DPS against the requested target.
  */
 @Value
-@Builder
+@Builder(toBuilder = true)
 public class Loadout
 {
 
@@ -20,5 +20,19 @@ public class Loadout
 	private final Map<EquipmentInventorySlot, ItemStats> items;
 	private final AttackStyle attackStyle;
 	private final double dps;
+
+	/**
+	 * This same gear re-evaluated under fixed scenarios, for display.
+	 * Null when the scenario evaluations failed.
+	 */
+	private final DpsBreakdown breakdown;
+
+	@Value
+	public static class DpsBreakdown
+	{
+		double base;
+		double prayed;
+		double potted;
+	}
 
 }
