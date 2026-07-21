@@ -43,12 +43,17 @@ and worn equipment - using the OSRS Wiki DPS calculator's formulas.
 ## Accuracy
 
 Formulas match the wiki calc for melee, ranged, powered staves, and standard
-elemental spells, including set effects (void, crystal, Inquisitor's) and
-slayer/salve/demonbane/dragonhunter-style bonuses. Known gaps - double-check
-the wiki calc for these: Ancients/Arceuus/god spells, the split ranged
-defence types, flat armour, special attacks, and item charge states. ToA
-invocations and ToB party size scale monster HP only, so they never change
-gear ranking.
+elemental spells, including set effects (void, crystal, Inquisitor's),
+slayer/salve/demonbane/dragonhunter-style bonuses, the twisted bow's
+magic-based scaling, enchanted crossbow bolt procs (ruby, diamond, onyx,
+dragonstone, opal, pearl), the split light/standard/heavy ranged defence, and
+magic-damage prayers (Augury). Bolt and other proc effects are modelled as
+expected damage, which can differ from the wiki calc by up to ~1-2% (it uses a
+full hit distribution); this is well within gear-ranking tolerance. Known gaps
+- double-check the wiki calc for these: Ancients/Arceuus/god spells (the
+recommender only casts standard spells), flat armour, special attacks, and item
+charge states. ToA invocations and ToB party size scale monster HP only, so
+they never change gear ranking.
 
 ## Data & privacy
 
