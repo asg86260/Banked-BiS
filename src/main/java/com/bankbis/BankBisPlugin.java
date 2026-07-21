@@ -29,7 +29,9 @@ import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.party.WSClient;
 import net.runelite.client.plugins.Plugin;
+import net.runelite.client.plugins.PluginDependency;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.plugins.banktags.BankTagsPlugin;
 import net.runelite.client.ui.ClientToolbar;
 import net.runelite.client.ui.overlay.OverlayManager;
 import net.runelite.client.ui.NavigationButton;
@@ -41,6 +43,9 @@ import net.runelite.client.util.ImageUtil;
 	description = "Recommends the best gear setup you own for a chosen activity, based on your bank and group storage",
 	tags = {"gear", "bis", "dps", "bank", "equipment", "loadout"}
 )
+// makes the core Bank Tags plugin's bindings (BankTagsService, TagManager)
+// available to this plugin's injector for the bank filter integration
+@PluginDependency(BankTagsPlugin.class)
 public class BankBisPlugin extends Plugin
 {
 	@Inject
