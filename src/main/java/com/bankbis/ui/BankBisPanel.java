@@ -5,6 +5,7 @@ import com.bankbis.RecommendationService;
 import com.bankbis.bank.OwnedItemsService;
 import com.bankbis.content.ContentPreset;
 import com.bankbis.content.PresetCategory;
+import com.bankbis.content.RaidType;
 import com.bankbis.content.Target;
 import com.bankbis.data.NpcStats;
 import com.bankbis.data.WikiDataService;
@@ -45,8 +46,11 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JCheckBox;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.JPopupMenu;
 import javax.swing.JToggleButton;
 import javax.swing.ScrollPaneConstants;
@@ -95,6 +99,9 @@ public class BankBisPanel extends PluginPanel
 	private final JToggleButton pickButton = new JToggleButton("Pick");
 	private final JComboBox<String> partyCombo = new JComboBox<>(
 		new String[]{"Auto", "1", "2", "3", "4", "5", "6", "7", "8", "16", "24", "50", "100"});
+	private final JCheckBox cmCheck = new JCheckBox("Challenge Mode");
+	private final JSpinner invoSpinner = new JSpinner(new SpinnerNumberModel(150, 0, 600, 5));
+	private final JPanel raidHolder = new JPanel(new BorderLayout());
 	private final JComboBox<PotionBoost> potionCombo = new JComboBox<>(PotionBoost.values());
 	private final JComboBox<PrayerAssumption> prayerCombo = new JComboBox<>(PrayerAssumption.values());
 	private final JButton refreshButton = new JButton("Find my best gear");
@@ -141,7 +148,11 @@ public class BankBisPanel extends PluginPanel
 
 		categoryCombo.setFont(FontManager.getRunescapeSmallFont());
 		presetCombo.setFont(FontManager.getRunescapeSmallFont());
-		categoryCombo.addActionListener(e -> refreshPresetChoices());
+		categoryCombo.addActionListener(e ->
+		{
+			refreshPresetChoices();
+			updateRaidOptions();
+		});
 		controls.add(categoryCombo);
 		controls.add(presetCombo);
 
@@ -194,7 +205,6 @@ public class BankBisPanel extends PluginPanel
 		advancedToggle.setFont(FontManager.getRunescapeSmallFont());
 		advancedToggle.setFocusPainted(false);
 		advancedToggle.addActionListener(e -> toggleAdvanced());
-		controls.add(advancedToggle);
 
 		refreshButton.setFont(FontManager.getRunescapeSmallFont());
 		refreshButton.setFocusPainted(false);
@@ -203,9 +213,25 @@ public class BankBisPanel extends PluginPanel
 		statusLabel.setFont(FontManager.getRunescapeSmallFont());
 		statusLabel.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
 
-		// the advanced section sits between the toggle and the button; its
-		// rows are added/removed on toggle so the layout collapses fully
+		// raid options appear only for raid categories; the advanced section
+		// sits below them - both collapse fully by adding/removing children
+		raidHolder.setOpaque(false);
 		advancedHolder.setOpaque(false);
+		cmCheck.setFont(FontManager.getRunescapeSmallFont());
+		cmCheck.setOpaque(false);
+		invoSpinner.setFont(FontManager.getRunescapeSmallFont());
+		partyCombo.setFont(FontManager.getRunescapeSmallFont());
+
+		// order: raid options (contextual) -> advanced toggle -> advanced rows
+		JPanel advStack = new JPanel(new BorderLayout(0, 6));
+		advStack.setOpaque(false);
+		advStack.add(advancedToggle, BorderLayout.NORTH);
+		advStack.add(advancedHolder, BorderLayout.CENTER);
+
+		JPanel midStack = new JPanel(new BorderLayout(0, 6));
+		midStack.setOpaque(false);
+		midStack.add(raidHolder, BorderLayout.NORTH);
+		midStack.add(advStack, BorderLayout.CENTER);
 
 		JPanel bottomControls = new JPanel(new GridLayout(0, 1, 0, 6));
 		bottomControls.setOpaque(false);
@@ -215,15 +241,62 @@ public class BankBisPanel extends PluginPanel
 		JPanel north = new JPanel(new BorderLayout(0, 6));
 		north.setOpaque(false);
 		north.add(controls, BorderLayout.NORTH);
-		north.add(advancedHolder, BorderLayout.CENTER);
+		north.add(midStack, BorderLayout.CENTER);
 		north.add(bottomControls, BorderLayout.SOUTH);
 		add(north, BorderLayout.NORTH);
+		updateRaidOptions();
 
 		resultsPanel.setLayout(new BoxLayout(resultsPanel, BoxLayout.Y_AXIS));
 		resultsPanel.setOpaque(false);
 		add(resultsPanel, BorderLayout.CENTER);
 
 		refreshPresetChoices();
+	}
+
+	/**
+	 * Shows the options relevant to the selected raid: party size (and CM)
+	 * for CoX where they scale defence, party size for ToB, invocation
+	 * level for ToA. Hidden for non-raid categories.
+	 */
+	private void updateRaidOptions()
+	{
+		raidHolder.removeAll();
+		PresetCategory category = (PresetCategory) categoryCombo.getSelectedItem();
+		RaidType raid = category == null ? RaidType.NONE : category.getRaidType();
+		if (raid != RaidType.NONE)
+		{
+			JPanel rows = new JPanel(new GridLayout(0, 1, 0, 4));
+			rows.setOpaque(false);
+			if (raid == RaidType.COX || raid == RaidType.TOB)
+			{
+				rows.add(labeledRow("Party size", partyCombo));
+			}
+			if (raid == RaidType.COX)
+			{
+				cmCheck.setToolTipText("Challenge Mode: +50% monster defence");
+				rows.add(cmCheck);
+			}
+			if (raid == RaidType.TOA)
+			{
+				invoSpinner.setToolTipText("Invocation level scales monster HP only - it does not change which gear is best");
+				rows.add(labeledRow("Invocation", invoSpinner));
+			}
+			raidHolder.add(rows, BorderLayout.NORTH);
+		}
+		raidHolder.revalidate();
+		raidHolder.repaint();
+	}
+
+	private static JPanel labeledRow(String text, Component field)
+	{
+		JLabel label = new JLabel(text);
+		label.setFont(FontManager.getRunescapeSmallFont());
+		label.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+		JPanel row = new JPanel(new BorderLayout(6, 0));
+		row.setOpaque(false);
+		row.add(label, BorderLayout.WEST);
+		row.add(field, BorderLayout.CENTER);
+		return row;
 	}
 
 	private void toggleAdvanced()
@@ -241,9 +314,6 @@ public class BankBisPanel extends PluginPanel
 			rows.add(advancedLabel("Prayers"));
 			prayerCombo.setFont(FontManager.getRunescapeSmallFont());
 			rows.add(prayerCombo);
-			rows.add(advancedLabel("Raid party size"));
-			partyCombo.setFont(FontManager.getRunescapeSmallFont());
-			rows.add(partyCombo);
 			advancedHolder.add(rows, BorderLayout.NORTH);
 		}
 		else
@@ -334,7 +404,12 @@ public class BankBisPanel extends PluginPanel
 				id = monsterIdByName.get(matches.get(0));
 				label = monsterDisplayByName.get(matches.get(0));
 			}
-			return new Target(id, label, onSlayerTask(label), partySize(1));
+			return Target.builder()
+				.npcId(id)
+				.label(label)
+				.onSlayerTask(onSlayerTask(label))
+				.raidPartySize(partySize(1))
+				.build();
 		}
 
 		ContentPreset preset = (ContentPreset) presetCombo.getSelectedItem();
@@ -343,7 +418,11 @@ public class BankBisPanel extends PluginPanel
 			return null;
 		}
 		Target target = Target.ofPreset(preset);
-		return target.withPartySize(partySize(target.getRaidPartySize()));
+		return target.toBuilder()
+			.raidPartySize(partySize(target.getRaidPartySize()))
+			.coxChallengeMode(cmCheck.isSelected())
+			.toaInvocationLevel((Integer) invoSpinner.getValue())
+			.build();
 	}
 
 	/**

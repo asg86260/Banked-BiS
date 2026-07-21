@@ -1,6 +1,7 @@
 package com.bankbis;
 
 import com.bankbis.bank.OwnedItemsService;
+import com.bankbis.content.RaidScaling;
 import com.bankbis.content.Target;
 import com.bankbis.data.NpcStats;
 import com.bankbis.data.WikiDataService;
@@ -165,6 +166,7 @@ public class RecommendationService
 		{
 			return new Result(Collections.emptyList(), List.of("No monster data for " + target.getLabel() + "."), Collections.emptySet(), Collections.emptySet());
 		}
+		npcStats = RaidScaling.scale(npcStats, target);
 
 		if (!ownedItemsService.hasBankSnapshot())
 		{

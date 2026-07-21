@@ -126,7 +126,7 @@ public class PanelPreviewApp
 
 	static Target sampleTarget()
 	{
-		return new Target(2042, "Zulrah (Serpentine)", false, 1);
+		return Target.builder().npcId(2042).label("Zulrah (Serpentine)").build();
 	}
 
 	static RecommendationService.Result sampleResult()

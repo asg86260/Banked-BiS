@@ -18,13 +18,13 @@ public enum ContentPreset
 {
 
 	// raids
-	COX_GREAT_OLM(PresetCategory.RAIDS, "Great Olm (CoX)", ImmutableList.of(7551, 7552, 7550), false, 1),
-	TOB_VERZIK(PresetCategory.RAIDS, "Verzik Vitur (ToB)", ImmutableList.of(8374, 8372), false, 5),
-	TOA_ZEBAK(PresetCategory.RAIDS, "Zebak (ToA)", ImmutableList.of(11730), false, 1),
-	TOA_KEPHRI(PresetCategory.RAIDS, "Kephri (ToA)", ImmutableList.of(11721), false, 1),
-	TOA_BABA(PresetCategory.RAIDS, "Ba-Ba (ToA)", ImmutableList.of(11778), false, 1),
-	TOA_AKKHA(PresetCategory.RAIDS, "Akkha (ToA)", ImmutableList.of(11789), false, 1),
-	TOA_WARDENS(PresetCategory.RAIDS, "Wardens P3 (ToA)", ImmutableList.of(11762), false, 1),
+	COX_GREAT_OLM(PresetCategory.COX, "Great Olm (CoX)", ImmutableList.of(7551, 7552, 7550), false, 1),
+	TOB_VERZIK(PresetCategory.TOB, "Verzik Vitur (ToB)", ImmutableList.of(8374, 8372), false, 5),
+	TOA_ZEBAK(PresetCategory.TOA, "Zebak (ToA)", ImmutableList.of(11730), false, 1),
+	TOA_KEPHRI(PresetCategory.TOA, "Kephri (ToA)", ImmutableList.of(11721), false, 1),
+	TOA_BABA(PresetCategory.TOA, "Ba-Ba (ToA)", ImmutableList.of(11778), false, 1),
+	TOA_AKKHA(PresetCategory.TOA, "Akkha (ToA)", ImmutableList.of(11789), false, 1),
+	TOA_WARDENS(PresetCategory.TOA, "Wardens P3 (ToA)", ImmutableList.of(11762), false, 1),
 
 	// god wars
 	GENERAL_GRAARDOR(PresetCategory.GOD_WARS, "General Graardor", ImmutableList.of(2215), false, 1),
