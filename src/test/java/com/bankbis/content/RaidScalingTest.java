@@ -70,6 +70,16 @@ class RaidScalingTest
 	}
 
 	@Test
+	void tektonChallengeModeUsesReducedPct()
+	{
+		// party 5: defensive pct 104 -> 208; Tekton CM at party >= 4 is
+		// +35% -> 280. Magic is defensive for Tekton, same path.
+		NpcStats scaled = RaidScaling.scale(npc(200, 200), coxTarget(7540, 5, true));
+		assertEquals(280, (int) scaled.getSkills().getLevels().get(Skill.DEFENCE));
+		assertEquals(280, (int) scaled.getSkills().getLevels().get(Skill.MAGIC));
+	}
+
+	@Test
 	void toaDoesNotScaleStats()
 	{
 		NpcStats stats = npc(80, 100);

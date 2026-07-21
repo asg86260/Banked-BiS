@@ -22,18 +22,21 @@ import net.runelite.api.Skill;
 public final class RaidScaling
 {
 
+	private static final Set<Integer> TEKTON_IDS = ImmutableSet.of(7540, 7543);
+
 	/**
 	 * CoX monsters whose magic level counts as a defensive stat for
 	 * scaling (Olm hands, Tekton, Vespula and portal, deathly rangers);
-	 * everything else scales magic with the offensive multiplier.
+	 * everything else scales magic with the offensive multiplier. Ids
+	 * verified against monsters.json.
 	 */
 	private static final Set<Integer> COX_MAGIC_IS_DEFENSIVE = ImmutableSet.of(
-		7540, 7541, 7542, 7543, 7544, 7545, // Tekton variants
-		7550, 7553, // Olm melee hand
-		7552, 7555, // Olm mage hand
-		7530, 7531, 7532, // Vespula
+		7540, 7543, // Tekton
+		7550, // Olm melee hand
+		7552, // Olm mage hand
+		7530, // Vespula
 		7533, // Abyssal portal
-		7526 // Deathly ranger
+		7559 // Deathly ranger
 	);
 
 	private RaidScaling()
@@ -67,10 +70,13 @@ public final class RaidScaling
 		int magic = source.getOrDefault(Skill.MAGIC, 1) * magicPct / 100;
 		if (cm)
 		{
-			// challenge mode: +50% defence (Tekton is 20/35% in the wiki
-			// calc; acceptable approximation until Tekton is a preset)
-			def = def * 3 / 2;
-			magic = magic * 3 / 2;
+			// challenge mode: +50% defensive stats, except Tekton at
+			// +20% (party < 4) or +35% (party >= 4)
+			int cmPct = TEKTON_IDS.contains(target.getNpcId())
+				? (partySize < 4 ? 120 : 135)
+				: 150;
+			def = def * cmPct / 100;
+			magic = magic * cmPct / 100;
 		}
 		levels.put(Skill.DEFENCE, def);
 		levels.put(Skill.MAGIC, magic);

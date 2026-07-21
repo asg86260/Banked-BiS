@@ -2919,5 +2919,1036 @@
                          "element":  "fire",
                          "severity":  50
                      }
+    },
+    {
+        "id":  7533,
+        "name":  "Abyssal portal",
+        "version":  "Normal",
+        "image":  "Abyssal portal.png",
+        "level":  0,
+        "speed":  2,
+        "style":  [
+                      "None"
+                  ],
+        "size":  4,
+        "max_hit":  "0",
+        "skills":  {
+                       "atk":  1,
+                       "def":  176,
+                       "hp":  250,
+                       "magic":  176,
+                       "ranged":  1,
+                       "str":  1
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  0,
+                          "magic":  60,
+                          "heavy":  110,
+                          "standard":  140,
+                          "light":  140,
+                          "slash":  0,
+                          "stab":  0
+                      },
+        "attributes":  [
+                           "xerician"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  {
+                         "element":  "fire",
+                         "severity":  50
+                     }
+    },
+    {
+        "id":  7569,
+        "name":  "Guardian (Chambers of Xeric)",
+        "version":  "Normal",
+        "image":  "Guardian (Chambers of Xeric, female).png",
+        "level":  0,
+        "speed":  4,
+        "style":  [
+                      "Slash"
+                  ],
+        "size":  0,
+        "max_hit":  "20",
+        "skills":  {
+                       "atk":  140,
+                       "def":  100,
+                       "hp":  250,
+                       "magic":  1,
+                       "ranged":  1,
+                       "str":  140
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  20
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  -10,
+                          "magic":  0,
+                          "heavy":  0,
+                          "standard":  0,
+                          "light":  0,
+                          "slash":  180,
+                          "stab":  80
+                      },
+        "attributes":  [
+                           "xerician"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  null
+    },
+    {
+        "id":  7584,
+        "name":  "Ice demon",
+        "version":  "Normal",
+        "image":  "Ice demon.png",
+        "level":  0,
+        "speed":  3,
+        "style":  [
+                      "Ranged",
+                      "Magic"
+                  ],
+        "size":  2,
+        "max_hit":  "Varies",
+        "skills":  {
+                       "atk":  1,
+                       "def":  160,
+                       "hp":  140,
+                       "magic":  390,
+                       "ranged":  390,
+                       "str":  1
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  110,
+                          "magic":  40,
+                          "heavy":  140,
+                          "standard":  140,
+                          "light":  140,
+                          "slash":  70,
+                          "stab":  70
+                      },
+        "attributes":  [
+                           "demon",
+                           "xerician"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  {
+                         "element":  "fire",
+                         "severity":  150
+                     }
+    },
+    {
+        "id":  7561,
+        "name":  "Muttadile",
+        "version":  "Large",
+        "image":  "Muttadile.png",
+        "level":  0,
+        "speed":  4,
+        "style":  [
+                      "Melee",
+                      "Ranged",
+                      "Magic"
+                  ],
+        "size":  5,
+        "max_hit":  "72 (Stomp)",
+        "skills":  {
+                       "atk":  250,
+                       "def":  220,
+                       "hp":  250,
+                       "magic":  250,
+                       "ranged":  250,
+                       "str":  250
+                   },
+        "offensive":  {
+                          "atk":  88,
+                          "magic":  0,
+                          "magic_str":  -8,
+                          "ranged":  82,
+                          "ranged_str":  47,
+                          "str":  55
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  60,
+                          "magic":  75,
+                          "heavy":  0,
+                          "standard":  0,
+                          "light":  0,
+                          "slash":  82,
+                          "stab":  -5
+                      },
+        "attributes":  [
+                           "xerician"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  40
+                     }
+    },
+    {
+        "id":  7562,
+        "name":  "Muttadile",
+        "version":  "Small",
+        "image":  "Muttadile.png",
+        "level":  0,
+        "speed":  4,
+        "style":  [
+                      "Melee",
+                      "Ranged"
+                  ],
+        "size":  3,
+        "max_hit":  "28 (Melee)",
+        "skills":  {
+                       "atk":  150,
+                       "def":  138,
+                       "hp":  250,
+                       "magic":  1,
+                       "ranged":  150,
+                       "str":  150
+                   },
+        "offensive":  {
+                          "atk":  71,
+                          "magic":  0,
+                          "magic_str":  -8,
+                          "ranged":  83,
+                          "ranged_str":  56,
+                          "str":  48
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  50,
+                          "magic":  60,
+                          "heavy":  0,
+                          "standard":  0,
+                          "light":  0,
+                          "slash":  72,
+                          "stab":  -5
+                      },
+        "attributes":  [
+                           "xerician"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  {
+                         "element":  "earth",
+                         "severity":  40
+                     }
+    },
+    {
+        "id":  8354,
+        "name":  "Nylocas Vasilias",
+        "version":  "Normal",
+        "image":  "Nylocas Vasilias (melee).png",
+        "level":  800,
+        "speed":  4,
+        "style":  [
+                      "Stab",
+                      "Magic",
+                      "Ranged"
+                  ],
+        "size":  4,
+        "max_hit":  "70",
+        "skills":  {
+                       "atk":  400,
+                       "def":  50,
+                       "hp":  2500,
+                       "magic":  50,
+                       "ranged":  350,
+                       "str":  350
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  600,
+                          "magic_str":  600,
+                          "ranged":  0,
+                          "ranged_str":  60,
+                          "str":  60
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "heavy":  0,
+                          "standard":  0,
+                          "light":  0,
+                          "slash":  0,
+                          "stab":  0
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  {
+                         "element":  "fire",
+                         "severity":  15
+                     }
+    },
+    {
+        "id":  8359,
+        "name":  "Pestilent Bloat",
+        "version":  "Normal",
+        "image":  "Pestilent Bloat.png",
+        "level":  870,
+        "speed":  1,
+        "style":  [
+                      "Ranged"
+                  ],
+        "size":  5,
+        "max_hit":  "20 (Flies)",
+        "skills":  {
+                       "atk":  250,
+                       "def":  100,
+                       "hp":  2000,
+                       "magic":  150,
+                       "ranged":  180,
+                       "str":  340
+                   },
+        "offensive":  {
+                          "atk":  150,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  180,
+                          "ranged_str":  4,
+                          "str":  82
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  40,
+                          "magic":  600,
+                          "heavy":  800,
+                          "standard":  800,
+                          "light":  800,
+                          "slash":  20,
+                          "stab":  40
+                      },
+        "attributes":  [
+                           "undead"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  null
+    },
+    {
+        "id":  7604,
+        "name":  "Skeletal Mystic",
+        "version":  "Normal",
+        "image":  "Skeletal mystic (1).png",
+        "level":  0,
+        "speed":  4,
+        "style":  [
+                      "Magic",
+                      "Melee"
+                  ],
+        "size":  2,
+        "max_hit":  "Varies",
+        "skills":  {
+                       "atk":  140,
+                       "def":  187,
+                       "hp":  160,
+                       "magic":  140,
+                       "ranged":  1,
+                       "str":  140
+                   },
+        "offensive":  {
+                          "atk":  85,
+                          "magic":  40,
+                          "magic_str":  38,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  50
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  75,
+                          "magic":  140,
+                          "heavy":  75,
+                          "standard":  115,
+                          "light":  115,
+                          "slash":  155,
+                          "stab":  155
+                      },
+        "attributes":  [
+                           "undead",
+                           "xerician"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  true,
+        "weakness":  null
+    },
+    {
+        "id":  8387,
+        "name":  "Sotetseg",
+        "version":  "Normal",
+        "image":  "Sotetseg.png",
+        "level":  995,
+        "speed":  5,
+        "style":  [
+                      "Crush",
+                      "Magic"
+                  ],
+        "size":  5,
+        "max_hit":  "45 (Melee)",
+        "skills":  {
+                       "atk":  250,
+                       "def":  200,
+                       "hp":  4000,
+                       "magic":  250,
+                       "ranged":  250,
+                       "str":  250
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  -10,
+                          "magic_str":  60,
+                          "ranged":  -10,
+                          "ranged_str":  60,
+                          "str":  48
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  70,
+                          "magic":  30,
+                          "heavy":  150,
+                          "standard":  150,
+                          "light":  150,
+                          "slash":  70,
+                          "stab":  70
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  null
+    },
+    {
+        "id":  7543,
+        "name":  "Tekton",
+        "version":  "Enraged",
+        "image":  "Tekton (enraged).png",
+        "level":  0,
+        "speed":  3,
+        "style":  [
+                      "Stab",
+                      "Slash",
+                      "Crush"
+                  ],
+        "size":  4,
+        "max_hit":  "59",
+        "skills":  {
+                       "atk":  390,
+                       "def":  205,
+                       "hp":  300,
+                       "magic":  205,
+                       "ranged":  1,
+                       "str":  390
+                   },
+        "offensive":  {
+                          "atk":  64,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  30
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  180,
+                          "magic":  0,
+                          "heavy":  0,
+                          "standard":  0,
+                          "light":  0,
+                          "slash":  290,
+                          "stab":  280
+                      },
+        "attributes":  [
+                           "xerician"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  {
+                         "element":  "water",
+                         "severity":  20
+                     }
+    },
+    {
+        "id":  7540,
+        "name":  "Tekton",
+        "version":  "Normal",
+        "image":  "Tekton.png",
+        "level":  0,
+        "speed":  3,
+        "style":  [
+                      "Stab",
+                      "Slash",
+                      "Crush"
+                  ],
+        "size":  4,
+        "max_hit":  "52",
+        "skills":  {
+                       "atk":  390,
+                       "def":  205,
+                       "hp":  300,
+                       "magic":  205,
+                       "ranged":  1,
+                       "str":  390
+                   },
+        "offensive":  {
+                          "atk":  64,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  20
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  105,
+                          "magic":  0,
+                          "heavy":  0,
+                          "standard":  0,
+                          "light":  0,
+                          "slash":  165,
+                          "stab":  155
+                      },
+        "attributes":  [
+                           "xerician"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  {
+                         "element":  "water",
+                         "severity":  20
+                     }
+    },
+    {
+        "id":  8363,
+        "name":  "The Maiden of Sugadinti",
+        "version":  "30% Health",
+        "image":  "The Maiden of Sugadinti (30% health).png",
+        "level":  940,
+        "speed":  10,
+        "style":  [
+                      "Magic"
+                  ],
+        "size":  6,
+        "max_hit":  "36",
+        "skills":  {
+                       "atk":  350,
+                       "def":  200,
+                       "hp":  1050,
+                       "magic":  350,
+                       "ranged":  350,
+                       "str":  350
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  300,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "heavy":  0,
+                          "standard":  0,
+                          "light":  0,
+                          "slash":  0,
+                          "stab":  0
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  null
+    },
+    {
+        "id":  8362,
+        "name":  "The Maiden of Sugadinti",
+        "version":  "50% Health",
+        "image":  "The Maiden of Sugadinti (50% health).png",
+        "level":  940,
+        "speed":  10,
+        "style":  [
+                      "Magic"
+                  ],
+        "size":  6,
+        "max_hit":  "36",
+        "skills":  {
+                       "atk":  350,
+                       "def":  200,
+                       "hp":  1750,
+                       "magic":  350,
+                       "ranged":  350,
+                       "str":  350
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  300,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "heavy":  0,
+                          "standard":  0,
+                          "light":  0,
+                          "slash":  0,
+                          "stab":  0
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  null
+    },
+    {
+        "id":  8361,
+        "name":  "The Maiden of Sugadinti",
+        "version":  "70% Health",
+        "image":  "The Maiden of Sugadinti (70% health).png",
+        "level":  940,
+        "speed":  10,
+        "style":  [
+                      "Magic"
+                  ],
+        "size":  6,
+        "max_hit":  "36",
+        "skills":  {
+                       "atk":  350,
+                       "def":  200,
+                       "hp":  2450,
+                       "magic":  350,
+                       "ranged":  350,
+                       "str":  350
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  300,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "heavy":  0,
+                          "standard":  0,
+                          "light":  0,
+                          "slash":  0,
+                          "stab":  0
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  null
+    },
+    {
+        "id":  8360,
+        "name":  "The Maiden of Sugadinti",
+        "version":  "Normal",
+        "image":  "The Maiden of Sugadinti.png",
+        "level":  940,
+        "speed":  10,
+        "style":  [
+                      "Magic"
+                  ],
+        "size":  6,
+        "max_hit":  "36",
+        "skills":  {
+                       "atk":  350,
+                       "def":  200,
+                       "hp":  3500,
+                       "magic":  350,
+                       "ranged":  350,
+                       "str":  350
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  300,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "heavy":  0,
+                          "standard":  0,
+                          "light":  0,
+                          "slash":  0,
+                          "stab":  0
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  null
+    },
+    {
+        "id":  7529,
+        "name":  "Vanguard",
+        "version":  "Magic",
+        "image":  "Vanguard (magic).png",
+        "level":  0,
+        "speed":  4,
+        "style":  [
+                      "Magic"
+                  ],
+        "size":  3,
+        "max_hit":  "22",
+        "skills":  {
+                       "atk":  150,
+                       "def":  160,
+                       "hp":  180,
+                       "magic":  150,
+                       "ranged":  150,
+                       "str":  150
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  40,
+                          "magic_str":  25,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  400,
+                          "magic":  110,
+                          "heavy":  50,
+                          "standard":  50,
+                          "light":  50,
+                          "slash":  340,
+                          "stab":  315
+                      },
+        "attributes":  [
+                           "xerician"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  null
+    },
+    {
+        "id":  7527,
+        "name":  "Vanguard",
+        "version":  "Melee",
+        "image":  "Vanguard (melee).png",
+        "level":  0,
+        "speed":  4,
+        "style":  [
+                      "Melee"
+                  ],
+        "size":  3,
+        "max_hit":  "18",
+        "skills":  {
+                       "atk":  150,
+                       "def":  160,
+                       "hp":  180,
+                       "magic":  150,
+                       "ranged":  150,
+                       "str":  150
+                   },
+        "offensive":  {
+                          "atk":  20,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  10
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  150,
+                          "magic":  20,
+                          "heavy":  400,
+                          "standard":  400,
+                          "light":  400,
+                          "slash":  150,
+                          "stab":  150
+                      },
+        "attributes":  [
+                           "xerician"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  null
+    },
+    {
+        "id":  7528,
+        "name":  "Vanguard",
+        "version":  "Ranged",
+        "image":  "Vanguard (ranged).png",
+        "level":  0,
+        "speed":  4,
+        "style":  [
+                      "Ranged"
+                  ],
+        "size":  3,
+        "max_hit":  "22",
+        "skills":  {
+                       "atk":  150,
+                       "def":  160,
+                       "hp":  180,
+                       "magic":  150,
+                       "ranged":  150,
+                       "str":  150
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  40,
+                          "ranged_str":  25,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  100,
+                          "magic":  400,
+                          "heavy":  300,
+                          "standard":  300,
+                          "light":  300,
+                          "slash":  60,
+                          "stab":  55
+                      },
+        "attributes":  [
+                           "xerician"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  null
+    },
+    {
+        "id":  7566,
+        "name":  "Vasa Nistirio",
+        "version":  "Normal",
+        "image":  "Vasa Nistirio.png",
+        "level":  0,
+        "speed":  3,
+        "style":  [
+                      "Magic",
+                      "Ranged"
+                  ],
+        "size":  5,
+        "max_hit":  "Varies",
+        "skills":  {
+                       "atk":  1,
+                       "def":  175,
+                       "hp":  300,
+                       "magic":  230,
+                       "ranged":  230,
+                       "str":  1
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  100,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  40,
+                          "magic":  400,
+                          "heavy":  30,
+                          "standard":  40,
+                          "light":  40,
+                          "slash":  190,
+                          "stab":  170
+                      },
+        "attributes":  [
+                           "xerician"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  null
+    },
+    {
+        "id":  7530,
+        "name":  "Vespula",
+        "version":  "Normal",
+        "image":  "Vespula.png",
+        "level":  0,
+        "speed":  3,
+        "style":  [
+                      "Ranged \u003cbr/\u003e Typeless"
+                  ],
+        "size":  5,
+        "max_hit":  "14 (Ranged)",
+        "skills":  {
+                       "atk":  150,
+                       "def":  88,
+                       "hp":  200,
+                       "magic":  88,
+                       "ranged":  150,
+                       "str":  150
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  -8,
+                          "str":  -8
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  0,
+                          "magic":  70,
+                          "heavy":  60,
+                          "standard":  60,
+                          "light":  20,
+                          "slash":  0,
+                          "stab":  0
+                      },
+        "attributes":  [
+                           "xerician",
+                           "flying"
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  {
+                         "element":  "fire",
+                         "severity":  50
+                     }
+    },
+    {
+        "id":  8340,
+        "name":  "Xarpus",
+        "version":  "Normal mode",
+        "image":  "Xarpus.png",
+        "level":  960,
+        "speed":  4,
+        "style":  [
+                      "Typeless Ranged",
+                      "Poison"
+                  ],
+        "size":  5,
+        "max_hit":  "11 (50+ recoil)",
+        "skills":  {
+                       "atk":  1,
+                       "def":  250,
+                       "hp":  5000,
+                       "magic":  220,
+                       "ranged":  100,
+                       "str":  1
+                   },
+        "offensive":  {
+                          "atk":  0,
+                          "magic":  0,
+                          "magic_str":  0,
+                          "ranged":  0,
+                          "ranged_str":  0,
+                          "str":  0
+                      },
+        "defensive":  {
+                          "flat_armour":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "heavy":  160,
+                          "standard":  160,
+                          "light":  160,
+                          "slash":  0,
+                          "stab":  0
+                      },
+        "attributes":  [
+
+                       ],
+        "immunities":  {
+                           "burn":  null
+                       },
+        "is_slayer_monster":  false,
+        "weakness":  {
+                         "element":  "air",
+                         "severity":  50
+                     }
     }
 ]
