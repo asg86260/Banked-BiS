@@ -12,9 +12,17 @@ import com.bankbis.optimizer.Loadout;
 import com.bankbis.optimizer.PotionBoost;
 import com.bankbis.optimizer.PrayerAssumption;
 import com.duckblade.osrs.dpscalc.calc.model.ItemStats;
+import com.google.gson.Gson;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -45,6 +53,7 @@ import net.runelite.client.ui.components.IconTextField;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.PluginPanel;
+import net.runelite.client.util.LinkBrowser;
 import net.runelite.client.util.Text;
 
 @Slf4j
@@ -61,6 +70,7 @@ public class BankBisPanel extends PluginPanel
 	private final OwnedItemsService ownedItemsService;
 	private final ConfigManager configManager;
 	private final BankBisConfig config;
+	private final Gson gson;
 
 	private final List<JToggleButton> highlightButtons = new ArrayList<>();
 
@@ -90,9 +100,10 @@ public class BankBisPanel extends PluginPanel
 	public BankBisPanel(RecommendationService recommendationService, ItemManager itemManager,
 		SpriteManager spriteManager, BankHighlightState highlightState, WikiDataService wikiDataService,
 		TargetPickerState pickerState, OwnedItemsService ownedItemsService, ConfigManager configManager,
-		BankBisConfig config)
+		BankBisConfig config, Gson gson)
 	{
 		this.config = config;
+		this.gson = gson;
 		this.recommendationService = recommendationService;
 		this.itemManager = itemManager;
 		this.spriteManager = spriteManager;
@@ -515,6 +526,8 @@ public class BankBisPanel extends PluginPanel
 		}
 
 		statusLabel.setText("");
+		resultsPanel.add(wikiLink(target));
+		resultsPanel.add(Box.createVerticalStrut(6));
 		for (String warning : result.getWarnings())
 		{
 			resultsPanel.add(warningLabel(warning));
@@ -528,12 +541,44 @@ public class BankBisPanel extends PluginPanel
 
 		for (Loadout loadout : result.getLoadouts())
 		{
-			resultsPanel.add(loadoutSection(loadout, result));
+			resultsPanel.add(loadoutSection(loadout, result, target));
 			resultsPanel.add(Box.createVerticalStrut(10));
 		}
 
 		resultsPanel.revalidate();
 		resultsPanel.repaint();
+	}
+
+	/**
+	 * Clickable target line above the results; opens the monster's wiki
+	 * page via the wiki's npc-id lookup (resolves variants correctly).
+	 */
+	private Component wikiLink(Target target)
+	{
+		String base = target.getLabel();
+		int variantIdx = base.indexOf(" (");
+		if (variantIdx > 0)
+		{
+			base = base.substring(0, variantIdx);
+		}
+		String url = "https://oldschool.runescape.wiki/w/Special:Lookup?type=npc&id=" + target.getNpcId()
+			+ "&name=" + URLEncoder.encode(base, StandardCharsets.UTF_8);
+
+		JLabel link = new JLabel("<html>" + target.getLabel() + " &nbsp;<u>Wiki</u></html>");
+		link.setFont(FontManager.getRunescapeSmallFont());
+		link.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+		link.setToolTipText("Open the wiki page for " + target.getLabel());
+		link.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		link.setAlignmentX(Component.LEFT_ALIGNMENT);
+		link.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+				LinkBrowser.browse(url);
+			}
+		});
+		return link;
 	}
 
 	private Component warningLabel(String text)
@@ -545,7 +590,7 @@ public class BankBisPanel extends PluginPanel
 		return label;
 	}
 
-	private Component loadoutSection(Loadout loadout, RecommendationService.Result result)
+	private Component loadoutSection(Loadout loadout, RecommendationService.Result result, Target target)
 	{
 		JPanel section = new JPanel();
 		section.setLayout(new BoxLayout(section, BoxLayout.Y_AXIS));
@@ -639,6 +684,20 @@ public class BankBisPanel extends PluginPanel
 		});
 		highlightButtons.add(highlight);
 		section.add(highlight);
+		section.add(Box.createVerticalStrut(4));
+
+		JButton export = new JButton("Export to Inventory Setups");
+		export.setFont(FontManager.getRunescapeSmallFont());
+		export.setFocusPainted(false);
+		export.setToolTipText("Copy this loadout as an Inventory Setups import to the clipboard");
+		export.setAlignmentX(Component.CENTER_ALIGNMENT);
+		export.addActionListener(e ->
+		{
+			String json = InventorySetupExport.toJson(gson, loadout, target.getLabel());
+			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(json), null);
+			statusLabel.setText("Copied - use Import setup in Inventory Setups.");
+		});
+		section.add(export);
 		return section;
 	}
 
