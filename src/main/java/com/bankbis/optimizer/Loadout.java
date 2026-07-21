@@ -26,6 +26,11 @@ public class Loadout
 
 	private final double dps;
 
+	/** Max hit and hit chance under the optimization assumptions, for
+	 * display and comparison against the wiki calculator. */
+	private final int maxHit;
+	private final double accuracy;
+
 	/**
 	 * This same gear re-evaluated under fixed scenarios, for display.
 	 * Null when the scenario evaluations failed.

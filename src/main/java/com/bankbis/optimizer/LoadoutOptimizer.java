@@ -1,6 +1,7 @@
 package com.bankbis.optimizer;
 
 import com.duckblade.osrs.dpscalc.calc.DpsComputable;
+import com.duckblade.osrs.dpscalc.calc.HitChanceComputable;
 import com.duckblade.osrs.dpscalc.calc.VoidLevelComputable;
 import com.duckblade.osrs.dpscalc.calc.ammo.BlowpipeDartsItemStatsComputable;
 import com.duckblade.osrs.dpscalc.calc.compute.ComputeContext;
@@ -12,6 +13,7 @@ import com.duckblade.osrs.dpscalc.calc.gearbonus.InquisitorsGearBonus;
 import com.duckblade.osrs.dpscalc.calc.gearbonus.LeafyGearBonus;
 import com.duckblade.osrs.dpscalc.calc.gearbonus.SalveAmuletGearBonus;
 import com.duckblade.osrs.dpscalc.calc.gearbonus.TomesGearBonus;
+import com.duckblade.osrs.dpscalc.calc.maxhit.TrueMaxHitComputable;
 import com.duckblade.osrs.dpscalc.calc.maxhit.magic.PoweredStaffMaxHitComputable;
 import com.duckblade.osrs.dpscalc.calc.model.AttackStyle;
 import com.duckblade.osrs.dpscalc.calc.model.CombatStyle;
@@ -95,6 +97,8 @@ public class LoadoutOptimizer
 		.build();
 
 	private final DpsComputable dpsComputable;
+	private final TrueMaxHitComputable trueMaxHitComputable;
+	private final HitChanceComputable hitChanceComputable;
 
 	/**
 	 * Best loadout per combat class, ordered best-first. Classes with no
@@ -194,12 +198,28 @@ public class LoadoutOptimizer
 		{
 			return Optional.empty();
 		}
+
+		int maxHit = 0;
+		double accuracy = 0;
+		try
+		{
+			ComputeContext context = buildContext(request, best.items, best.style, best.spell, prayers, darts);
+			maxHit = context.get(trueMaxHitComputable);
+			accuracy = context.get(hitChanceComputable);
+		}
+		catch (DpsComputeException e)
+		{
+			// display-only; the loadout itself already evaluated fine
+		}
+
 		return Optional.of(Loadout.builder()
 			.combatClass(combatClass)
 			.items(best.items)
 			.attackStyle(best.style)
 			.spell(best.spell)
 			.dps(best.dps)
+			.maxHit(maxHit)
+			.accuracy(accuracy)
 			.build());
 	}
 
@@ -286,25 +306,7 @@ public class LoadoutOptimizer
 	{
 		try
 		{
-			ComputeContext context = new ComputeContext();
-			context.put(ComputeInputs.ATTACKER_SKILLS, request.getPlayerSkills());
-			context.put(ComputeInputs.ATTACKER_ITEMS, items);
-			context.put(ComputeInputs.ATTACKER_PRAYERS, prayers);
-			context.put(ComputeInputs.ATTACK_STYLE, style);
-			if (spell != null)
-			{
-				context.put(ComputeInputs.SPELL, spell);
-			}
-			context.put(ComputeInputs.DEFENDER_SKILLS, request.getTarget().getSkills());
-			context.put(ComputeInputs.DEFENDER_BONUSES, request.getTarget().getDefensiveBonuses());
-			context.put(ComputeInputs.DEFENDER_ATTRIBUTES, request.getTarget().getAttributes());
-			context.put(ComputeInputs.ON_SLAYER_TASK, request.isOnSlayerTask());
-			context.put(ComputeInputs.RAID_PARTY_SIZE, request.getRaidPartySize());
-			context.put(ComputeInputs.ATTACK_DISTANCE, DEFAULT_ATTACK_DISTANCE);
-			if (darts != null)
-			{
-				context.put(ComputeInputs.BLOWPIPE_DARTS, darts);
-			}
+			ComputeContext context = buildContext(request, items, style, spell, prayers, darts);
 			double dps = context.get(dpsComputable);
 			return Double.isFinite(dps) && dps >= 0 ? dps : -1;
 		}
@@ -312,6 +314,36 @@ public class LoadoutOptimizer
 		{
 			return -1;
 		}
+	}
+
+	private ComputeContext buildContext(
+		OptimizeRequest request,
+		Map<EquipmentInventorySlot, ItemStats> items,
+		AttackStyle style,
+		Spell spell,
+		Set<Prayer> prayers,
+		ItemStats darts)
+	{
+		ComputeContext context = new ComputeContext();
+		context.put(ComputeInputs.ATTACKER_SKILLS, request.getPlayerSkills());
+		context.put(ComputeInputs.ATTACKER_ITEMS, items);
+		context.put(ComputeInputs.ATTACKER_PRAYERS, prayers);
+		context.put(ComputeInputs.ATTACK_STYLE, style);
+		if (spell != null)
+		{
+			context.put(ComputeInputs.SPELL, spell);
+		}
+		context.put(ComputeInputs.DEFENDER_SKILLS, request.getTarget().getSkills());
+		context.put(ComputeInputs.DEFENDER_BONUSES, request.getTarget().getDefensiveBonuses());
+		context.put(ComputeInputs.DEFENDER_ATTRIBUTES, request.getTarget().getAttributes());
+		context.put(ComputeInputs.ON_SLAYER_TASK, request.isOnSlayerTask());
+		context.put(ComputeInputs.RAID_PARTY_SIZE, request.getRaidPartySize());
+		context.put(ComputeInputs.ATTACK_DISTANCE, DEFAULT_ATTACK_DISTANCE);
+		if (darts != null)
+		{
+			context.put(ComputeInputs.BLOWPIPE_DARTS, darts);
+		}
+		return context;
 	}
 
 	private int prayerLevel(OptimizeRequest request)

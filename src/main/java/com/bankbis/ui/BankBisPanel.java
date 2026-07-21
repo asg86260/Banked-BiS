@@ -838,13 +838,24 @@ public class BankBisPanel extends PluginPanel
 
 		if (breakdown != null)
 		{
-			JLabel breakdownLabel = new JLabel(String.format("base %.1f · pray %.1f · pots %.1f",
+			JLabel breakdownLabel = new JLabel(String.format("base %.2f · pray %.2f · pots %.2f",
 				breakdown.getBase(), breakdown.getPrayed(), breakdown.getPotted()));
 			breakdownLabel.setFont(FontManager.getRunescapeSmallFont());
 			breakdownLabel.setForeground(ColorScheme.LIGHT_GRAY_COLOR.darker());
 			breakdownLabel.setToolTipText("This gear's DPS: unboosted / prayers only / prayers + potions");
 			breakdownLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 			section.add(breakdownLabel);
+		}
+
+		if (loadout.getMaxHit() > 0)
+		{
+			JLabel components = new JLabel(String.format("max hit %d · accuracy %.1f%%",
+				loadout.getMaxHit(), loadout.getAccuracy() * 100));
+			components.setFont(FontManager.getRunescapeSmallFont());
+			components.setForeground(ColorScheme.LIGHT_GRAY_COLOR.darker());
+			components.setToolTipText("Compare directly against the wiki DPS calculator's output");
+			components.setAlignmentX(Component.LEFT_ALIGNMENT);
+			section.add(components);
 		}
 
 		JLabel style = new JLabel(loadout.getSpell() != null
