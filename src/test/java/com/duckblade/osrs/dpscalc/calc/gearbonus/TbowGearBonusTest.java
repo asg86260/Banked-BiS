@@ -102,4 +102,13 @@ class TbowGearBonusTest
 		);
 	}
 
+	@Test
+	void formulaMatchesWikiCalcWithTruncatedTerms()
+	{
+		// wiki calc tbowScaling with integer-truncated t2/t3 terms
+		assertEquals(1.41, tbowFormula(250, true), 1e-9);   // accuracy factor at cap
+		assertEquals(2.15, tbowFormula(250, false), 1e-9);  // damage factor at cap
+		assertEquals(0.40, tbowFormula(1, true), 1e-9);     // low-magic accuracy penalty
+	}
+
 }

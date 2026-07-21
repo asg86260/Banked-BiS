@@ -49,15 +49,18 @@ public class TbowGearBonus implements GearBonusComputable
 		return GearBonuses.of(tbowFormula(magic, true), tbowFormula(magic, false));
 	}
 
-	// formulas are the same shape with different static values
+	// formulas are the same shape with different static values. Each term is
+	// truncated to an integer (wiki calc parity — tbowScaling); keeping them as
+	// doubles drifts the factor by ~1% and shifts max hit by a point.
 	@VisibleForTesting
 	static double tbowFormula(int magic, boolean accuracy)
 	{
-		double base = accuracy ? 140.0 : 250.0;
-		double sub = accuracy ? 10.0 : 14.0;
+		int base = accuracy ? 140 : 250;
+		int factor = accuracy ? 10 : 14;
 
-		double t2 = (3.0 * magic - sub) / 100.0;
-		double t3 = Math.pow((3.0 * magic) / 10.0 - (10.0 * sub), 2.0) / 100.0;
+		int t2 = (3 * magic - factor) / 100;
+		int inner = (3 * magic / 10) - (10 * factor);
+		int t3 = (inner * inner) / 100;
 		return (base + t2 - t3) / 100.0;
 	}
 
