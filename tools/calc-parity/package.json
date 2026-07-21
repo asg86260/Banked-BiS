@@ -1,0 +1,12 @@
+{
+  "name": "calc-parity",
+  "private": true,
+  "type": "module",
+  "description": "Dev-only oracle: diff our DPS engine against the wiki calc over generated setups.",
+  "scripts": {
+    "setup": "node run.mjs --wiki",
+    "generate": "node generate-cases.mjs",
+    "diff": "node diff.mjs",
+    "run": "node run.mjs"
+  }
+}
