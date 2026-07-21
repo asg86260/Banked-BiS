@@ -1083,5 +1083,129 @@
                           "ranged":  6
                       },
         "isTwoHanded":  false
+    },
+    {
+        "name":  "Berserker ring (i)",
+        "id":  11773,
+        "weight":  0.004,
+        "version":  "",
+        "slot":  "ring",
+        "image":  "Berserker ring (i).png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  8,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  8,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Elite void robe",
+        "id":  13073,
+        "weight":  8.164,
+        "version":  "Normal",
+        "slot":  "legs",
+        "image":  "Elite void robe.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  3
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  30,
+                          "slash":  30,
+                          "crush":  30,
+                          "magic":  30,
+                          "ranged":  30
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Elite void top",
+        "id":  13072,
+        "weight":  6.803,
+        "version":  "Normal",
+        "slot":  "body",
+        "image":  "Elite void top.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  3
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  45,
+                          "slash":  45,
+                          "crush":  45,
+                          "magic":  45,
+                          "ranged":  45
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Slayer helmet (i)",
+        "id":  11865,
+        "weight":  2.267,
+        "version":  "",
+        "slot":  "head",
+        "image":  "Slayer helmet (i).png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  3,
+                          "ranged":  3
+                      },
+        "defensive":  {
+                          "stab":  30,
+                          "slash":  32,
+                          "crush":  27,
+                          "magic":  10,
+                          "ranged":  30
+                      },
+        "isTwoHanded":  false
     }
 ]

@@ -179,6 +179,48 @@ class OptimizerEndToEndTest
 	}
 
 	@Test
+	void eliteVoidBeatsRegularVoid()
+	{
+		List<Loadout> result = optimizer.optimize(request(bank(
+			"Magic shortbow", "Amethyst arrow",
+			"Void ranger helm", "Void knight gloves",
+			"Void knight top", "Void knight robe",
+			"Elite void top", "Elite void robe"), GRAARDOR, false));
+
+		Loadout ranged = loadoutFor(result, CombatClass.RANGED).orElseThrow(AssertionError::new);
+		Set<String> names = itemNames(ranged);
+		assertTrue(names.contains("Elite void top") && names.contains("Elite void robe"),
+			"elite pieces should beat regular void, got " + names);
+	}
+
+	@Test
+	void imbuedSlayerHelmBoostsRangedOnTask()
+	{
+		// regular black mask only boosts melee; the imbue extends to ranged
+		List<ItemStats> gear = bank("Rune crossbow", "Broad bolts", "Slayer helmet (i)", "Black mask");
+
+		Loadout onTask = loadoutFor(optimizer.optimize(request(gear, ABYSSAL_DEMON, true)), CombatClass.RANGED)
+			.orElseThrow(AssertionError::new);
+		Loadout offTask = loadoutFor(optimizer.optimize(request(gear, ABYSSAL_DEMON, false)), CombatClass.RANGED)
+			.orElseThrow(AssertionError::new);
+
+		assertTrue(itemNames(onTask).contains("Slayer helmet (i)"),
+			"imbued slayer helm should be worn for on-task ranged, got " + itemNames(onTask));
+		assertTrue(onTask.getDps() > offTask.getDps(),
+			"on-task ranged dps " + onTask.getDps() + " should beat off-task " + offTask.getDps());
+	}
+
+	@Test
+	void imbuedRingBeatsRegularRing()
+	{
+		List<Loadout> result = optimizer.optimize(request(bank(
+			"Abyssal whip", "Berserker ring", "Berserker ring (i)"), GRAARDOR, false));
+
+		Loadout melee = loadoutFor(result, CombatClass.MELEE).orElseThrow(AssertionError::new);
+		assertEquals("Berserker ring (i)", melee.getItems().get(EquipmentInventorySlot.RING).getName());
+	}
+
+	@Test
 	void prayerAssumptionChangesDps()
 	{
 		List<ItemStats> gear = bank("Abyssal whip", "Dragon defender");
