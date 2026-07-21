@@ -20,6 +20,8 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
@@ -53,6 +55,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JPopupMenu;
+import javax.swing.JSeparator;
 import javax.swing.JToggleButton;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
@@ -167,6 +170,7 @@ public class BankBisPanel extends PluginPanel
 		});
 		controls.add(categoryCombo);
 		controls.add(presetCombo);
+		controls.add(orDivider());
 
 		// free-text monster search; when non-empty it takes precedence over
 		// the preset dropdowns above
@@ -307,6 +311,30 @@ public class BankBisPanel extends PluginPanel
 		}
 		raidHolder.revalidate();
 		raidHolder.repaint();
+	}
+
+	/**
+	 * A muted "── or ──" separator between the preset dropdowns and the
+	 * free-text search, since the two are alternative ways to pick a target.
+	 */
+	private static JPanel orDivider()
+	{
+		JLabel label = new JLabel("or");
+		label.setFont(FontManager.getRunescapeSmallFont());
+		label.setForeground(ColorScheme.LIGHT_GRAY_COLOR.darker());
+		label.setBorder(BorderFactory.createEmptyBorder(0, 6, 0, 6));
+
+		JPanel divider = new JPanel(new GridBagLayout());
+		divider.setOpaque(false);
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1;
+		divider.add(new JSeparator(), c);
+		c.weightx = 0;
+		divider.add(label, c);
+		c.weightx = 1;
+		divider.add(new JSeparator(), c);
+		return divider;
 	}
 
 	private static JPanel labeledRow(String text, Component field)
