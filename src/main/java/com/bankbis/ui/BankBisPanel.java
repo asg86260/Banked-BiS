@@ -516,7 +516,9 @@ public class BankBisPanel extends PluginPanel
 		compute();
 	}
 
-	private void render(Target target, RecommendationService.Result result, Throwable error)
+	// package-private for PanelPreviewTest, which renders the panel to a
+	// PNG so layout changes can be reviewed without launching the client
+	void render(Target target, RecommendationService.Result result, Throwable error)
 	{
 		refreshButton.setEnabled(true);
 		resultsPanel.removeAll();
@@ -590,7 +592,7 @@ public class BankBisPanel extends PluginPanel
 
 	private Component warningLabel(String text)
 	{
-		JLabel label = new JLabel("<html>" + text + "</html>");
+		JLabel label = new JLabel("<html><body style='width:185px'>" + text + "</body></html>");
 		label.setFont(FontManager.getRunescapeSmallFont());
 		label.setForeground(ColorScheme.PROGRESS_ERROR_COLOR.brighter());
 		label.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -677,16 +679,19 @@ public class BankBisPanel extends PluginPanel
 		headerRow.setOpaque(false);
 		headerRow.add(header, BorderLayout.WEST);
 		headerRow.add(actions, BorderLayout.EAST);
-		headerRow.setAlignmentX(Component.CENTER_ALIGNMENT);
+		// all direct children share LEFT alignment - BoxLayout shifts
+		// children unpredictably when alignments are mixed
+		headerRow.setAlignmentX(Component.LEFT_ALIGNMENT);
 		headerRow.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, headerRow.getPreferredSize().height));
 		section.add(headerRow);
 
 		if (breakdown != null)
 		{
-			JLabel breakdownLabel = new JLabel(String.format("base %.1f · prayer %.1f · pray+pots %.1f",
+			JLabel breakdownLabel = new JLabel(String.format("base %.1f · pray %.1f · pots %.1f",
 				breakdown.getBase(), breakdown.getPrayed(), breakdown.getPotted()));
 			breakdownLabel.setFont(FontManager.getRunescapeSmallFont());
 			breakdownLabel.setForeground(ColorScheme.LIGHT_GRAY_COLOR.darker());
+			breakdownLabel.setToolTipText("This gear's DPS: unboosted / prayers only / prayers + potions");
 			breakdownLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 			section.add(breakdownLabel);
 		}
@@ -700,8 +705,11 @@ public class BankBisPanel extends PluginPanel
 
 		EquipmentGridPanel grid = new EquipmentGridPanel(loadout.getItems(), result.getPartyItemIds(),
 			result.getGroupStorageItemIds(), ownedItemsService.getWornItemIds(), itemManager, spriteManager);
-		grid.setAlignmentX(Component.CENTER_ALIGNMENT);
-		section.add(grid);
+		JPanel gridRow = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+		gridRow.setOpaque(false);
+		gridRow.add(grid);
+		gridRow.setAlignmentX(Component.LEFT_ALIGNMENT);
+		section.add(gridRow);
 		return section;
 	}
 
