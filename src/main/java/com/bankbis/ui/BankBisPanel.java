@@ -382,7 +382,7 @@ public class BankBisPanel extends PluginPanel
 			statusLabel.setText("No combat data for " + (cleanName.isEmpty() ? "that monster" : cleanName) + ".");
 			return;
 		}
-		searchField.setText(display);
+		setSearchTextQuietly(display);
 		compute();
 	}
 
@@ -467,6 +467,10 @@ public class BankBisPanel extends PluginPanel
 			return;
 		}
 		ensureMonsterIndex();
+		if (monsterIdByName.containsKey(query))
+		{
+			return; // text already names a monster exactly; nothing to suggest
+		}
 
 		List<String> matches = new ArrayList<>();
 		for (String name : monsterNames)
@@ -509,11 +513,21 @@ public class BankBisPanel extends PluginPanel
 
 	private void selectSuggestion(String name)
 	{
-		suppressSuggestions = true;
-		searchField.setText(name);
-		suppressSuggestions = false;
-		suggestionPopup.setVisible(false);
+		setSearchTextQuietly(name);
 		compute();
+	}
+
+	/**
+	 * Sets the search text without popping type-ahead suggestions. The
+	 * document listener defers to invokeLater, so the suppress flag must be
+	 * cleared in a later queued task, not synchronously after setText.
+	 */
+	private void setSearchTextQuietly(String text)
+	{
+		suppressSuggestions = true;
+		searchField.setText(text);
+		SwingUtilities.invokeLater(() -> suppressSuggestions = false);
+		suggestionPopup.setVisible(false);
 	}
 
 	// package-private for PanelPreviewTest, which renders the panel to a
