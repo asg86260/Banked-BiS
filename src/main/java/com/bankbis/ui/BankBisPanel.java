@@ -15,7 +15,6 @@ import com.bankbis.optimizer.Loadout;
 import com.bankbis.optimizer.PotionBoost;
 import com.bankbis.optimizer.PrayerAssumption;
 import com.duckblade.osrs.dpscalc.calc.model.ItemStats;
-import com.google.gson.Gson;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -29,9 +28,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.RenderingHints;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
-import java.awt.datatransfer.StringSelection;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URLEncoder;
@@ -91,7 +88,6 @@ public class BankBisPanel extends PluginPanel
 	private final OwnedItemsService ownedItemsService;
 	private final ConfigManager configManager;
 	private final BankBisConfig config;
-	private final Gson gson;
 	private final BankFilterService bankFilterService;
 
 	private final List<JToggleButton> highlightButtons = new ArrayList<>();
@@ -124,10 +120,9 @@ public class BankBisPanel extends PluginPanel
 	public BankBisPanel(RecommendationService recommendationService, ItemManager itemManager,
 		SpriteManager spriteManager, BankHighlightState highlightState, WikiDataService wikiDataService,
 		TargetPickerState pickerState, OwnedItemsService ownedItemsService, ConfigManager configManager,
-		BankBisConfig config, Gson gson, BankFilterService bankFilterService)
+		BankBisConfig config, BankFilterService bankFilterService)
 	{
 		this.config = config;
-		this.gson = gson;
 		this.bankFilterService = bankFilterService;
 		this.recommendationService = recommendationService;
 		this.itemManager = itemManager;
@@ -828,16 +823,6 @@ public class BankBisPanel extends PluginPanel
 		});
 		highlightButtons.add(highlight);
 
-		JButton export = new JButton("Export", actionIcon(ColorScheme.LIGHT_GRAY_COLOR, true));
-		export.setRolloverIcon(actionIcon(ColorScheme.BRAND_ORANGE, true));
-		styleActionButton(export, "Copy this loadout to the clipboard as an Inventory Setups import");
-		export.addActionListener(e ->
-		{
-			String json = InventorySetupExport.toJson(gson, loadout, target.getLabel());
-			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(json), null);
-			statusLabel.setText("Copied - use Import setup in Inventory Setups.");
-		});
-
 		// all direct children share LEFT alignment - BoxLayout shifts
 		// children unpredictably when alignments are mixed
 		header.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -870,14 +855,9 @@ public class BankBisPanel extends PluginPanel
 		section.add(gridRow);
 		section.add(Box.createVerticalStrut(6));
 
-		// labeled half-width actions: icon glyphs alone were too cryptic
-		JPanel actionsRow = new JPanel(new GridLayout(1, 2, 4, 0));
-		actionsRow.setOpaque(false);
-		actionsRow.add(highlight);
-		actionsRow.add(export);
-		actionsRow.setAlignmentX(Component.LEFT_ALIGNMENT);
-		actionsRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, actionsRow.getPreferredSize().height));
-		section.add(actionsRow);
+		highlight.setAlignmentX(Component.LEFT_ALIGNMENT);
+		highlight.setMaximumSize(new Dimension(Integer.MAX_VALUE, highlight.getPreferredSize().height));
+		section.add(highlight);
 		return section;
 	}
 

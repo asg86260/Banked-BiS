@@ -11,7 +11,6 @@ import com.bankbis.optimizer.Loadout;
 import com.duckblade.osrs.dpscalc.calc.model.AttackStyle;
 import com.duckblade.osrs.dpscalc.calc.model.AttackType;
 import com.duckblade.osrs.dpscalc.calc.model.ItemStats;
-import com.google.gson.Gson;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -121,7 +120,7 @@ public class PanelPreviewApp
 
 		return new BankBisPanel(recommendationService, itemManager, spriteManager,
 			new BankHighlightState(), wikiDataService, new TargetPickerState(), ownedItemsService,
-			configManager, config, new Gson(), mock(BankFilterService.class));
+			configManager, config, mock(BankFilterService.class));
 	}
 
 	static Target sampleTarget()
