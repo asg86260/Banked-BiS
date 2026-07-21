@@ -5,6 +5,7 @@ import com.bankbis.data.WikiDataService;
 import com.bankbis.party.OwnedItemsUpdate;
 import com.bankbis.party.PartyItemsService;
 import com.bankbis.ui.BankBisPanel;
+import com.bankbis.ui.BankFilterService;
 import com.bankbis.ui.BankHighlightOverlay;
 import com.bankbis.ui.TargetPickerState;
 import com.duckblade.osrs.dpscalc.calc.DpsComputeModule;
@@ -71,6 +72,9 @@ public class BankBisPlugin extends Plugin
 
 	@Inject
 	private TargetPickerState targetPickerState;
+
+	@Inject
+	private BankFilterService bankFilterService;
 
 	// injected lazily: the panel must be constructed in startUp(), after the
 	// client has installed its look-and-feel, or its components render unstyled
@@ -187,6 +191,7 @@ public class BankBisPlugin extends Plugin
 		wsClient.unregisterMessage(OwnedItemsUpdate.class);
 		overlayManager.remove(bankHighlightOverlay);
 		targetPickerState.setArmed(false);
+		bankFilterService.clear();
 		ownedItemsService.flush();
 		wikiDataService.shutdown();
 		clientToolbar.removeNavigation(navButton);

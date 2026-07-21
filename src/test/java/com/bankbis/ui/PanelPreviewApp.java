@@ -121,7 +121,7 @@ public class PanelPreviewApp
 
 		return new BankBisPanel(recommendationService, itemManager, spriteManager,
 			new BankHighlightState(), wikiDataService, new TargetPickerState(), ownedItemsService,
-			configManager, config, new Gson());
+			configManager, config, new Gson(), mock(BankFilterService.class));
 	}
 
 	static Target sampleTarget()

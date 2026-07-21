@@ -90,6 +90,7 @@ public class BankBisPanel extends PluginPanel
 	private final ConfigManager configManager;
 	private final BankBisConfig config;
 	private final Gson gson;
+	private final BankFilterService bankFilterService;
 
 	private final List<JToggleButton> highlightButtons = new ArrayList<>();
 
@@ -123,10 +124,11 @@ public class BankBisPanel extends PluginPanel
 	public BankBisPanel(RecommendationService recommendationService, ItemManager itemManager,
 		SpriteManager spriteManager, BankHighlightState highlightState, WikiDataService wikiDataService,
 		TargetPickerState pickerState, OwnedItemsService ownedItemsService, ConfigManager configManager,
-		BankBisConfig config, Gson gson)
+		BankBisConfig config, Gson gson, BankFilterService bankFilterService)
 	{
 		this.config = config;
 		this.gson = gson;
+		this.bankFilterService = bankFilterService;
 		this.recommendationService = recommendationService;
 		this.itemManager = itemManager;
 		this.spriteManager = spriteManager;
@@ -775,6 +777,7 @@ public class BankBisPanel extends PluginPanel
 		resultsPanel.removeAll();
 		highlightButtons.clear();
 		highlightState.clear();
+		bankFilterService.clear();
 
 		if (error != null)
 		{
@@ -889,7 +892,7 @@ public class BankBisPanel extends PluginPanel
 
 		JToggleButton highlight = new JToggleButton("Show in bank", actionIcon(ColorScheme.LIGHT_GRAY_COLOR, false));
 		highlight.setSelectedIcon(actionIcon(ColorScheme.BRAND_ORANGE, false));
-		styleActionButton(highlight, "Outline this loadout's items in the bank window");
+		styleActionButton(highlight, "Filter the open bank to this loadout and outline its items");
 		highlight.addActionListener(e ->
 		{
 			if (highlight.isSelected())
@@ -902,11 +905,14 @@ public class BankBisPanel extends PluginPanel
 						other.setSelected(false);
 					}
 				}
-				highlightState.set(loadoutItemIdsOf(loadout));
+				Set<Integer> ids = loadoutItemIdsOf(loadout);
+				highlightState.set(ids);
+				bankFilterService.show(ids);
 			}
 			else
 			{
 				highlightState.clear();
+				bankFilterService.clear();
 			}
 		});
 		highlightButtons.add(highlight);
@@ -1017,6 +1023,7 @@ public class BankBisPanel extends PluginPanel
 	public void clearBankHighlight()
 	{
 		highlightState.clear();
+		bankFilterService.clear();
 		for (JToggleButton button : highlightButtons)
 		{
 			button.setSelected(false);
