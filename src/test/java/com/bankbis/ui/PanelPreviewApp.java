@@ -93,11 +93,20 @@ public class PanelPreviewApp
 		SpriteManager spriteManager = mock(SpriteManager.class);
 		doAnswer(inv ->
 		{
+			int spriteId = inv.getArgument(0);
 			Consumer<BufferedImage> consumer = inv.getArgument(2);
 			BufferedImage sprite = new BufferedImage(26, 23, BufferedImage.TYPE_INT_ARGB);
 			Graphics2D g = sprite.createGraphics();
-			g.setColor(new Color(0x55FFFFFF, true));
-			g.drawOval(5, 3, 16, 16);
+			if (spriteId == 1359) // red damage hitsplat: stand in for the real sprite
+			{
+				g.setColor(new Color(0xC81E1E));
+				g.fillOval(0, 0, 26, 22);
+			}
+			else
+			{
+				g.setColor(new Color(0x55FFFFFF, true));
+				g.drawOval(5, 3, 16, 16);
+			}
 			g.dispose();
 			consumer.accept(sprite);
 			return null;
@@ -173,6 +182,8 @@ public class PanelPreviewApp
 			.items(items)
 			.attackStyle(AttackStyle.builder().displayName(styleName).attackType(AttackType.SLASH).build())
 			.dps(dps)
+			.maxHit((int) Math.round(dps * 4))
+			.accuracy(0.62)
 			.breakdown(new Loadout.DpsBreakdown(base, prayed, potted))
 			.build();
 	}

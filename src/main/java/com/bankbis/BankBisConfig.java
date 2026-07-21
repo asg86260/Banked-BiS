@@ -52,6 +52,16 @@ public interface BankBisConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = "forceSlayerTask",
+		name = "On slayer task",
+		description = "Apply the slayer helmet / black mask boost even for monsters not auto-detected as your task"
+	)
+	default boolean forceSlayerTask()
+	{
+		return false;
+	}
+
+	@ConfigItem(
 		keyName = "sharePartyBanks",
 		name = "Share banks with party",
 		description = "Share your equippable items (ids and quantities only) with your RuneLite party via the "

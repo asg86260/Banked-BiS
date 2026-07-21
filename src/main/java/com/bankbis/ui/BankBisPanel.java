@@ -108,6 +108,7 @@ public class BankBisPanel extends PluginPanel
 	private final JSpinner invoSpinner = new JSpinner(new SpinnerNumberModel(150, 0, 600, 5));
 	private final JPanel raidHolder = new JPanel(new BorderLayout());
 	private final JCheckBox groupCheck = new JCheckBox("Include group storage");
+	private final JCheckBox slayerCheck = new JCheckBox("On slayer task");
 	private final JComboBox<PotionBoost> potionCombo = new JComboBox<>(PotionBoost.values());
 	private final JComboBox<PrayerAssumption> prayerCombo = new JComboBox<>(PrayerAssumption.values());
 	private final JButton refreshButton = new PrimaryButton("Find my best gear");
@@ -182,6 +183,14 @@ public class BankBisPanel extends PluginPanel
 		groupCheck.setToolTipText("Count group ironman storage as owned when recommending gear");
 		groupCheck.addActionListener(e ->
 			configManager.setConfiguration("bank-bis", "includeGroupStorage", groupCheck.isSelected()));
+		slayerCheck.setFont(FontManager.getRunescapeSmallFont());
+		slayerCheck.setOpaque(false);
+		slayerCheck.setToolTipText("Force the slayer helmet / black mask boost on, for tasks not auto-detected (e.g. bosses)");
+		slayerCheck.addActionListener(e ->
+		{
+			configManager.setConfiguration("bank-bis", "forceSlayerTask", slayerCheck.isSelected());
+			compute();
+		});
 		invoSpinner.setFont(FontManager.getRunescapeSmallFont());
 		partyCombo.setFont(FontManager.getRunescapeSmallFont());
 
@@ -469,6 +478,8 @@ public class BankBisPanel extends PluginPanel
 			rows.add(prayerCombo);
 			groupCheck.setSelected(config.includeGroupStorage());
 			rows.add(groupCheck);
+			slayerCheck.setSelected(config.forceSlayerTask());
+			rows.add(slayerCheck);
 			advancedHolder.add(indentBlock(rows), BorderLayout.NORTH);
 		}
 		else
@@ -477,6 +488,26 @@ public class BankBisPanel extends PluginPanel
 		}
 		advancedHolder.revalidate();
 		advancedHolder.repaint();
+	}
+
+	// Red damage hitsplat sprite - RuneLite only names the blue-miss / poison /
+	// venom variants, so the plain damage splat is referenced by id.
+	private static final int HITSPLAT_RED_DAMAGE = 1359;
+
+	/**
+	 * The max hit drawn on a damage hitsplat, like the in-game max hit splat.
+	 */
+	private JLabel maxHitSplat(int maxHit)
+	{
+		JLabel splat = new JLabel(String.valueOf(maxHit));
+		splat.setFont(FontManager.getRunescapeSmallFont());
+		splat.setForeground(Color.WHITE);
+		splat.setHorizontalTextPosition(SwingConstants.CENTER);
+		splat.setVerticalTextPosition(SwingConstants.CENTER);
+		splat.setToolTipText("Max hit");
+		spriteManager.getSpriteAsync(HITSPLAT_RED_DAMAGE, 0, sprite ->
+			SwingUtilities.invokeLater(() -> splat.setIcon(new ImageIcon(sprite))));
+		return splat;
 	}
 
 	private static JLabel advancedLabel(String text)
@@ -555,7 +586,7 @@ public class BankBisPanel extends PluginPanel
 			return Target.builder()
 				.npcId(resolution.getNpcId())
 				.label(resolution.getDisplayName())
-				.onSlayerTask(onSlayerTask(resolution.getDisplayName()))
+				.onSlayerTask(slayerCheck.isSelected() || onSlayerTask(resolution.getDisplayName()))
 				.raidPartySize(partySize(1))
 				.build();
 		}
@@ -567,6 +598,7 @@ public class BankBisPanel extends PluginPanel
 		}
 		Target target = Target.ofPreset(preset);
 		return target.toBuilder()
+			.onSlayerTask(slayerCheck.isSelected() || target.isOnSlayerTask())
 			.raidPartySize(partySize(target.getRaidPartySize()))
 			.coxChallengeMode(cmCheck.isSelected())
 			.toaInvocationLevel((Integer) invoSpinner.getValue())
@@ -849,12 +881,15 @@ public class BankBisPanel extends PluginPanel
 
 		if (loadout.getMaxHit() > 0)
 		{
-			JLabel components = new JLabel(String.format("max hit %d · accuracy %.1f%%",
-				loadout.getMaxHit(), loadout.getAccuracy() * 100));
-			components.setFont(FontManager.getRunescapeSmallFont());
-			components.setForeground(ColorScheme.LIGHT_GRAY_COLOR.darker());
-			components.setToolTipText("Compare directly against the wiki DPS calculator's output");
+			JPanel components = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 0));
+			components.setOpaque(false);
 			components.setAlignmentX(Component.LEFT_ALIGNMENT);
+			components.setToolTipText("Max hit and accuracy - compare against the wiki DPS calculator");
+			components.add(maxHitSplat(loadout.getMaxHit()));
+			JLabel accuracy = new JLabel(String.format("accuracy %.1f%%", loadout.getAccuracy() * 100));
+			accuracy.setFont(FontManager.getRunescapeSmallFont());
+			accuracy.setForeground(ColorScheme.LIGHT_GRAY_COLOR.darker());
+			components.add(accuracy);
 			section.add(components);
 		}
 
