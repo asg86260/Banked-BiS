@@ -69,8 +69,24 @@ final class InventorySetupExport
 		highlightColor.addProperty("value", ColorScheme.BRAND_ORANGE.getRGB());
 		setup.add("hc", highlightColor);
 
+		// the import path requires a non-null bank-tab layout (item id per
+		// slot, -1 empty, 8 per row); lay the gear out in display order
+		JsonArray layout = new JsonArray();
+		for (int i = 0; i < NUM_EQUIPMENT_ITEMS; i++)
+		{
+			if (bySlot[i] != null)
+			{
+				layout.add(bySlot[i].getItemId());
+			}
+		}
+		while (layout.size() % 8 != 0)
+		{
+			layout.add(-1);
+		}
+
 		JsonObject root = new JsonObject();
 		root.add("setup", setup);
+		root.add("layout", layout);
 		return gson.toJson(root);
 	}
 
