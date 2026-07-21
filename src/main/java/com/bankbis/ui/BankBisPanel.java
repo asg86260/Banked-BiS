@@ -887,9 +887,9 @@ public class BankBisPanel extends PluginPanel
 		header.setFont(FontManager.getRunescapeBoldFont());
 		header.setForeground(ColorScheme.BRAND_ORANGE);
 
-		JToggleButton highlight = new JToggleButton(actionIcon(ColorScheme.LIGHT_GRAY_COLOR, false));
+		JToggleButton highlight = new JToggleButton("Show in bank", actionIcon(ColorScheme.LIGHT_GRAY_COLOR, false));
 		highlight.setSelectedIcon(actionIcon(ColorScheme.BRAND_ORANGE, false));
-		styleIconButton(highlight, "Highlight this loadout's items in the bank");
+		styleActionButton(highlight, "Outline this loadout's items in the bank window");
 		highlight.addActionListener(e ->
 		{
 			if (highlight.isSelected())
@@ -911,9 +911,9 @@ public class BankBisPanel extends PluginPanel
 		});
 		highlightButtons.add(highlight);
 
-		JButton export = new JButton(actionIcon(ColorScheme.LIGHT_GRAY_COLOR, true));
+		JButton export = new JButton("Export", actionIcon(ColorScheme.LIGHT_GRAY_COLOR, true));
 		export.setRolloverIcon(actionIcon(ColorScheme.BRAND_ORANGE, true));
-		styleIconButton(export, "Copy as an Inventory Setups import");
+		styleActionButton(export, "Copy this loadout to the clipboard as an Inventory Setups import");
 		export.addActionListener(e ->
 		{
 			String json = InventorySetupExport.toJson(gson, loadout, target.getLabel());
@@ -921,20 +921,10 @@ public class BankBisPanel extends PluginPanel
 			statusLabel.setText("Copied - use Import setup in Inventory Setups.");
 		});
 
-		JPanel actions = new JPanel(new FlowLayout(FlowLayout.RIGHT, 4, 0));
-		actions.setOpaque(false);
-		actions.add(highlight);
-		actions.add(export);
-
-		JPanel headerRow = new JPanel(new BorderLayout());
-		headerRow.setOpaque(false);
-		headerRow.add(header, BorderLayout.WEST);
-		headerRow.add(actions, BorderLayout.EAST);
 		// all direct children share LEFT alignment - BoxLayout shifts
 		// children unpredictably when alignments are mixed
-		headerRow.setAlignmentX(Component.LEFT_ALIGNMENT);
-		headerRow.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, headerRow.getPreferredSize().height));
-		section.add(headerRow);
+		header.setAlignmentX(Component.LEFT_ALIGNMENT);
+		section.add(header);
 
 		if (breakdown != null)
 		{
@@ -961,6 +951,16 @@ public class BankBisPanel extends PluginPanel
 		gridRow.add(grid);
 		gridRow.setAlignmentX(Component.LEFT_ALIGNMENT);
 		section.add(gridRow);
+		section.add(Box.createVerticalStrut(6));
+
+		// labeled half-width actions: icon glyphs alone were too cryptic
+		JPanel actionsRow = new JPanel(new GridLayout(1, 2, 4, 0));
+		actionsRow.setOpaque(false);
+		actionsRow.add(highlight);
+		actionsRow.add(export);
+		actionsRow.setAlignmentX(Component.LEFT_ALIGNMENT);
+		actionsRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, actionsRow.getPreferredSize().height));
+		section.add(actionsRow);
 		return section;
 	}
 
@@ -974,12 +974,12 @@ public class BankBisPanel extends PluginPanel
 		return ids;
 	}
 
-	private static void styleIconButton(AbstractButton button, String tooltip)
+	private static void styleActionButton(AbstractButton button, String tooltip)
 	{
-		button.setPreferredSize(new java.awt.Dimension(18, 18));
-		button.setContentAreaFilled(false);
+		button.setFont(FontManager.getRunescapeSmallFont());
 		button.setFocusPainted(false);
-		button.setBorder(BorderFactory.createEmptyBorder());
+		button.setIconTextGap(5);
+		button.setMargin(new java.awt.Insets(2, 4, 2, 4));
 		button.setToolTipText(tooltip);
 	}
 
