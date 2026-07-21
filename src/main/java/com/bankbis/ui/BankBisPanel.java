@@ -108,6 +108,7 @@ public class BankBisPanel extends PluginPanel
 	private final JCheckBox cmCheck = new JCheckBox("Challenge Mode");
 	private final JSpinner invoSpinner = new JSpinner(new SpinnerNumberModel(150, 0, 600, 5));
 	private final JPanel raidHolder = new JPanel(new BorderLayout());
+	private final JCheckBox groupCheck = new JCheckBox("Include group storage");
 	private final JComboBox<PotionBoost> potionCombo = new JComboBox<>(PotionBoost.values());
 	private final JComboBox<PrayerAssumption> prayerCombo = new JComboBox<>(PrayerAssumption.values());
 	private final JButton refreshButton = new PrimaryButton("Find my best gear");
@@ -176,6 +177,12 @@ public class BankBisPanel extends PluginPanel
 		raidHolder.setOpaque(false);
 		cmCheck.setFont(FontManager.getRunescapeSmallFont());
 		cmCheck.setOpaque(false);
+		// mirrors the config item so it stays in sync with the config panel
+		groupCheck.setFont(FontManager.getRunescapeSmallFont());
+		groupCheck.setOpaque(false);
+		groupCheck.setToolTipText("Count group ironman storage as owned when recommending gear");
+		groupCheck.addActionListener(e ->
+			configManager.setConfiguration("bank-bis", "includeGroupStorage", groupCheck.isSelected()));
 		invoSpinner.setFont(FontManager.getRunescapeSmallFont());
 		partyCombo.setFont(FontManager.getRunescapeSmallFont());
 
@@ -461,6 +468,8 @@ public class BankBisPanel extends PluginPanel
 			rows.add(advancedLabel("Prayers"));
 			prayerCombo.setFont(FontManager.getRunescapeSmallFont());
 			rows.add(prayerCombo);
+			groupCheck.setSelected(config.includeGroupStorage());
+			rows.add(groupCheck);
 			advancedHolder.add(indentBlock(rows), BorderLayout.NORTH);
 		}
 		else

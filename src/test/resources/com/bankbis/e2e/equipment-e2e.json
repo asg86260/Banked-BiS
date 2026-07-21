@@ -1,0 +1,1087 @@
+[
+    {
+        "name":  "Black mask",
+        "id":  8919,
+        "weight":  10,
+        "version":  "(1)",
+        "slot":  "head",
+        "image":  "Black mask.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  -3,
+                          "ranged":  -1
+                      },
+        "defensive":  {
+                          "stab":  9,
+                          "slash":  10,
+                          "crush":  8,
+                          "magic":  -1,
+                          "ranged":  9
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Rune platebody",
+        "id":  1127,
+        "weight":  9.979,
+        "version":  "",
+        "slot":  "body",
+        "image":  "Rune platebody.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  -30,
+                          "ranged":  -15
+                      },
+        "defensive":  {
+                          "stab":  82,
+                          "slash":  80,
+                          "crush":  72,
+                          "magic":  -6,
+                          "ranged":  80
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Staff of fire",
+        "id":  1387,
+        "weight":  2.267,
+        "version":  "",
+        "slot":  "weapon",
+        "image":  "Staff of fire.png",
+        "speed":  5,
+        "category":  "Staff",
+        "bonuses":  {
+                        "str":  6,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  3,
+                          "slash":  -1,
+                          "crush":  9,
+                          "magic":  10,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  2,
+                          "slash":  3,
+                          "crush":  1,
+                          "magic":  10,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Barrows gloves",
+        "id":  7462,
+        "weight":  0.226,
+        "version":  "",
+        "slot":  "hands",
+        "image":  "Barrows gloves.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  12,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  12,
+                          "slash":  12,
+                          "crush":  12,
+                          "magic":  6,
+                          "ranged":  12
+                      },
+        "defensive":  {
+                          "stab":  12,
+                          "slash":  12,
+                          "crush":  12,
+                          "magic":  6,
+                          "ranged":  12
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Ava\u0027s accumulator",
+        "id":  10499,
+        "weight":  4.535,
+        "version":  "",
+        "slot":  "cape",
+        "image":  "Ava\u0027s accumulator.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  4
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  1,
+                          "crush":  0,
+                          "magic":  4,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Rune platelegs",
+        "id":  1079,
+        "weight":  9.071,
+        "version":  "",
+        "slot":  "legs",
+        "image":  "Rune platelegs.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  -21,
+                          "ranged":  -11
+                      },
+        "defensive":  {
+                          "stab":  51,
+                          "slash":  49,
+                          "crush":  47,
+                          "magic":  -4,
+                          "ranged":  49
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Rune scimitar",
+        "id":  1333,
+        "weight":  1.814,
+        "version":  "",
+        "slot":  "weapon",
+        "image":  "Rune scimitar.png",
+        "speed":  4,
+        "category":  "Slash Sword",
+        "bonuses":  {
+                        "str":  44,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  7,
+                          "slash":  45,
+                          "crush":  -2,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  1,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Dragon crossbow",
+        "id":  21902,
+        "weight":  6,
+        "version":  "",
+        "slot":  "weapon",
+        "image":  "Dragon crossbow.png",
+        "speed":  6,
+        "category":  "Crossbow",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  94
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Kodai wand",
+        "id":  21006,
+        "weight":  0.198,
+        "version":  "",
+        "slot":  "weapon",
+        "image":  "Kodai wand.png",
+        "speed":  4,
+        "category":  "Staff",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  150,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  28,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  3,
+                          "crush":  3,
+                          "magic":  20,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Amethyst arrow",
+        "id":  21332,
+        "weight":  0,
+        "version":  "Poison",
+        "slot":  "ammo",
+        "image":  "Amethyst arrow(p) 5.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  55,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Abyssal whip",
+        "id":  4151,
+        "weight":  0.453,
+        "version":  "",
+        "slot":  "weapon",
+        "image":  "Abyssal whip.png",
+        "speed":  4,
+        "category":  "Whip",
+        "bonuses":  {
+                        "str":  82,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  82,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Green d\u0027hide chaps",
+        "id":  1099,
+        "weight":  5.443,
+        "version":  "",
+        "slot":  "legs",
+        "image":  "Green d\u0027hide chaps.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  -10,
+                          "ranged":  8
+                      },
+        "defensive":  {
+                          "stab":  12,
+                          "slash":  15,
+                          "crush":  18,
+                          "magic":  8,
+                          "ranged":  17
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Amulet of torture",
+        "id":  19553,
+        "weight":  0.01,
+        "version":  "",
+        "slot":  "neck",
+        "image":  "Amulet of torture.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  10,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  2
+                    },
+        "offensive":  {
+                          "stab":  15,
+                          "slash":  15,
+                          "crush":  15,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Berserker ring",
+        "id":  6737,
+        "weight":  0.004,
+        "version":  "",
+        "slot":  "ring",
+        "image":  "Berserker ring.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  4,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  4,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Dragon bolts",
+        "id":  21924,
+        "weight":  0,
+        "version":  "Poison",
+        "slot":  "ammo",
+        "image":  "Dragon bolts (p) 5.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  122,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Fire cape",
+        "id":  20445,
+        "weight":  1.814,
+        "version":  "Broken",
+        "slot":  "cape",
+        "image":  "Fire cape (broken).png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  4,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  2
+                    },
+        "offensive":  {
+                          "stab":  1,
+                          "slash":  1,
+                          "crush":  1,
+                          "magic":  1,
+                          "ranged":  1
+                      },
+        "defensive":  {
+                          "stab":  11,
+                          "slash":  11,
+                          "crush":  11,
+                          "magic":  11,
+                          "ranged":  11
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Rune crossbow",
+        "id":  9185,
+        "weight":  6,
+        "version":  "",
+        "slot":  "weapon",
+        "image":  "Rune crossbow.png",
+        "speed":  6,
+        "category":  "Crossbow",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  90
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Bandos tassets",
+        "id":  11834,
+        "weight":  8,
+        "version":  "",
+        "slot":  "legs",
+        "image":  "Bandos tassets.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  2,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  1
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  -21,
+                          "ranged":  -7
+                      },
+        "defensive":  {
+                          "stab":  71,
+                          "slash":  63,
+                          "crush":  66,
+                          "magic":  -4,
+                          "ranged":  93
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Magic shortbow",
+        "id":  861,
+        "weight":  1.36,
+        "version":  "",
+        "slot":  "weapon",
+        "image":  "Magic shortbow.png",
+        "speed":  4,
+        "category":  "Bow",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  69
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  true
+    },
+    {
+        "name":  "Occult necklace",
+        "id":  12002,
+        "weight":  0.005,
+        "version":  "",
+        "slot":  "neck",
+        "image":  "Occult necklace.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  50,
+                        "prayer":  2
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  12,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Green d\u0027hide body",
+        "id":  1135,
+        "weight":  6.803,
+        "version":  "",
+        "slot":  "body",
+        "image":  "Green d\u0027hide body.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  -15,
+                          "ranged":  15
+                      },
+        "defensive":  {
+                          "stab":  18,
+                          "slash":  27,
+                          "crush":  24,
+                          "magic":  20,
+                          "ranged":  35
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Rune arrow",
+        "id":  893,
+        "weight":  0,
+        "version":  "Poison",
+        "slot":  "ammo",
+        "image":  "Rune arrow(p) 5.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  49,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Dragon defender",
+        "id":  20463,
+        "weight":  0.453,
+        "version":  "Broken",
+        "slot":  "shield",
+        "image":  "Dragon defender (broken).png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  6,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  25,
+                          "slash":  24,
+                          "crush":  23,
+                          "magic":  -3,
+                          "ranged":  -2
+                      },
+        "defensive":  {
+                          "stab":  25,
+                          "slash":  24,
+                          "crush":  23,
+                          "magic":  -3,
+                          "ranged":  -2
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Amulet of strength",
+        "id":  1725,
+        "weight":  0.01,
+        "version":  "",
+        "slot":  "neck",
+        "image":  "Amulet of strength.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  10,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Rune kiteshield",
+        "id":  1201,
+        "weight":  5.443,
+        "version":  "",
+        "slot":  "shield",
+        "image":  "Rune kiteshield.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  -8,
+                          "ranged":  -3
+                      },
+        "defensive":  {
+                          "stab":  44,
+                          "slash":  48,
+                          "crush":  46,
+                          "magic":  -1,
+                          "ranged":  46
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Dragon boots",
+        "id":  11840,
+        "weight":  1,
+        "version":  "",
+        "slot":  "feet",
+        "image":  "Dragon boots.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  4,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  -3,
+                          "ranged":  -1
+                      },
+        "defensive":  {
+                          "stab":  16,
+                          "slash":  17,
+                          "crush":  18,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Broad bolts",
+        "id":  11875,
+        "weight":  0,
+        "version":  "",
+        "slot":  "ammo",
+        "image":  "Broad bolts 5.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  100,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Rune full helm",
+        "id":  1163,
+        "weight":  2.721,
+        "version":  "",
+        "slot":  "head",
+        "image":  "Rune full helm.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  -6,
+                          "ranged":  -3
+                      },
+        "defensive":  {
+                          "stab":  30,
+                          "slash":  32,
+                          "crush":  27,
+                          "magic":  -1,
+                          "ranged":  30
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Trident of the swamp",
+        "id":  12899,
+        "weight":  1.814,
+        "version":  "Charged",
+        "slot":  "weapon",
+        "image":  "Trident of the swamp.png",
+        "speed":  4,
+        "category":  "Powered Staff",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  25,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  2,
+                          "slash":  3,
+                          "crush":  1,
+                          "magic":  15,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Dragon scimitar",
+        "id":  4587,
+        "weight":  1.814,
+        "version":  "",
+        "slot":  "weapon",
+        "image":  "Dragon scimitar.png",
+        "speed":  4,
+        "category":  "Slash Sword",
+        "bonuses":  {
+                        "str":  66,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  8,
+                          "slash":  67,
+                          "crush":  -2,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  0,
+                          "slash":  1,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Bandos chestplate",
+        "id":  11832,
+        "weight":  12,
+        "version":  "",
+        "slot":  "body",
+        "image":  "Bandos chestplate.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  4,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  1
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  -15,
+                          "ranged":  -10
+                      },
+        "defensive":  {
+                          "stab":  98,
+                          "slash":  93,
+                          "crush":  105,
+                          "magic":  -6,
+                          "ranged":  133
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Void knight gloves",
+        "id":  8842,
+        "weight":  0.453,
+        "version":  "Normal",
+        "slot":  "hands",
+        "image":  "Void knight gloves.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  6,
+                          "slash":  6,
+                          "crush":  6,
+                          "magic":  4,
+                          "ranged":  6
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Void knight robe",
+        "id":  8840,
+        "weight":  8.164,
+        "version":  "Normal",
+        "slot":  "legs",
+        "image":  "Void knight robe.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  30,
+                          "slash":  30,
+                          "crush":  30,
+                          "magic":  30,
+                          "ranged":  30
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Void knight top",
+        "id":  8839,
+        "weight":  6.803,
+        "version":  "Normal",
+        "slot":  "body",
+        "image":  "Void knight top.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  45,
+                          "slash":  45,
+                          "crush":  45,
+                          "magic":  45,
+                          "ranged":  45
+                      },
+        "isTwoHanded":  false
+    },
+    {
+        "name":  "Void ranger helm",
+        "id":  11664,
+        "weight":  0.453,
+        "version":  "Normal",
+        "slot":  "head",
+        "image":  "Void ranger helm.png",
+        "speed":  0,
+        "category":  "",
+        "bonuses":  {
+                        "str":  0,
+                        "ranged_str":  0,
+                        "magic_str":  0,
+                        "prayer":  0
+                    },
+        "offensive":  {
+                          "stab":  0,
+                          "slash":  0,
+                          "crush":  0,
+                          "magic":  0,
+                          "ranged":  0
+                      },
+        "defensive":  {
+                          "stab":  6,
+                          "slash":  6,
+                          "crush":  6,
+                          "magic":  6,
+                          "ranged":  6
+                      },
+        "isTwoHanded":  false
+    }
+]
