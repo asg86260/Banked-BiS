@@ -23,7 +23,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import javax.inject.Inject;
-import javax.swing.DefaultListModel;
 import javax.inject.Singleton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -31,7 +30,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JToggleButton;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
@@ -66,6 +67,10 @@ public class BankBisPanel extends PluginPanel
 	// lazily built from wiki data: lowercased display name -> id / display name
 	private final Map<String, Integer> monsterIdByName = new HashMap<>();
 	private final Map<String, String> monsterDisplayByName = new HashMap<>();
+	private final List<String> monsterNames = new ArrayList<>();
+
+	private final JPopupMenu suggestionPopup = new JPopupMenu();
+	private boolean suppressSuggestions;
 
 	private final JComboBox<PresetCategory> categoryCombo = new JComboBox<>(PresetCategory.values());
 	private final JComboBox<ContentPreset> presetCombo = new JComboBox<>();
@@ -127,17 +132,19 @@ public class BankBisPanel extends PluginPanel
 		searchField.setIcon(IconTextField.Icon.SEARCH);
 		searchField.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 		searchField.setHoverBackgroundColor(ColorScheme.DARK_GRAY_HOVER_COLOR);
+		suggestionPopup.setFocusable(false); // keep keystrokes in the text field
 		searchField.getDocument().addDocumentListener(new javax.swing.event.DocumentListener()
 		{
 			@Override
 			public void insertUpdate(javax.swing.event.DocumentEvent e)
 			{
-				ensureMonsterIndex();
+				SwingUtilities.invokeLater(BankBisPanel.this::updateSuggestions);
 			}
 
 			@Override
 			public void removeUpdate(javax.swing.event.DocumentEvent e)
 			{
+				SwingUtilities.invokeLater(BankBisPanel.this::updateSuggestions);
 			}
 
 			@Override
@@ -145,7 +152,11 @@ public class BankBisPanel extends PluginPanel
 			{
 			}
 		});
-		searchField.addActionListener(e -> compute());
+		searchField.addActionListener(e ->
+		{
+			suggestionPopup.setVisible(false);
+			compute();
+		});
 
 		pickButton.setFont(FontManager.getRunescapeSmallFont());
 		pickButton.setFocusPainted(false);
@@ -401,7 +412,6 @@ public class BankBisPanel extends PluginPanel
 		{
 			return;
 		}
-		List<String> names = new ArrayList<>();
 		stats.forEach((id, npc) ->
 		{
 			String display = npc.getDisplayName();
@@ -413,15 +423,79 @@ public class BankBisPanel extends PluginPanel
 			if (monsterIdByName.putIfAbsent(key, id) == null)
 			{
 				monsterDisplayByName.put(key, display);
-				names.add(display);
+				monsterNames.add(display);
 			}
 		});
-		names.sort(String.CASE_INSENSITIVE_ORDER);
-		DefaultListModel<String> model = searchField.getSuggestionListModel();
-		for (String name : names)
+		monsterNames.sort(String.CASE_INSENSITIVE_ORDER);
+	}
+
+	/**
+	 * Type-ahead: show the best matches for the current text in a popup
+	 * under the search field. Prefix matches rank above contains matches;
+	 * capped at 10 rows so the popup never towers over the panel.
+	 */
+	private void updateSuggestions()
+	{
+		if (suppressSuggestions)
 		{
-			model.addElement(name);
+			return;
 		}
+		suggestionPopup.setVisible(false);
+		suggestionPopup.removeAll();
+
+		String query = searchField.getText() == null ? "" : searchField.getText().trim().toLowerCase(Locale.ROOT);
+		if (query.length() < 2)
+		{
+			return;
+		}
+		ensureMonsterIndex();
+
+		List<String> matches = new ArrayList<>();
+		for (String name : monsterNames)
+		{
+			if (name.toLowerCase(Locale.ROOT).startsWith(query))
+			{
+				matches.add(name);
+			}
+		}
+		for (String name : monsterNames)
+		{
+			if (matches.size() >= 10)
+			{
+				break;
+			}
+			String lower = name.toLowerCase(Locale.ROOT);
+			if (!lower.startsWith(query) && lower.contains(query))
+			{
+				matches.add(name);
+			}
+		}
+		if (matches.isEmpty())
+		{
+			return;
+		}
+		if (matches.size() > 10)
+		{
+			matches = matches.subList(0, 10);
+		}
+
+		for (String name : matches)
+		{
+			JMenuItem item = new JMenuItem(name);
+			item.setFont(FontManager.getRunescapeSmallFont());
+			item.addActionListener(e -> selectSuggestion(name));
+			suggestionPopup.add(item);
+		}
+		suggestionPopup.show(searchField, 0, searchField.getHeight());
+	}
+
+	private void selectSuggestion(String name)
+	{
+		suppressSuggestions = true;
+		searchField.setText(name);
+		suppressSuggestions = false;
+		suggestionPopup.setVisible(false);
+		compute();
 	}
 
 	private void render(Target target, RecommendationService.Result result, Throwable error)
