@@ -7,24 +7,30 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Which offensive prayers recommendations may assume. AUTO matches the old
- * behavior: best prayer the player's level allows, assuming Piety/Rigour/
- * Augury are unlocked. NO_UNLOCKS covers accounts without those unlocks by
- * capping at the best freely-available prayer tier.
+ * Which offensive prayers recommendations may assume. AUTO uses the best
+ * prayer the player's level allows among prayers they have actually
+ * unlocked (detected from varbits). NO_UNLOCKS forces the freely-available
+ * tier regardless; NONE disables prayers entirely.
  */
 @Getter
 @RequiredArgsConstructor
 public enum PrayerAssumption
 {
 
-	AUTO("Best (Piety/Rigour/Augury)"),
+	AUTO("Best unlocked"),
 	NO_UNLOCKS("Basic prayers only"),
 	NONE("No prayers"),
 	;
 
+	// caps just below the unlockable tiers: Chivalry/Piety (60/70),
+	// Rigour (74), Augury (77)
+	private static final int MELEE_BASIC_CAP = 59;
+	private static final int RANGED_BASIC_CAP = 73;
+	private static final int MAGIC_BASIC_CAP = 76;
+
 	private final String label;
 
-	public Set<Prayer> prayersFor(CombatClass combatClass, int prayerLevel)
+	public Set<Prayer> prayersFor(CombatClass combatClass, int prayerLevel, PrayerUnlocks unlocks)
 	{
 		switch (this)
 		{
@@ -32,16 +38,21 @@ public enum PrayerAssumption
 				return ImmutableSet.of();
 
 			case NO_UNLOCKS:
-				// cap below the unlockable tiers: Chivalry/Piety (60/70),
-				// Rigour (74), Augury (77)
-				int cap = combatClass == CombatClass.MELEE ? 59
-					: combatClass == CombatClass.RANGED ? 73 : 76;
-				return combatClass.bestPrayers(Math.min(prayerLevel, cap));
+				return combatClass.bestPrayers(Math.min(prayerLevel, basicCap(combatClass)));
 
 			case AUTO:
 			default:
-				return combatClass.bestPrayers(prayerLevel);
+				boolean unlocked = combatClass == CombatClass.MELEE ? unlocks.isPietyChivalry()
+					: combatClass == CombatClass.RANGED ? unlocks.isRigour() : unlocks.isAugury();
+				int cap = unlocked ? Integer.MAX_VALUE : basicCap(combatClass);
+				return combatClass.bestPrayers(Math.min(prayerLevel, cap));
 		}
+	}
+
+	private static int basicCap(CombatClass combatClass)
+	{
+		return combatClass == CombatClass.MELEE ? MELEE_BASIC_CAP
+			: combatClass == CombatClass.RANGED ? RANGED_BASIC_CAP : MAGIC_BASIC_CAP;
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import com.bankbis.optimizer.LoadoutOptimizer;
 import com.bankbis.optimizer.OptimizeRequest;
 import com.bankbis.optimizer.PotionBoost;
 import com.bankbis.optimizer.PrayerAssumption;
+import com.bankbis.optimizer.PrayerUnlocks;
 import com.duckblade.osrs.dpscalc.calc.model.ItemStats;
 import com.duckblade.osrs.dpscalc.calc.model.Prayer;
 import com.duckblade.osrs.dpscalc.calc.model.Skills;
@@ -30,6 +31,7 @@ import lombok.Value;
 import net.runelite.api.Client;
 import net.runelite.api.GameState;
 import net.runelite.api.Skill;
+import net.runelite.api.gameval.VarbitID;
 import net.runelite.client.callback.ClientThread;
 
 /**
@@ -67,23 +69,39 @@ public class RecommendationService
 		Set<Integer> groupStorageItemIds;
 	}
 
+	/**
+	 * Skills and prayer unlocks captured together on the client thread.
+	 * Null when not logged in.
+	 */
+	@Value
+	private static class ClientSnapshot
+	{
+		Skills skills;
+		PrayerUnlocks prayerUnlocks;
+	}
+
 	public CompletableFuture<Result> recommend(Target target, PotionBoost potionBoost, PrayerAssumption prayerAssumption)
 	{
-		CompletableFuture<Skills> skillsFuture = new CompletableFuture<>();
+		CompletableFuture<ClientSnapshot> snapshotFuture = new CompletableFuture<>();
 		clientThread.invoke(() ->
 		{
 			try
 			{
-				skillsFuture.complete(snapshotSkills());
+				snapshotFuture.complete(snapshotClient());
 			}
 			catch (Exception e)
 			{
-				skillsFuture.completeExceptionally(e);
+				snapshotFuture.completeExceptionally(e);
 			}
 		});
-		return skillsFuture
+		return snapshotFuture
 			.orTimeout(15, TimeUnit.SECONDS) // never leave the panel wedged on "Computing..."
-			.thenApplyAsync(skills -> compute(target, applyBoosts(skills, potionBoost), potionBoost, prayerAssumption), executor);
+			.thenApplyAsync(snapshot -> compute(
+				target,
+				snapshot == null ? null : applyBoosts(snapshot.getSkills(), potionBoost),
+				snapshot == null ? PrayerUnlocks.ALL : snapshot.getPrayerUnlocks(),
+				potionBoost,
+				prayerAssumption), executor);
 	}
 
 	private static Skills applyBoosts(Skills skills, PotionBoost potionBoost)
@@ -100,7 +118,7 @@ public class RecommendationService
 		return Skills.builder().levels(skills.getLevels()).boosts(boosts).build();
 	}
 
-	private Skills snapshotSkills()
+	private ClientSnapshot snapshotClient()
 	{
 		if (client.getGameState() != GameState.LOGGED_IN)
 		{
@@ -115,10 +133,19 @@ public class RecommendationService
 			levels.put(s, real);
 			boosts.put(s, client.getBoostedSkillLevel(s) - real);
 		}
-		return Skills.builder().levels(levels).boosts(boosts).build();
+		Skills skills = Skills.builder().levels(levels).boosts(boosts).build();
+
+		// Knight Waves completion (state 8) gates both Piety and Chivalry,
+		// and can only be done after King's Ransom
+		PrayerUnlocks unlocks = new PrayerUnlocks(
+			client.getVarbitValue(VarbitID.KR_KNIGHTWAVES_STATE) >= 8,
+			client.getVarbitValue(VarbitID.PRAYER_RIGOUR_UNLOCKED) == 1,
+			client.getVarbitValue(VarbitID.PRAYER_AUGURY_UNLOCKED) == 1);
+
+		return new ClientSnapshot(skills, unlocks);
 	}
 
-	private Result compute(Target target, Skills skills, PotionBoost potionBoost, PrayerAssumption prayerAssumption)
+	private Result compute(Target target, Skills skills, PrayerUnlocks prayerUnlocks, PotionBoost potionBoost, PrayerAssumption prayerAssumption)
 	{
 		List<String> warnings = new ArrayList<>();
 
@@ -184,6 +211,7 @@ public class RecommendationService
 			.onSlayerTask(target.isOnSlayerTask())
 			.raidPartySize(target.getRaidPartySize())
 			.prayerAssumption(prayerAssumption)
+			.prayerUnlocks(prayerUnlocks)
 			.build();
 
 		Set<Integer> groupStorageItemIds = config.includeGroupStorage()
@@ -216,7 +244,8 @@ public class RecommendationService
 		Skills potted = Skills.builder().levels(skills.getLevels()).boosts(pottedBoost.boostsFor(skills.getLevels())).build();
 
 		Integer prayerLevel = skills.getLevels().get(Skill.PRAYER);
-		Set<Prayer> prayers = prayerAssumption.prayersFor(loadout.getCombatClass(), prayerLevel == null ? 0 : prayerLevel);
+		Set<Prayer> prayers = prayerAssumption.prayersFor(loadout.getCombatClass(),
+			prayerLevel == null ? 0 : prayerLevel, request.getPrayerUnlocks());
 
 		double base = optimizer.evaluateLoadout(request.toBuilder().playerSkills(unboosted).build(), loadout, Collections.emptySet());
 		double prayed = optimizer.evaluateLoadout(request.toBuilder().playerSkills(unboosted).build(), loadout, prayers);

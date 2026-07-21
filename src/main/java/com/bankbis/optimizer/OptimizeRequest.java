@@ -31,4 +31,7 @@ public class OptimizeRequest
 	@Builder.Default
 	private final PrayerAssumption prayerAssumption = PrayerAssumption.AUTO;
 
+	@Builder.Default
+	private final PrayerUnlocks prayerUnlocks = PrayerUnlocks.ALL;
+
 }

@@ -113,7 +113,7 @@ public class LoadoutOptimizer
 	public Optional<Loadout> optimizeClass(OptimizeRequest request, CombatClass combatClass)
 	{
 		ItemStats darts = bestDarts(request);
-		Set<Prayer> prayers = request.getPrayerAssumption().prayersFor(combatClass, prayerLevel(request));
+		Set<Prayer> prayers = request.getPrayerAssumption().prayersFor(combatClass, prayerLevel(request), request.getPrayerUnlocks());
 
 		// weapon prefilter: rank weapon+style pairs by weapon-only dps and
 		// keep the top few before paying for full beam searches
