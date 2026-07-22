@@ -28,7 +28,14 @@ public class BaseHitDptComputable implements Computable<Double>
 
 	public static double byComponents(double hitChance, int maxHit, int attackSpeed)
 	{
-		return (hitChance * maxHit) / (2.0 * attackSpeed);
+		if (maxHit <= 0)
+		{
+			return 0.0;
+		}
+		// expected damage on a hit is maxHit/2 + 1/(maxHit+1), marginally above
+		// the naive maxHit/2 (matches the wiki calc / best-dps mean)
+		double expectedHit = maxHit / 2.0 + 1.0 / (maxHit + 1);
+		return hitChance * expectedHit / attackSpeed;
 	}
 
 }

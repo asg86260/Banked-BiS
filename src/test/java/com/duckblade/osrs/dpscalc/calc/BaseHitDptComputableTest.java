@@ -46,7 +46,15 @@ class BaseHitDptComputableTest
 		int maxHit = 50;
 		int attackSpeed = 5;
 
-		assertEquals((hitChance * maxHit) / (2.0 * attackSpeed), BaseHitDptComputable.byComponents(hitChance, maxHit, attackSpeed));
+		// expected hit is maxHit/2 + 1/(maxHit+1), not the naive maxHit/2
+		double expectedHit = maxHit / 2.0 + 1.0 / (maxHit + 1);
+		assertEquals(hitChance * expectedHit / attackSpeed, BaseHitDptComputable.byComponents(hitChance, maxHit, attackSpeed));
+	}
+
+	@Test
+	void byComponentsIsZeroForZeroMaxHit()
+	{
+		assertEquals(0.0, BaseHitDptComputable.byComponents(0.9, 0, 4));
 	}
 
 }

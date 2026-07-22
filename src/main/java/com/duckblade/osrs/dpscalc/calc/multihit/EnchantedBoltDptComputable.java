@@ -110,7 +110,7 @@ public class EnchantedBoltDptComputable implements MultiHitDptComputable
 		{
 			// 10% chance to deal 0..effectMax, ignoring defence (procs on any attack)
 			int effectMax = maxHit * (zcb ? 126 : 115) / 100;
-			return replacesHit(baseDpt, 0.10, (effectMax / 2.0) / speed);
+			return replacesHit(baseDpt, 0.10, uniformMean(effectMax) / speed);
 		}
 		if (ONYX.contains(ammo))
 		{
@@ -120,7 +120,7 @@ public class EnchantedBoltDptComputable implements MultiHitDptComputable
 			}
 			// 11% chance to deal 0..effectMax on an accurate hit
 			int effectMax = maxHit * (zcb ? 132 : 120) / 100;
-			return replacesHit(baseDpt, 0.11, hitChance * (effectMax / 2.0) / speed);
+			return replacesHit(baseDpt, 0.11, hitChance * uniformMean(effectMax) / speed);
 		}
 		if (DRAGONSTONE.contains(ammo))
 		{
@@ -152,6 +152,12 @@ public class EnchantedBoltDptComputable implements MultiHitDptComputable
 	private static double replacesHit(double baseDpt, double chance, double effectDpt)
 	{
 		return (1 - chance) * baseDpt + chance * effectDpt;
+	}
+
+	// expected value of a uniform 0..max hit (matches BaseHitDptComputable)
+	private static double uniformMean(int max)
+	{
+		return max <= 0 ? 0.0 : max / 2.0 + 1.0 / (max + 1);
 	}
 
 }

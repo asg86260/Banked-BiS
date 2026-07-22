@@ -104,9 +104,9 @@ class EnchantedBoltDptComputableTest
 	void diamondDealsUniformBonusIgnoringDefence()
 	{
 		stubCompute(ItemID.DIAMOND_DRAGON_BOLTS_E, ItemID.ARMADYL_CROSSBOW);
-		// 10% chance to deal 0..trunc(30 * 115/100)=34, mean 17
-		// 0.90 * 1.0 + 0.10 * 17/5
-		assertEquals(0.90 + 0.10 * (34 / 2.0) / 5, computable.compute(context), 1e-9);
+		// 10% chance to deal 0..trunc(30 * 115/100)=34; mean 34/2 + 1/35
+		// 0.90 * 1.0 + 0.10 * mean/5
+		assertEquals(0.90 + 0.10 * (34 / 2.0 + 1.0 / 35) / 5, computable.compute(context), 1e-9);
 	}
 
 	@Test
