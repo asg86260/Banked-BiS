@@ -1,10 +1,8 @@
 BSD 2-Clause License
 
 Copyright (c) 2026, asg86
+Copyright (c) 2021, Paul Norton
 All rights reserved.
-
-DPS calculation engine derived from LlemonDuck/dps-calculator,
-Copyright (c) 2021, Paul Norton (see LICENSE-dps-calculator).
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
